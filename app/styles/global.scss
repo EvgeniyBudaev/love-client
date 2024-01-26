@@ -1,0 +1,27 @@
+/* -------------------- Global Styles -------------------- */
+
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: aqua;
+  //background: var(--tg-theme-bg-color);
+  //color: var(--tg-theme-text-color);
+  margin: 0;
+  padding: 0;
+}
