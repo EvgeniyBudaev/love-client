@@ -1,3 +1,5 @@
+@import "./colors";
+
 /* -------------------- Global Styles -------------------- */
 
 html {
@@ -19,9 +21,8 @@ body {
 }
 
 body {
-  background: aqua;
-  //background: var(--tg-theme-bg-color);
-  //color: var(--tg-theme-text-color);
+  background: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
   margin: 0;
   padding: 0;
 }
