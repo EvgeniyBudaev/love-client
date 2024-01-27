@@ -1,7 +1,7 @@
 "use client";
 
-import { Telegram } from "@twa-dev/types";
-import { useEffect } from "react";
+import { Telegram, WebApp } from "@twa-dev/types";
+import { useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -10,13 +10,18 @@ declare global {
 }
 
 export const useTelegram = () => {
-  const tg =
+  const telegram =
     // @ts-ignore
     (typeof window !== "undefined" ? window?.Telegram?.WebApp : undefined) ??
     undefined;
   if (typeof window !== "undefined") {
     window?.Telegram?.WebApp?.HapticFeedback?.notificationOccurred("success");
   }
+  const [tg, setTg] = useState<WebApp | undefined>();
+
+  useEffect(() => {
+    setTg(telegram);
+  }, [telegram]);
 
   useEffect(() => {
     tg?.ready();
