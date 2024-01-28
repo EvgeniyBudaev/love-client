@@ -1,16 +1,16 @@
 "use client";
 
-import {FC, ReactNode, useEffect} from "react";
-import {Footer} from "@/app/shared/components/footer";
+import { FC, ReactNode, useEffect } from "react";
+import { Footer } from "@/app/shared/components/footer";
 import "./Layout.scss";
-import {useTelegram} from "@/app/shared/hooks";
+import { useTelegram } from "@/app/shared/hooks";
 
 type TProps = {
   children?: ReactNode;
 };
 
-export const Layout: FC<TProps> = ({children}) => {
-  const {tg} = useTelegram();
+export const Layout: FC<TProps> = ({ children }) => {
+  const { tg } = useTelegram();
 
   useEffect(() => {
     tg?.ready();
@@ -19,7 +19,7 @@ export const Layout: FC<TProps> = ({children}) => {
   return (
     <div className="Layout">
       <div className="Layout-Content">{children}</div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

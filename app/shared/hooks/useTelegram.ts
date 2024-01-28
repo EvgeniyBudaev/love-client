@@ -1,7 +1,7 @@
 "use client";
 
-import {Telegram, WebApp} from "@twa-dev/types";
-import {useEffect, useState} from "react";
+import { Telegram, WebApp } from "@twa-dev/types";
+import { useEffect, useState } from "react";
 
 declare global {
   interface Window {

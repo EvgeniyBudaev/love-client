@@ -1,9 +1,9 @@
-import {MainPage} from "@/app/pages/mainPage";
+import { MainPage } from "@/app/pages/mainPage";
 
 export default function MainRoute() {
   return (
     <main>
-      <MainPage/>
+      <MainPage />
     </main>
   );
 }

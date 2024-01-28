@@ -50,8 +50,6 @@
       flex-direction: column;
       align-items: center;
       margin-bottom: 8px;
-      border: 1px solid transparent;
-      border-radius: $border-radius-xl;
 
       &:last-child {
         margin-bottom: 0;
@@ -63,12 +61,14 @@
       align-items: center;
       justify-content: center;
       color: $link_color;
+      //background-color: #ccc;
       background-color: $secondary_bg_color;
       width: 100%;
-      margin: 4px;
       padding: 0 16px;
-      min-height: 40px;
+      min-height: 46px;
       cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: $border-radius-xl;
       transition: all $transition;
 
       &-Cancel {
