@@ -1,4 +1,4 @@
-export default function MainRoute() {
+export default function Home() {
   return (
     <main>
       MainPage
