@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import Script from "next/script";
 import type {ReactNode} from "react";
+import {Layout} from "@/app/shared/components/layout";
 import "@/app/styles/_index.scss";
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
     <Script src="https://telegram.org/js/telegram-web-app.js"/>
-    <body>{children}</body>
+    <body>
+    <Layout>{children}</Layout>
+    </body>
     </html>
   );
 }
