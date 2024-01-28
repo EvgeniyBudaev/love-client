@@ -6,7 +6,15 @@ const nextConfig = {
     includePaths: [path.join(__dirname, "app/styles")],
   },
   images: {
-    domains: ["imaginative-bombolone-f1096b.netlify.app"],
+    domains: ["imaginative-bombolone-f1096b.netlify.app", "img.freepik.com"],
+    // remotePatterns: [
+    //     {
+    //         protocol: "https",
+    //         hostname: "imaginative-bombolone-f1096b.netlify.app",
+    //         port: "",
+    //         pathname: "/assets/**",
+    //     }
+    // ]
   },
 };
 

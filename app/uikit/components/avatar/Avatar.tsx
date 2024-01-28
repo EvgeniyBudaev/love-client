@@ -80,19 +80,22 @@ const AvatarComponent: FC<TProps> = ({
     } else if (isNil(user) && !isNil(image)) {
       return (
         <Image
-          className="Avatar-Face"
-          src={image}
           alt={altImage}
+          className="Avatar-Face"
           height={sizeInner}
+          priority={true}
+          src={image}
+          quality={100}
           width={sizeInner}
         />
       );
     } else {
       return (
         <Image
-          src="https://gas-kvas.com/grafic/uploads/posts/2023-09/1695869715_gas-kvas-com-p-kartinki-bez-13.png"
           alt="аватар"
           height={sizeInner}
+          src="https://gas-kvas.com/grafic/uploads/posts/2023-09/1695869715_gas-kvas-com-p-kartinki-bez-13.png"
+          quality={100}
           width={sizeInner}
         />
       );

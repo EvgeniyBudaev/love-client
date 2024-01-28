@@ -1,0 +1,44 @@
+@import "@/app/styles";
+
+.ProfilePage {
+  &-WrapperMainImage {
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+
+  &-MainImage {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &-User {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &-UserAvatar {
+    position: relative;
+    margin-right: 8px;
+  }
+
+  &-UserAvatarImage {
+    object-fit: cover;
+    object-position: center;
+    border-radius: $border-radius-2xl;
+  }
+
+  &-UserWraperName {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-UserDisplayName {
+    font-weight: bold;
+  }
+
+  &-Description {
+    margin-bottom: 8px;
+  }
+}
