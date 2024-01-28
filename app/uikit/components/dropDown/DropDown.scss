@@ -1,0 +1,59 @@
+@import "@/app/styles";
+
+/* ----- Открытие/закрытие DropDown ----- */
+
+.DropDown {
+  //  position: relative;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  &-Panel {
+    content: "";
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: max-content;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: $border-radius-lg;
+    z-index: 20;
+
+    &.enter {
+      opacity: 0;
+      transform: translateX(-100px);
+      transition:
+        opacity $transition,
+        transform $transition;
+    }
+
+    &.enter-active {
+      opacity: 1;
+      transform: translateX(0);
+      transition:
+        opacity $transition,
+        transform $transition;
+    }
+
+    &.exit {
+      opacity: 1;
+      transform: translateX(0);
+      transition:
+        opacity $transition,
+        transform $transition;
+    }
+
+    &.exit-active {
+      opacity: 0;
+      transform: translateX(-100px);
+      transition:
+        opacity $transition,
+        transform $transition;
+    }
+  }
+}
