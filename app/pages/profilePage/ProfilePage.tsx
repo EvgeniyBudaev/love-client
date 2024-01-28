@@ -1,21 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import type { FC } from "react";
-import { Container } from "@/app/shared/components/container";
-import { useTelegram } from "@/app/shared/hooks";
-import { Hamburger } from "@/app/uikit/components/hamburger";
+import type {FC} from "react";
+import {Container} from "@/app/shared/components/container";
+import {useTelegram} from "@/app/shared/hooks";
+import {Hamburger} from "@/app/uikit/components/hamburger";
 import "./ProfilePage.scss";
-import { DropDown } from "@/app/uikit/components/dropDown";
+import {DropDown} from "@/app/uikit/components/dropDown";
 
 export const ProfilePage: FC = () => {
-  const { user } = useTelegram();
+  const {user} = useTelegram();
 
   return (
     <>
       <DropDown>
         <DropDown.Button>
-          <Hamburger />
+          <Hamburger/>
         </DropDown.Button>
         <DropDown.Panel>
           <div className="ProfilePage-DropDown-Menu">
@@ -60,8 +60,7 @@ export const ProfilePage: FC = () => {
                 Наташа, 19, Москва
               </div>
               <div className="ProfilePage-Username">
-                {/*{user?.username}*/}
-                @natali
+                {user?.username ?? "-"}
               </div>
             </div>
           </div>

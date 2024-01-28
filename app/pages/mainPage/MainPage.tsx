@@ -1,14 +1,10 @@
 "use client";
 
-import { FC, useEffect } from "react";
-import { useTelegram } from "@/app/shared/hooks";
+import {FC, useEffect} from "react";
+import {useTelegram} from "@/app/shared/hooks";
 
 export const MainPage: FC = () => {
-  const { tg, user, queryId } = useTelegram();
-
-  useEffect(() => {
-    tg?.ready();
-  }, [tg]);
+  const {tg, user, queryId} = useTelegram();
 
   return (
     <div>
