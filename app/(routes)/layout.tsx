@@ -1,7 +1,7 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import Script from "next/script";
-import type {ReactNode} from "react";
-import {Layout} from "@/app/shared/components/layout";
+import type { ReactNode } from "react";
+import { Layout } from "@/app/shared/components/layout";
 import "@/app/styles/_index.scss";
 
 export const metadata: Metadata = {
@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: ReactNode;
 }>) {
   return (
     <html lang="ru">
-    <Script src="https://telegram.org/js/telegram-web-app.js"/>
-    <body>
-    <Layout>{children}</Layout>
-    </body>
+      <Script src="https://telegram.org/js/telegram-web-app.js" />
+      <body>
+        <Layout>{children}</Layout>
+      </body>
     </html>
   );
 }

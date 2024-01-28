@@ -1,16 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ["imaginative-bombolone-f1096b.netlify.app", "img.freepik.com"],
-        // remotePatterns: [
-        //     {
-        //         protocol: "https",
-        //         hostname: "imaginative-bombolone-f1096b.netlify.app",
-        //         port: "",
-        //         pathname: "/assets/**",
-        //     }
-        // ]
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "imaginative-bombolone-f1096b.netlify.app",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+        port: "",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
