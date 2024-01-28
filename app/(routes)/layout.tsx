@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive"/>
+    <head>
+      <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive"/>
+    </head>
     <body>
     <LayoutComponent>{children}</LayoutComponent>
     </body>
