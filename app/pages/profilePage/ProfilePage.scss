@@ -1,0 +1,83 @@
+@import "@/app/styles";
+
+.ProfilePage {
+  position: relative;
+
+  &-WrapperMainImage {
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+
+  &-MainImage {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &-User {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &-UserAvatar {
+    position: relative;
+    margin-right: 8px;
+  }
+
+  &-UserAvatarImage {
+    object-fit: cover;
+    object-position: center;
+    border-radius: $border-radius-2xl;
+  }
+
+  &-UserWraperName {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-UserDisplayName {
+    font-weight: bold;
+  }
+
+  &-Description {
+    margin-bottom: 8px;
+  }
+
+  &-DropDown {
+    &-Menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: white;
+      margin-bottom: 8px;
+      border: 1px solid transparent;
+      border-radius: $border-radius-xl;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &-MenuItem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 4px;
+      padding: 0 16px;
+      min-height: 40px;
+      cursor: pointer;
+      transition: all $transition;
+
+      &-Cancel {
+        font-weight: bold;
+      }
+
+      &:hover,
+      &:active {
+        opacity: $opacity;
+      }
+    }
+  }
+}
