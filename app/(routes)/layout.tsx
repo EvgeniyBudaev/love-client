@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import Script from "next/script";
 import type {ReactNode} from "react";
 import "@/app/styles/_index.scss";
 
@@ -14,6 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <Script src="https://telegram.org/js/telegram-web-app.js"/>
     <body>{children}</body>
     </html>
   );
