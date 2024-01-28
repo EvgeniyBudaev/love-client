@@ -1,6 +1,7 @@
 @import "@/app/styles";
 
 /* ----- Открытие/закрытие DropDown ----- */
+$transition: 0.3s;
 
 .DropDown {
   //  position: relative;
@@ -27,35 +28,22 @@
     z-index: 20;
 
     &.enter {
-      opacity: 0;
-      transform: translateX(-100px);
-      transition:
-        opacity $transition,
-        transform $transition;
+      transform: translateY(200px);
     }
 
     &.enter-active {
-      opacity: 1;
-      transform: translateX(0);
-      transition:
-        opacity $transition,
-        transform $transition;
+      transform: translateY(0);
+      transition: transform $transition;
     }
 
     &.exit {
-      opacity: 1;
-      transform: translateX(0);
-      transition:
-        opacity $transition,
-        transform $transition;
+      transform: translateY(0);
+      transition: transform $transition;
     }
 
     &.exit-active {
-      opacity: 0;
-      transform: translateX(-100px);
-      transition:
-        opacity $transition,
-        transform $transition;
+      transform: translateY(200px);
+      transition: transform $transition;
     }
   }
 }
