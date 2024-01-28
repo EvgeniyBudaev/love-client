@@ -4,13 +4,17 @@ import Image from "next/image";
 import type { FC } from "react";
 import { Container } from "@/app/shared/components/container";
 import { useTelegram } from "@/app/shared/hooks";
+import { Hamburger } from "@/app/uikit/components/hamburger";
 import "./ProfilePage.scss";
 
 export const ProfilePage: FC = () => {
   const { user } = useTelegram();
 
+  const handleToggleHamburger = () => {};
+
   return (
     <div className="ProfilePage">
+      <Hamburger onClick={handleToggleHamburger} />
       <div className="ProfilePage-WrapperMainImage">
         <Image
           alt="Фото"

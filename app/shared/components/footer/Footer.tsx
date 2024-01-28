@@ -1,31 +1,24 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 import { ERoutes } from "@/app/shared/enums";
 import { Avatar } from "@/app/uikit/components/avatar";
 import { createPath } from "@/app/shared/utils";
-import "./Header.scss";
+import "./Footer.scss";
+import { Icon } from "@/app/uikit/components/icon";
 
-export const Header: FC = () => {
+export const Footer: FC = () => {
   return (
-    <div className="Header">
-      <div className="Header-Empty" />
-      <div>
+    <div className="Footer">
+      <div className="Footer-Item">
         <Link
           href={createPath({
             route: ERoutes.Root,
           })}
         >
-          <Image
-            className="Header-Logo"
-            src="/assets/images/logo.png"
-            alt="Logo"
-            height={50}
-            width={200}
-          />
+          <Icon type="Search" />
         </Link>
       </div>
-      <div>
+      <div className="Footer-Item">
         <Link
           href={createPath({
             route: ERoutes.Profile,
