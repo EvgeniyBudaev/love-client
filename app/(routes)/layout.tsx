@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { Layout } from "@/app/shared/components/layout";
-import "@/app/styles/_index.scss";
 
 export const metadata: Metadata = {
   title: "Love",

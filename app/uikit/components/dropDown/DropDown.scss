@@ -29,29 +29,33 @@
     &.enter {
       opacity: 0;
       transform: translateX(-100px);
-      transition: opacity $transition,
-      transform $transition;
+      transition:
+        opacity $transition,
+        transform $transition;
     }
 
     &.enter-active {
       opacity: 1;
       transform: translateX(0);
-      transition: opacity $transition,
-      transform $transition;
+      transition:
+        opacity $transition,
+        transform $transition;
     }
 
     &.exit {
       opacity: 1;
       transform: translateX(0);
-      transition: opacity $transition,
-      transform $transition;
+      transition:
+        opacity $transition,
+        transform $transition;
     }
 
     &.exit-active {
       opacity: 0;
       transform: translateX(-100px);
-      transition: opacity $transition,
-      transform $transition;
+      transition:
+        opacity $transition,
+        transform $transition;
     }
   }
 }

@@ -14,14 +14,10 @@ export const ProfilePage: FC = () => {
   return (
     <>
       <DropDown>
-        <DropDown.Button
-          classes={{ dropDownButton: "ProfilePage-DropDown-Button" }}
-        >
+        <DropDown.Button>
           <Hamburger />
         </DropDown.Button>
-        <DropDown.Panel
-          classes={{ dropDownPanel: "ProfilePage-DropDown-Panel" }}
-        >
+        <DropDown.Panel>
           <div className="ProfilePage-DropDown-Menu">
             <div className="ProfilePage-DropDown-MenuItem">
               Редактировать профиль
