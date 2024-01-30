@@ -1,3 +1,4 @@
+import { useFiles } from "./useFiles";
 import { useTelegram } from "./useTelegram";
 
-export { useTelegram };
+export { useFiles, useTelegram };

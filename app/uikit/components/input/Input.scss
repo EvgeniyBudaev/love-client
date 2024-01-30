@@ -1,0 +1,110 @@
+@import "@/app/styles";
+
+$transition: 150ms;
+
+.InputField {
+  $this: &;
+  position: relative;
+  display: flex;
+  margin-bottom: 16px;
+  width: 100%;
+  word-wrap: break-word;
+
+  &-Label {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
+
+    #{$this}-Inner__error {
+      background-color: red;
+    }
+
+    &Required {
+      color: red;
+    }
+  }
+
+  &-Inner {
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+  }
+
+  &__active {
+    width: 100%;
+
+    #{$this}-Inner__active {
+      background-color: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.54);
+      color: $text_color;
+
+      input:hover,
+      input {
+        //background-color: $color-white;
+      }
+    }
+
+    input:-webkit-autofill.Input__active,
+    input:-webkit-autofill.Input__active:hover,
+    input:-webkit-autofill.Input__active:focus,
+    input:-webkit-autofill.Input__active:active {
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+
+    & textarea,
+    & textarea:hover {
+      //background-color: $color-white;
+    }
+
+    #{$this}-Inner__active#{$this}-Inner__error {
+      border: 1px solid red;
+      //background-color: $color-white;
+    }
+  }
+
+  /* -------------------- Fix autocomplete form -------------------- */
+  #{$this}-Inner:-webkit-autofill {
+    -webkit-background-clip: text;
+  }
+
+  #{$this}-Inner {
+    &:-webkit-autofill {
+      border: 1px solid rgba(0, 0, 0, 0.54);
+    }
+  }
+
+  &-ErrorField {
+    display: block;
+    padding-top: 5px;
+    color: $color-red;
+    transition: all 0.3s;
+  }
+}
+
+.Input {
+  $this: &;
+  display: flex;
+  align-items: center;
+  padding: 0 16px 0 16px;
+  width: 100%;
+  //background-color: $color-primary-light;
+  background-color: #eee;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: transparent;
+
+  &:hover {
+    //background-color: $color-primary-light-hover;
+    transition: background-color 0.25s ease;
+  }
+
+  &#{$this}__error {
+    background-color: $color-light-red;
+
+    &:hover {
+      background-color: $color-light-red-hover;
+      transition: background-color 0.25s ease;
+    }
+  }
+}

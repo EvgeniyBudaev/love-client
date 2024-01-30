@@ -1,0 +1,15 @@
+export enum EFormFields {
+  Age = "age",
+  AllowsWriteToPm = "allowsWriteToPm",
+  Description = "description",
+  DisplayName = "displayName",
+  FirstName = "firstName",
+  Gender = "gender",
+  Image = "image",
+  LanguageCode = "languageCode",
+  LastName = "lastName",
+  Location = "location",
+  TelegramID = "telegramId",
+  QueryId = "queryId",
+  Username = "username",
+}

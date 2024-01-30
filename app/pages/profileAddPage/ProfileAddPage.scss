@@ -1,0 +1,11 @@
+.ProfileAddPage {
+  &-Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-Header-Save {
+    font-weight: 700;
+  }
+}

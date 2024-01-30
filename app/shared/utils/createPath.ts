@@ -1,6 +1,6 @@
 import { ERoutes } from "@/app/shared/enums";
 
-type TRoutes = ERoutes.Root | ERoutes.Profile;
+type TRoutes = ERoutes.Root | ERoutes.Profile | ERoutes.ProfileAdd;
 
 type TRoutesWithParams = ERoutes.NotUse;
 

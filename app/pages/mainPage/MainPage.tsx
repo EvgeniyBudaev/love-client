@@ -1,7 +1,10 @@
 "use client";
 
-import { FC, useEffect } from "react";
+import Link from "next/link";
+import { FC } from "react";
 import { useTelegram } from "@/app/shared/hooks";
+import { createPath } from "@/app/shared/utils";
+import { ERoutes } from "@/app/shared/enums";
 
 export const MainPage: FC = () => {
   const { tg, user, queryId } = useTelegram();
@@ -9,20 +12,13 @@ export const MainPage: FC = () => {
   return (
     <div>
       <div>Привет!</div>
-      <div>User: {user?.username}</div>
-      <div>
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-      </div>
-      <div>queryId:</div>
-      <div>
-        <pre>{JSON.stringify(queryId, null, 2)}</pre>
-      </div>
-      <div>tg.initData:</div>
-      <div>
-        <pre>{JSON.stringify(tg?.initData, null, 2)}</pre>
-      </div>
-      =============================
-      <div>User: {tg?.initDataUnsafe?.user?.username}</div>
+      <Link
+        href={createPath({
+          route: ERoutes.ProfileAdd,
+        })}
+      >
+        Создать профиль
+      </Link>
     </div>
   );
 };

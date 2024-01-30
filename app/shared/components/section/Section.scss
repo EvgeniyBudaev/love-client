@@ -1,0 +1,24 @@
+@import "@/app/styles";
+
+.Section {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &-Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    //background-color: $secondary_bg_color;
+    background-color: #ccc;
+    text-transform: uppercase;
+    padding: 30px 16px 2px;
+    margin-bottom: 16px;
+  }
+
+  &-Container {
+    margin: 0 16px;
+  }
+}
