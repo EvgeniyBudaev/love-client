@@ -1,5 +1,6 @@
 import {
   AddCircleOutlineIcon,
+  CalendarIcon,
   ImageIcon,
   MoreHorizIcon,
   SearchIcon,
@@ -8,6 +9,7 @@ import {
 
 export type IconType =
   | "AddCircleOutline"
+  | "Calendar"
   | "Image"
   | "MoreHoriz"
   | "Search"
@@ -15,6 +17,7 @@ export type IconType =
 
 export const iconTypes = new Map([
   ["AddCircleOutline", <AddCircleOutlineIcon key="AddCircleOutlineIcon" />],
+  ["Calendar", <CalendarIcon key="CalendarIcon" />],
   ["Image", <ImageIcon key="ImageIcon" />],
   ["MoreHoriz", <MoreHorizIcon key="MoreHorizIcon" />],
   ["Search", <SearchIcon key="SearchIcon" />],

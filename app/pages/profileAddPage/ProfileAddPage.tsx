@@ -1,5 +1,6 @@
 "use client";
 
+import { ru } from "date-fns/locale";
 import { type FC, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
@@ -10,6 +11,7 @@ import { FileUploader } from "@/app/shared/components/form/fileUploader";
 import { useFiles } from "@/app/shared/hooks";
 import type { TFile } from "@/app/shared/types/file";
 import { Input } from "@/app/uikit/components/input";
+import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileAddPage.scss";
 
@@ -20,6 +22,10 @@ export const ProfileAddPage: FC = () => {
     errors: undefined,
     success: false,
   };
+  // Tue Jan 30 2024 00:00:00 GMT+0300 (Москва, стандартное время)
+  const [valueInputDateField, setValueInputDateField] = useState<Date | null>(
+    null,
+  );
   const [files, setFiles] = useState<TFile[] | null>(null);
   const [state, formAction] = useFormState(addProfileAction, initialState);
 
@@ -30,9 +36,11 @@ export const ProfileAddPage: FC = () => {
   });
 
   useEffect(() => {
+    console.log("valueInputDateField: ", valueInputDateField);
+  }, [valueInputDateField]);
+  useEffect(() => {
     console.log("files: ", files);
   }, [files]);
-
   useEffect(() => {
     console.log("state: ", state);
   }, [state]);
@@ -98,7 +106,15 @@ export const ProfileAddPage: FC = () => {
             type="text"
           />
         </Section>
-        <Section title="Свойства"></Section>
+        <Section title="Свойства">
+          <InputDateField
+            locale={ru}
+            onChange={setValueInputDateField}
+            onFieldClear={() => setValueInputDateField(null)}
+            placeholder="Дата рождения"
+            value={valueInputDateField}
+          />
+        </Section>
       </form>
     </div>
   );

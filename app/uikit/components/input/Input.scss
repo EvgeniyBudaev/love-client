@@ -51,8 +51,8 @@ $transition: 150ms;
       input:hover,
       textarea,
       textarea:hover {
-        //background-color: $bg_color;
-        background-color: #ccc;
+        background-color: $bg_color;
+        //background-color: #ccc;
       }
     }
 
@@ -97,8 +97,8 @@ $transition: 150ms;
   align-items: center;
   padding: 8px 16px 0 16px;
   width: 100%;
-  //background-color: $secondary_bg_color;
-  background-color: #eee;
+  background-color: $secondary_bg_color;
+  //background-color: #eee;
   border: 1px solid transparent;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
