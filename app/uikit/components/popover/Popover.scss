@@ -93,4 +93,8 @@
   & .rdrDay:not(.rdrDayPassive) .rdrDayNumber span {
     color: $text_color;
   }
+
+  & .rdrDay.rdrDayPassive .rdrDayNumber span {
+    color: #3e484f;
+  }
 }
