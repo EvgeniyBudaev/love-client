@@ -1,19 +1,18 @@
 "use client";
 
-import { ru } from "date-fns/locale";
-import { utcToZonedTime } from "date-fns-tz";
-import { type FC, useEffect, useState } from "react";
-import { useFormState } from "react-dom";
-import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
-import { EFormFields } from "@/app/pages/profileAddPage/enums";
-import { Section } from "@/app/shared/components/section";
-import { Container } from "@/app/shared/components/container";
-import { FileUploader } from "@/app/shared/components/form/fileUploader";
-import { useFiles } from "@/app/shared/hooks";
-import type { TFile } from "@/app/shared/types/file";
-import { Input } from "@/app/uikit/components/input";
-import { InputDateField } from "@/app/uikit/components/inputDateField";
-import { Textarea } from "@/app/uikit/components/textarea";
+import {ru} from "date-fns/locale";
+import {type FC, useEffect, useState} from "react";
+import {useFormState} from "react-dom";
+import {addProfileAction} from "@/app/actions/profile/add/AddProfileAction";
+import {EFormFields} from "@/app/pages/profileAddPage/enums";
+import {Section} from "@/app/shared/components/section";
+import {Container} from "@/app/shared/components/container";
+import {FileUploader} from "@/app/shared/components/form/fileUploader";
+import {useFiles} from "@/app/shared/hooks";
+import type {TFile} from "@/app/shared/types/file";
+import {Input} from "@/app/uikit/components/input";
+import {InputDateField} from "@/app/uikit/components/inputDateField";
+import {Textarea} from "@/app/uikit/components/textarea";
 import "./ProfileAddPage.scss";
 
 export const ProfileAddPage: FC = () => {
@@ -30,15 +29,12 @@ export const ProfileAddPage: FC = () => {
   const [files, setFiles] = useState<TFile[] | null>(null);
   const [state, formAction] = useFormState(addProfileAction, initialState);
 
-  const { onAddFiles, onDeleteFile } = useFiles({
+  const {onAddFiles, onDeleteFile} = useFiles({
     fieldName: EFormFields.Image,
     files: files ?? [],
     setValue: (fieldName: string, files: TFile[]) => setFiles(files),
   });
 
-  useEffect(() => {
-    console.log("valueInputDateField: ", valueInputDateField);
-  }, [valueInputDateField]);
   useEffect(() => {
     console.log("files: ", files);
   }, [files]);
