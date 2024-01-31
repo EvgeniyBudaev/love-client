@@ -52,7 +52,7 @@ $transition: 150ms;
       input:hover,
       textarea,
       textarea:hover {
-        background-color: $bg_color;
+        background-color: $secondary_bg_color;
         //background-color: #ccc;
       }
     }
@@ -61,7 +61,7 @@ $transition: 150ms;
     input:-webkit-autofill.Input__active:hover,
     input:-webkit-autofill.Input__active:focus,
     input:-webkit-autofill.Input__active:active {
-      -webkit-box-shadow: 0 0 0 30px $bg_color inset !important;
+      -webkit-box-shadow: 0 0 0 30px $secondary_bg_color inset !important;
     }
 
     & textarea,
