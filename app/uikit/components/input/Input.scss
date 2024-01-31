@@ -103,6 +103,7 @@ $transition: 150ms;
   border-top-right-radius: $border-radius;
   outline: transparent;
   color: $text_color;
+  background-color: $secondary_bg_color;
 
   &:hover {
     transition: background-color 0.25s ease;
