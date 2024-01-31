@@ -1,6 +1,7 @@
 "use client";
 
 import { ru } from "date-fns/locale";
+import { utcToZonedTime } from "date-fns-tz";
 import { type FC, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
@@ -49,6 +50,10 @@ export const ProfileAddPage: FC = () => {
     onDeleteFile?.(file, files);
   };
 
+  const handleDateChange = (date: Date | null) => {
+    setValueInputDateField?.(date);
+  };
+
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
@@ -58,6 +63,8 @@ export const ProfileAddPage: FC = () => {
     (files ?? []).forEach((file) => {
       formDataDto.append(EFormFields.Image, file);
     });
+    const utcDate = valueInputDateField?.toISOString() ?? "";
+    formDataDto.append(EFormFields.Birthday, utcDate);
     formAction(formDataDto);
   };
 
@@ -109,7 +116,7 @@ export const ProfileAddPage: FC = () => {
         <Section title="Свойства">
           <InputDateField
             locale={ru}
-            onChange={setValueInputDateField}
+            onChange={handleDateChange}
             onFieldClear={() => setValueInputDateField(null)}
             placeholder="Дата рождения"
             value={valueInputDateField}

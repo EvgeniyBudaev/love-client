@@ -10,5 +10,6 @@ export const addProfileFormSchema = zfd.formData({
     .trim()
     .min(1, EMPTY_FIELD_ERROR_MESSAGE),
   [EFormFields.Description]: z.string().trim().nullish(),
+  [EFormFields.Birthday]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
   [EFormFields.Image]: fileSchema.or(fileSchema.array()).nullish(),
 });

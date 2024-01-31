@@ -1,6 +1,6 @@
 export enum EFormFields {
-  Age = "age",
   AllowsWriteToPm = "allowsWriteToPm",
+  Birthday = "birthday",
   Description = "description",
   DisplayName = "displayName",
   FirstName = "firstName",
