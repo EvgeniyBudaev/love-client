@@ -25,10 +25,8 @@
   }
 
   &-List {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     background-color: $bg_color;
+    //background-color: #ccc;
     border-top: 1px solid $secondary_bg_color;
     border-bottom: 1px solid $secondary_bg_color;
     padding: 0 0 0 16px;
@@ -47,8 +45,8 @@
     }
 
     &-Icon {
-      height: 16px;
-      width: 16px;
+      height: 12px;
+      width: 12px;
       margin-right: 16px;
     }
   }
