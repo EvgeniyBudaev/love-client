@@ -54,8 +54,7 @@ export const SidebarContent: FC<TProps> = ({
               onClick={() => setCheckedItem(item.value)}
             >
               <div>{item.label}</div>
-              {/*{isChecked && <Icon type="Checkbox"/>}*/}
-              <Icon type="Checkbox"/>
+              {isChecked && <Icon type="Checkbox"/>}
             </div>
           );
         })}
