@@ -56,13 +56,12 @@ $transition: 150ms;
       background-color: transparent;
       color: $text_color;
 
-      //input,
-      //input:hover,
-      //textarea,
-      //textarea:hover {
-      //  background-color: $secondary_bg_color;
-      //  //background-color: #ccc;
-      //}
+      input,
+      input:hover,
+      textarea,
+      textarea:hover {
+        background-color: $secondary_bg_color;
+      }
     }
 
     input:-webkit-autofill.Input__active,
