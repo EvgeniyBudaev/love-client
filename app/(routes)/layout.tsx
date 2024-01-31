@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Head from "next/head";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { Layout as LayoutComponent } from "@/app/shared/components/layout";
@@ -16,12 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <Script
           src="https://telegram.org/js/telegram-web-app.js"
           strategy="beforeInteractive"
         />
-      </head>
+      </Head>
       <body>
         <LayoutComponent>{children}</LayoutComponent>
       </body>
