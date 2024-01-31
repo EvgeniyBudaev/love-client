@@ -15,6 +15,7 @@
     outline-width: 0;
     height: inherit;
     width: 100%;
+    padding: 0;
     cursor: pointer;
     transition: all $transition;
   }
@@ -83,5 +84,13 @@
       opacity: 0;
       transform: translateY(4px);
     }
+  }
+
+  & .rdrCalendarWrapper {
+    background-color: $secondary_bg_color;
+  }
+
+  & .rdrDayToday .rdrDayNumber span {
+    color: $text_color;
   }
 }

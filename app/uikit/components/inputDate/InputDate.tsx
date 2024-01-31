@@ -1,8 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { memo, type FC, type SyntheticEvent } from "react";
-import { Icon } from "@/app/uikit/components/icon";
+import {memo, type FC, type SyntheticEvent} from "react";
+import {Icon} from "@/app/uikit/components/icon";
 import "./InputDate.scss";
 
 type TProps = {
@@ -39,7 +39,7 @@ const InputDateComponent: FC<TProps> = (props) => {
       onClick={!isDisabled ? onClick : undefined}
     >
       <div className="InputDate-Inner">
-        <div className="InputDate-Title">{title}&nbsp;</div>
+        {title && <div className="InputDate-Title">{title}&nbsp;</div>}
         <div
           className={clsx("InputDate-IconWrapper", {
             "InputDate-IconWrapper__isFocusable": !isDisabled,
@@ -54,12 +54,12 @@ const InputDateComponent: FC<TProps> = (props) => {
             {value ?? placeholder}
           </div>
           {value && (
-            <div className="InputDate-PostIcon" onClick={onFieldClear} />
+            <div className="InputDate-PostIcon" onClick={onFieldClear}/>
           )}
 
-          <Icon className="InputDate-DatePickerIcon" type="Calendar" />
+          <Icon className="InputDate-DatePickerIcon" type="Calendar"/>
         </div>
-        <div className="InputDate-Text__isInvalid" />
+        <div className="InputDate-Text__isInvalid"/>
       </div>
       <div className="InputDate-SubTitle">{subTitle}&nbsp;</div>
     </div>

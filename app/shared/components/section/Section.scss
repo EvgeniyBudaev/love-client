@@ -19,17 +19,4 @@
   &-Container {
     margin: 0 16px;
   }
-
-  &-Title {
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      height: 1px;
-      width: 100%;
-      background-color: $text_color;
-    }
-  }
 }

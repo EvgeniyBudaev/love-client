@@ -109,11 +109,12 @@ export const ProfileAddPage: FC = () => {
           />
         </Section>
         <Section title="Свойства">
+          <span>Дата рождения</span>
           <InputDateField
             locale={ru}
             onChange={handleDateChange}
             onFieldClear={() => setValueInputDateField(null)}
-            placeholder="Дата рождения"
+            placeholder="Выберите дату"
             value={valueInputDateField}
           />
         </Section>
