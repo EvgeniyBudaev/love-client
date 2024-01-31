@@ -90,7 +90,7 @@
     background-color: $secondary_bg_color;
   }
 
-  & .rdrDayToday .rdrDayNumber span {
+  & .rdrDay:not(.rdrDayPassive) .rdrDayNumber span {
     color: $text_color;
   }
 }
