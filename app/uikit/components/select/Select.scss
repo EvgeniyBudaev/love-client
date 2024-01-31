@@ -1,0 +1,24 @@
+@import "@/app/styles";
+
+.Select {
+  &-Header {
+    display: flex;
+    align-items: center;
+
+    &-Label {
+      width: 100px;
+      margin-right: 8px;
+    }
+
+    &Right {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    &-Icon {
+      width: 12px;
+    }
+  }
+}

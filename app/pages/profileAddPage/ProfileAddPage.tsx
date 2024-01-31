@@ -1,18 +1,22 @@
 "use client";
 
-import {ru} from "date-fns/locale";
-import {type FC, useEffect, useRef, useState} from "react";
-import {useFormState} from "react-dom";
-import {addProfileAction} from "@/app/actions/profile/add/AddProfileAction";
-import {EFormFields} from "@/app/pages/profileAddPage/enums";
-import {Section} from "@/app/shared/components/section";
-import {Container} from "@/app/shared/components/container";
-import {FileUploader} from "@/app/shared/components/form/fileUploader";
-import {useFiles} from "@/app/shared/hooks";
-import type {TFile} from "@/app/shared/types/file";
-import {Input} from "@/app/uikit/components/input";
-import {InputDateField} from "@/app/uikit/components/inputDateField";
-import {Textarea} from "@/app/uikit/components/textarea";
+import { ru } from "date-fns/locale";
+import isEmpty from "lodash/isEmpty";
+import { type FC, useEffect, useRef, useState } from "react";
+import { useFormState } from "react-dom";
+import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
+import { EFormFields } from "@/app/pages/profileAddPage/enums";
+import { Section } from "@/app/shared/components/section";
+import { FileUploader } from "@/app/shared/components/form/fileUploader";
+import { Header } from "@/app/shared/components/header";
+import { SidebarContent } from "@/app/shared/components/sidebarContent";
+import { EGender } from "@/app/shared/enums/form";
+import { useFiles } from "@/app/shared/hooks";
+import type { TFile } from "@/app/shared/types/file";
+import { Input } from "@/app/uikit/components/input";
+import { InputDateField } from "@/app/uikit/components/inputDateField";
+import { Select } from "@/app/uikit/components/select";
+import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileAddPage.scss";
 
 export const ProfileAddPage: FC = () => {
@@ -22,6 +26,12 @@ export const ProfileAddPage: FC = () => {
     errors: undefined,
     success: false,
   };
+  const genderOptions = [
+    { label: "Парень", value: EGender.Man },
+    { label: "Девушка", value: EGender.Woman },
+  ];
+  const [gender, setGender] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [valueInputDateField, setValueInputDateField] = useState<Date | null>(
     null,
   );
@@ -29,7 +39,7 @@ export const ProfileAddPage: FC = () => {
   const [state, formAction] = useFormState(addProfileAction, initialState);
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
 
-  const {onAddFiles, onDeleteFile} = useFiles({
+  const { onAddFiles, onDeleteFile } = useFiles({
     fieldName: EFormFields.Image,
     files: files ?? [],
     setValue: (_fieldName: string, files: TFile[]) => setFiles(files),
@@ -41,6 +51,9 @@ export const ProfileAddPage: FC = () => {
   useEffect(() => {
     console.log("state: ", state);
   }, [state]);
+  useEffect(() => {
+    console.log("gender: ", gender);
+  }, [gender]);
 
   const handleDeleteFile = (file: TFile, files: TFile[]) => {
     onDeleteFile?.(file, files);
@@ -50,9 +63,24 @@ export const ProfileAddPage: FC = () => {
     setValueInputDateField?.(date);
   };
 
-  const handleClickSaveButton = () => {
+  const handleClickSave = () => {
     buttonSubmitRef.current && buttonSubmitRef.current.click();
-  }
+  };
+
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const handleOpenSidebar = () => {
+    setIsSidebarOpen(true);
+  };
+
+  const handleChangeGender = (value?: string | number) => {
+    if (value) {
+      value && setGender(value.toString());
+      handleCloseSidebar();
+    }
+  };
 
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
@@ -65,20 +93,19 @@ export const ProfileAddPage: FC = () => {
     });
     const utcDate = valueInputDateField?.toISOString() ?? "";
     formDataDto.append(EFormFields.Birthday, utcDate);
+    formDataDto.append(EFormFields.Gender, gender);
     formAction(formDataDto);
   };
 
   return (
     <div className="ProfileAddPage">
       <form action={handleSubmit} className="ProfileAddPage-Form">
-        <Container>
-          <div className="ProfileAddPage-Header">
-            <div className="ProfileAddPage-Header-Cancel">Отменить</div>
-            <div className="ProfileAddPage-Header-Save" onClick={handleClickSaveButton}>
-              Сохранить
-            </div>
+        <Header>
+          <div className="ProfileAddPage-Header-Cancel">Отменить</div>
+          <div className="ProfileAddPage-Header-Save" onClick={handleClickSave}>
+            Сохранить
           </div>
-        </Container>
+        </Header>
         <Section title="Публичные фото">
           <FileUploader
             accept={{
@@ -106,14 +133,6 @@ export const ProfileAddPage: FC = () => {
             name={EFormFields.DisplayName}
             type="text"
           />
-          <Textarea
-            errors={state?.errors?.description}
-            label={"Описание" ?? "Description"}
-            name={EFormFields.Description}
-            type="text"
-          />
-        </Section>
-        <Section title="Свойства">
           <span>Дата рождения</span>
           <InputDateField
             locale={ru}
@@ -122,8 +141,31 @@ export const ProfileAddPage: FC = () => {
             placeholder="Выберите дату"
             value={valueInputDateField}
           />
+          <Textarea
+            errors={state?.errors?.description}
+            label={"Описание" ?? "Description"}
+            name={EFormFields.Description}
+            type="text"
+          />
         </Section>
-        <input hidden={true} ref={buttonSubmitRef} type="submit"/>
+        <Section title="Свойства">
+          <Select
+            isSidebarOpen={isSidebarOpen}
+            label="Пол"
+            value={!isEmpty(gender) ? gender : "--"}
+            onHeaderClick={handleOpenSidebar}
+            onSidebarClose={handleCloseSidebar}
+          >
+            <SidebarContent
+              onSave={handleChangeGender}
+              options={genderOptions}
+              onCloseSidebar={handleCloseSidebar}
+              title="Пол"
+              value={gender}
+            />
+          </Select>
+        </Section>
+        <input hidden={true} ref={buttonSubmitRef} type="submit" />
       </form>
     </div>
   );

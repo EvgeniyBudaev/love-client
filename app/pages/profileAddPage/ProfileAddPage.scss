@@ -1,28 +1,4 @@
 @import "@/app/styles";
 
 .ProfileAddPage {
-  &-Header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &-Header-Cancel {
-    cursor: pointer;
-
-    &:hover,
-    &:active {
-      opacity: $opacity;
-    }
-  }
-
-  &-Header-Save {
-    font-weight: 700;
-    cursor: pointer;
-
-    &:hover,
-    &:active {
-      opacity: $opacity;
-    }
-  }
 }

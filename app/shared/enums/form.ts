@@ -5,3 +5,8 @@ export enum EFormMethods {
   Put = "PUT",
   Delete = "DELETE",
 }
+
+export enum EGender {
+  Man = "man",
+  Woman = "woman",
+}

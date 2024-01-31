@@ -65,12 +65,14 @@ DropDown.Button = DropDownButton;
 type TDropDownPanel = {
   children?: ReactNode;
   classes?: TDropDownClasses;
+  dataTestId?: string;
   transition?: number;
 };
 
 const DropDownPanel: FC<TDropDownPanel> = ({
   children,
   classes,
+  dataTestId = "uikit__dropDown",
   transition,
 }) => {
   const dropDownState = useDropDownContext();
@@ -78,6 +80,7 @@ const DropDownPanel: FC<TDropDownPanel> = ({
   return (
     <CSSTransition
       className={clsx("DropDown-Panel", classes?.dropDownPanel)}
+      data-testid={dataTestId}
       in={dropDownState?.isDropDownOpen}
       nodeRef={dropDownState?.refPanelDropDown}
       onClick={dropDownState?.onClickButtonDropDown}
