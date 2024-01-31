@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import {forwardRef, memo} from "react";
-import type {MouseEvent, ForwardedRef, ReactNode} from "react";
-import {CSSTransition} from "react-transition-group";
-import {TRANSITION} from "@/app/uikit/constants";
+import { forwardRef, memo } from "react";
+import type { MouseEvent, ForwardedRef, ReactNode } from "react";
+import { CSSTransition } from "react-transition-group";
+import { TRANSITION } from "@/app/uikit/constants";
 import "./Sidebar.scss";
 
 type TProps = {

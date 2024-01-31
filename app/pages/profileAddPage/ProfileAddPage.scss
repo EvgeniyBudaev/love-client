@@ -1,4 +1,11 @@
 @import "@/app/styles";
 
 .ProfileAddPage {
+  &-Header-Cancel {
+    color: $link_color;
+  }
+
+  &-Header-Save {
+    color: $link_color;
+  }
 }

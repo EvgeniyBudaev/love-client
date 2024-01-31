@@ -11,7 +11,7 @@ import { FileUploader } from "@/app/shared/components/form/fileUploader";
 import { Header } from "@/app/shared/components/header";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
 import { EGender } from "@/app/shared/enums/form";
-import { useFiles } from "@/app/shared/hooks";
+import { useFiles, useTelegram } from "@/app/shared/hooks";
 import type { TFile } from "@/app/shared/types/file";
 import { Input } from "@/app/uikit/components/input";
 import { InputDateField } from "@/app/uikit/components/inputDateField";
@@ -38,6 +38,7 @@ export const ProfileAddPage: FC = () => {
   const [files, setFiles] = useState<TFile[] | null>(null);
   const [state, formAction] = useFormState(addProfileAction, initialState);
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
+  const { queryId, user } = useTelegram();
 
   const { onAddFiles, onDeleteFile } = useFiles({
     fieldName: EFormFields.Image,
@@ -86,14 +87,26 @@ export const ProfileAddPage: FC = () => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
     const description = formData.get(EFormFields.Description);
+    const location = formData.get(EFormFields.Location);
     formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
     formDataDto.append(EFormFields.Description, (description ?? "").toString());
+    formDataDto.append(EFormFields.Location, (location ?? "").toString());
     (files ?? []).forEach((file) => {
       formDataDto.append(EFormFields.Image, file);
     });
     const utcDate = valueInputDateField?.toISOString() ?? "";
     formDataDto.append(EFormFields.Birthday, utcDate);
     formDataDto.append(EFormFields.Gender, gender?.value.toString() ?? "");
+    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
+    formDataDto.append(EFormFields.FirstName, user?.first_name ?? "Evgeniy");
+    formDataDto.append(EFormFields.LastName, user?.last_name ?? "Budaev");
+    formDataDto.append(EFormFields.Username, user?.username ?? "budaev");
+    formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
+    formDataDto.append(
+      EFormFields.AllowsWriteToPm,
+      user?.allows_write_to_pm?.toString() ?? "true",
+    );
+    formDataDto.append(EFormFields.QueryId, queryId ?? "1");
     formAction(formDataDto);
   };
 
@@ -152,7 +165,7 @@ export const ProfileAddPage: FC = () => {
           <Select
             isSidebarOpen={isSidebarOpen}
             label="Пол"
-            value={!isNil(gender) ? gender?.value : "--"}
+            headerTitle={!isNil(gender) ? gender?.label : "--"}
             onHeaderClick={handleOpenSidebar}
             onSidebarClose={handleCloseSidebar}
           >
@@ -164,6 +177,13 @@ export const ProfileAddPage: FC = () => {
               value={gender?.value}
             />
           </Select>
+          <Input
+            errors={state?.errors?.location}
+            isRequired={true}
+            label={"Местоположение" ?? "Location"}
+            name={EFormFields.Location}
+            type="text"
+          />
         </Section>
         <input hidden={true} ref={buttonSubmitRef} type="submit" />
       </form>

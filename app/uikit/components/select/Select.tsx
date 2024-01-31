@@ -1,27 +1,27 @@
 "use client";
 
-import {FC, type ReactNode, useRef} from "react";
-import {Icon} from "@/app/uikit/components/icon";
-import {Sidebar} from "@/app/uikit/components/sidebar";
+import { FC, type ReactNode, useRef } from "react";
+import { Icon } from "@/app/uikit/components/icon";
+import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./Select.scss";
 
 type TProps = {
   children?: ReactNode;
+  headerTitle?: string | number;
   isSidebarOpen?: boolean;
   label: string;
   onHeaderClick?: () => void;
   onSidebarClose?: () => void;
-  value?: string | number;
 };
 
 export const Select: FC<TProps> = ({
-                                     children,
-                                     isSidebarOpen = false,
-                                     label,
-                                     onHeaderClick,
-                                     onSidebarClose,
-                                     value,
-                                   }) => {
+  children,
+  headerTitle,
+  isSidebarOpen = false,
+  label,
+  onHeaderClick,
+  onSidebarClose,
+}) => {
   const sidebarRef = useRef(null);
 
   return (
@@ -29,8 +29,8 @@ export const Select: FC<TProps> = ({
       <div className="Select-Header" onClick={onHeaderClick}>
         <div className="Select-Header-Label">{label}</div>
         <div className="Select-HeaderRight">
-          <div className="Select-Header-Value">{value ?? "--"}</div>
-          <Icon type="ArrowRight"/>
+          <div className="Select-Header-Value">{headerTitle ?? "--"}</div>
+          <Icon type="ArrowRight" />
         </div>
       </div>
       <Sidebar

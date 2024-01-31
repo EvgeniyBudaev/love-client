@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import {FC, useState} from "react";
-import {Header} from "@/app/shared/components/header";
-import {Icon} from "@/app/uikit/components/icon";
-import type {TSelectOption} from "@/app/uikit/components/select";
+import { FC, useState } from "react";
+import { Header } from "@/app/shared/components/header";
+import { Icon } from "@/app/uikit/components/icon";
+import type { TSelectOption } from "@/app/uikit/components/select";
 import "./SidebarContent.scss";
 
 type TProps = {
@@ -16,12 +16,12 @@ type TProps = {
 };
 
 export const SidebarContent: FC<TProps> = ({
-                                             value,
-                                             onSave,
-                                             options,
-                                             onCloseSidebar,
-                                             title,
-                                           }) => {
+  value,
+  onSave,
+  options,
+  onCloseSidebar,
+  title,
+}) => {
   const [checkedItem, setCheckedItem] = useState<TSelectOption | undefined>();
 
   return (
@@ -52,7 +52,7 @@ export const SidebarContent: FC<TProps> = ({
               onClick={() => setCheckedItem(item)}
             >
               <div>{item.label}</div>
-              {isChecked && <Icon type="Checkbox"/>}
+              {isChecked && <Icon type="Checkbox" />}
             </div>
           );
         })}

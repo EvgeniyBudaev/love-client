@@ -32,19 +32,24 @@ export async function addProfileAction(prevState: any, formData: FormData) {
       ...resolver.data,
     };
     console.log("formattedParams: ", formattedParams);
-    // const response = await addProfile(formData as unknown as TAddProfileParams);
-    // console.log("response: ", response);
-    // const path = createPath({
-    //   route: ERoutes.ProfileAdd,
-    // });
-    // revalidatePath(path);
-    // return {data: response.data, error: undefined, errors: undefined, success: true};
+    const response = await addProfile(formData as unknown as TAddProfileParams);
+    console.log("response: ", response);
+    const path = createPath({
+      route: ERoutes.ProfileAdd,
+    });
+    revalidatePath(path);
     return {
-      data: undefined,
+      data: response.data,
       error: undefined,
       errors: undefined,
       success: true,
     };
+    // return {
+    //   data: undefined,
+    //   error: undefined,
+    //   errors: undefined,
+    //   success: true,
+    // };
   } catch (error) {
     const errorResponse = error as Response;
     const responseData: TCommonResponseError = await errorResponse.json();
