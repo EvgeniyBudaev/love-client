@@ -22,7 +22,6 @@ export const ProfileAddPage: FC = () => {
     errors: undefined,
     success: false,
   };
-  // Tue Jan 30 2024 00:00:00 GMT+0300 (Москва, стандартное время)
   const [valueInputDateField, setValueInputDateField] = useState<Date | null>(
     null,
   );
@@ -32,7 +31,7 @@ export const ProfileAddPage: FC = () => {
   const {onAddFiles, onDeleteFile} = useFiles({
     fieldName: EFormFields.Image,
     files: files ?? [],
-    setValue: (fieldName: string, files: TFile[]) => setFiles(files),
+    setValue: (_fieldName: string, files: TFile[]) => setFiles(files),
   });
 
   useEffect(() => {

@@ -1,6 +1,6 @@
-import { useCallback, useEffect } from "react";
-import type { TFileUploaderProps } from "@/app/shared/components/form/fileUploader";
-import type { TFile } from "@/app/shared/types/file";
+import {useCallback, useEffect} from "react";
+import type {TFileUploaderProps} from "@/app/shared/components/form/fileUploader";
+import type {TFile} from "@/app/shared/types/file";
 
 type TResponse = {
   onAddFiles: TFileUploaderProps["onAddFiles"];
@@ -16,7 +16,7 @@ type TUseFilesParams = {
 
 type TUseImages = (params: TUseFilesParams) => TResponse;
 
-export const useFiles: TUseImages = ({ fieldName, files, setValue }) => {
+export const useFiles: TUseImages = ({fieldName, files, setValue}) => {
   // const fetcherFilesLoading = fetcherFiles.state !== "idle";
 
   const onAddFiles = useCallback(
@@ -30,11 +30,7 @@ export const useFiles: TUseImages = ({ fieldName, files, setValue }) => {
         );
       }
     },
-    [
-      // fetcherFiles,
-      setValue,
-      files,
-    ],
+    [setValue, fieldName, files],
   );
 
   const onDeleteFile = useCallback(
@@ -50,7 +46,7 @@ export const useFiles: TUseImages = ({ fieldName, files, setValue }) => {
         );
       }
     },
-    [setValue, files],
+    [files, setValue, fieldName],
   );
 
   useEffect(

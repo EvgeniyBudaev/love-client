@@ -6,6 +6,8 @@ const t = (value: string) => {
 export const LETTERS_EN = "a-zA-Z";
 export const LETTERS_RU = "а-яА-ЯёЁ";
 
+export const EMPTY_FIELD_ERROR_MESSAGE = t("common.validation.empty");
+
 export const NAME_REGEXP = new RegExp(`^[- ${LETTERS_EN}${LETTERS_RU}]*$`);
 export const NAME_ERROR_MESSAGE = t("common.validation.onlyLetters");
 
