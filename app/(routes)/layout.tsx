@@ -1,5 +1,4 @@
 import type {Metadata} from "next";
-import Head from "next/head";
 import Script from "next/script";
 import type {ReactNode} from "react";
 import {Layout as LayoutComponent} from "@/app/shared/components/layout";
@@ -17,11 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <Head><title>Love</title></Head>
-    <Script
-      src="https://telegram.org/js/telegram-web-app.js"
-      strategy="beforeInteractive"
-    />
+    <head>
+      <Script
+        src="https://telegram.org/js/telegram-web-app.js"
+        strategy="beforeInteractive"
+      />
+      <title>Love</title>
+    </head>
     <body>
     <LayoutComponent>{children}</LayoutComponent>
     </body>
