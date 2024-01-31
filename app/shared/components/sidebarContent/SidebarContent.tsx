@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { FC, useState } from "react";
-import { Header } from "@/app/shared/components/header";
-import { Icon } from "@/app/uikit/components/icon";
+import {FC, useState} from "react";
+import {Header} from "@/app/shared/components/header";
+import {Icon} from "@/app/uikit/components/icon";
 import "./SidebarContent.scss";
 
 type TOption = {
@@ -18,12 +18,12 @@ type TProps = {
 };
 
 export const SidebarContent: FC<TProps> = ({
-  value,
-  onSave,
-  options,
-  onCloseSidebar,
-  title,
-}) => {
+                                             value,
+                                             onSave,
+                                             options,
+                                             onCloseSidebar,
+                                             title,
+                                           }) => {
   const [checkedItem, setCheckedItem] = useState<string | number | undefined>();
 
   return (
@@ -54,9 +54,8 @@ export const SidebarContent: FC<TProps> = ({
               onClick={() => setCheckedItem(item.value)}
             >
               <div>{item.label}</div>
-              <div className="SidebarContent-List-Icon">
-                {isChecked && <Icon type="Checkbox" />}
-              </div>
+              {/*{isChecked && <Icon type="Checkbox"/>}*/}
+              <Icon type="Checkbox"/>
             </div>
           );
         })}
