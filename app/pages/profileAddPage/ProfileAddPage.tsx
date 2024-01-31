@@ -7,6 +7,7 @@ import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
 import { Section } from "@/app/shared/components/section";
+import { Field } from "@/app/shared/components/form/field";
 import { FileUploader } from "@/app/shared/components/form/fileUploader";
 import { Header } from "@/app/shared/components/header";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
@@ -139,51 +140,61 @@ export const ProfileAddPage: FC = () => {
           />
         </Section>
         <Section title="Подробнее">
-          <Input
-            errors={state?.errors?.displayName}
-            isRequired={true}
-            label={"Имя" ?? "Name"}
-            name={EFormFields.DisplayName}
-            type="text"
-          />
-          <span>Дата рождения</span>
-          <InputDateField
-            locale={ru}
-            onChange={handleDateChange}
-            onFieldClear={() => setValueInputDateField(null)}
-            placeholder="Выберите дату"
-            value={valueInputDateField}
-          />
-          <Textarea
-            errors={state?.errors?.description}
-            label={"Описание" ?? "Description"}
-            name={EFormFields.Description}
-            type="text"
-          />
+          <Field>
+            <Input
+              errors={state?.errors?.displayName}
+              isRequired={true}
+              label={"Имя" ?? "Name"}
+              name={EFormFields.DisplayName}
+              type="text"
+            />
+          </Field>
+          <Field>
+            <span>Дата рождения</span>
+            <InputDateField
+              locale={ru}
+              onChange={handleDateChange}
+              onFieldClear={() => setValueInputDateField(null)}
+              placeholder="Выберите дату"
+              value={valueInputDateField}
+            />
+          </Field>
+          <Field>
+            <Textarea
+              errors={state?.errors?.description}
+              label={"Описание" ?? "Description"}
+              name={EFormFields.Description}
+              type="text"
+            />
+          </Field>
         </Section>
         <Section title="Свойства">
-          <Select
-            isSidebarOpen={isSidebarOpen}
-            label="Пол"
-            headerTitle={!isNil(gender) ? gender?.label : "--"}
-            onHeaderClick={handleOpenSidebar}
-            onSidebarClose={handleCloseSidebar}
-          >
-            <SidebarContent
-              onSave={handleChangeGender}
-              options={genderOptions}
-              onCloseSidebar={handleCloseSidebar}
-              title="Пол"
-              value={gender?.value}
+          <Field>
+            <Select
+              isSidebarOpen={isSidebarOpen}
+              label="Пол"
+              headerTitle={!isNil(gender) ? gender?.label : "--"}
+              onHeaderClick={handleOpenSidebar}
+              onSidebarClose={handleCloseSidebar}
+            >
+              <SidebarContent
+                onSave={handleChangeGender}
+                options={genderOptions}
+                onCloseSidebar={handleCloseSidebar}
+                title="Пол"
+                value={gender?.value}
+              />
+            </Select>
+          </Field>
+          <Field>
+            <Input
+              errors={state?.errors?.location}
+              isRequired={true}
+              label={"Местоположение" ?? "Location"}
+              name={EFormFields.Location}
+              type="text"
             />
-          </Select>
-          <Input
-            errors={state?.errors?.location}
-            isRequired={true}
-            label={"Местоположение" ?? "Location"}
-            name={EFormFields.Location}
-            type="text"
-          />
+          </Field>
         </Section>
         <input hidden={true} ref={buttonSubmitRef} type="submit" />
       </form>

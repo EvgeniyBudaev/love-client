@@ -61,7 +61,7 @@ const InputDateComponent: FC<TProps> = (props) => {
         </div>
         <div className="InputDate-Text__isInvalid" />
       </div>
-      <div className="InputDate-SubTitle">{subTitle}&nbsp;</div>
+      {subTitle && <div className="InputDate-SubTitle">{subTitle}&nbsp;</div>}
     </div>
   );
 };
