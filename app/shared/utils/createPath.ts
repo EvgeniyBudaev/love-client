@@ -29,9 +29,7 @@ export function createPath(
   }
 
   if (query && Object.keys(query).length) {
-    path = `${path}${path.includes("?") ? "&" : "?"}${new URLSearchParams(
-      query,
-    )}`;
+    path = `${path}${path.includes("?") ? "&" : "?"}${new URLSearchParams(query)}`;
   }
 
   // if(lng) {

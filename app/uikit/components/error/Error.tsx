@@ -6,9 +6,10 @@ import type { FC } from "react";
 import { FadeIn } from "@/app/uikit/components/fadeIn";
 // import { ETypographyVariant, Typography } from "@/app/uikit/components/typography";
 import "./Error.scss";
+import { isArray } from "lodash";
 
 type TProps = {
-  errors?: string[];
+  errors?: string | string[];
 };
 
 const ErrorComponent: FC<TProps> = ({ errors }) => {
@@ -16,14 +17,20 @@ const ErrorComponent: FC<TProps> = ({ errors }) => {
 
   return (
     <ul className="Error-List">
-      {(errors ?? []).map((error, index) => (
-        <li className="Error-ListItem" key={`error-item-${index}`}>
-          <FadeIn>
-            {/*<Typography value={t(error)} variant={ETypographyVariant.TextB3Regular} />*/}
-            <span>{error}</span>
-          </FadeIn>
+      {!isArray(errors) && (
+        <li className="Error-ListItem">
+          <span>{errors}</span>
         </li>
-      ))}
+      )}
+      {isArray(errors) &&
+        (errors ?? []).map((error, index) => (
+          <li className="Error-ListItem" key={`error-item-${index}`}>
+            <FadeIn>
+              {/*<Typography value={t(error)} variant={ETypographyVariant.TextB3Regular} />*/}
+              <span>{error}</span>
+            </FadeIn>
+          </li>
+        ))}
     </ul>
   );
 };

@@ -1,23 +1,21 @@
 "use client";
 
-import clsx from "clsx";
 import { useCallback, useState } from "react";
 import type { FC, ReactElement } from "react";
+import type { DropEvent, FileRejection } from "react-dropzone";
 // import {useTranslation} from "@/app/i18n/client";
-// import {Button} from "@/app/uikit/components/button";
+import { Previews } from "@/app/shared/components/form/fileUploader/previews";
+import {
+  filterDuplicatedFiles,
+  getTypes,
+} from "@/app/shared/components/form/fileUploader/utils";
+import type { TFile } from "@/app/shared/types/file";
 import {
   Dropzone,
   type TDropzoneProps,
 } from "@/app/uikit/components/dropzone/Dropzone";
 // import {ETypographyVariant, Typography} from "@/app/uikit/components/typography";
 import "./FileUploader.scss";
-import { TFile } from "@/app/shared/types/file";
-import {
-  filterDuplicatedFiles,
-  getTypes,
-} from "@/app/shared/components/form/fileUploader/utils";
-import { Previews } from "@/app/shared/components/form/fileUploader/previews";
-import { Icon } from "@/app/uikit/components/icon";
 
 export type TFileUploaderProps = {
   files?: TFile[];
@@ -46,7 +44,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
   const [countFiles, setCountFiles] = useState(1);
 
   const onDrop = useCallback(
-    (addedFiles: File[]) => {
+    (addedFiles: File[], fileRejections: FileRejection[], event: DropEvent) => {
       if (maxFiles && countFiles > maxFiles) return;
       const { acceptedFiles, newFiles } = filterDuplicatedFiles(
         addedFiles,
@@ -84,23 +82,16 @@ export const FileUploader: FC<TFileUploaderProps> = ({
   return (
     <div className="FileUploader">
       <Previews
+        accept={accept}
         className="FileUploader-Previews"
         files={files}
+        isLoading={isLoading}
         onAddFile={onAddFile}
         onDeleteFile={onDelete}
-        onLoad={handleLoadImage}
-      />
-      <Dropzone
         onDrop={onDrop}
-        accept={accept}
-        disabled={isLoading}
-        className={clsx("FileUploader-Dropzone", {
-          ["FileUploader-Dropzone__isLoading"]: isLoading,
-        })}
+        onLoad={handleLoadImage}
         {...rest}
-      >
-        <Icon type="AddCircleOutline" />
-      </Dropzone>
+      />
     </div>
   );
 };

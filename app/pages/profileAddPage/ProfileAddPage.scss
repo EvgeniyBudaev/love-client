@@ -1,3 +1,5 @@
+@import "@/app/styles";
+
 .ProfileAddPage {
   &-Header {
     display: flex;
@@ -5,7 +7,26 @@
     justify-content: space-between;
   }
 
+  &-Header-Cancel {
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      opacity: $opacity;
+    }
+  }
+
   &-Header-Save {
     font-weight: 700;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    outline: transparent;
+    cursor: pointer;
+
+    &:hover,
+    &:active {
+      opacity: $opacity;
+    }
   }
 }

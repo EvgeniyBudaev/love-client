@@ -10,11 +10,19 @@ $transition: 150ms;
   width: 100%;
   word-wrap: break-word;
 
+  &-Wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   &-Label {
     position: relative;
     display: flex;
     align-items: flex-end;
     pointer-events: none;
+    margin-right: 16px;
 
     #{$this}-Inner__error {
       background-color: red;
@@ -28,7 +36,8 @@ $transition: 150ms;
   &-Inner {
     width: 100%;
     border: 1px solid transparent;
-    border-radius: $border-radius;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
   }
 
   &__active {
@@ -36,12 +45,14 @@ $transition: 150ms;
 
     #{$this}-Inner__active {
       background-color: transparent;
-      border: 1px solid rgba(0, 0, 0, 0.54);
       color: $text_color;
 
+      input,
       input:hover,
-      input {
-        //background-color: $color-white;
+      textarea,
+      textarea:hover {
+        //background-color: $bg_color;
+        background-color: #ccc;
       }
     }
 
@@ -49,17 +60,16 @@ $transition: 150ms;
     input:-webkit-autofill.Input__active:hover,
     input:-webkit-autofill.Input__active:focus,
     input:-webkit-autofill.Input__active:active {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      -webkit-box-shadow: 0 0 0 30px $bg_color inset !important;
     }
 
     & textarea,
     & textarea:hover {
-      //background-color: $color-white;
+      background-color: $bg_color;
     }
 
     #{$this}-Inner__active#{$this}-Inner__error {
-      border: 1px solid red;
-      //background-color: $color-white;
+      background-color: $bg_color;
     }
   }
 
@@ -68,34 +78,33 @@ $transition: 150ms;
     -webkit-background-clip: text;
   }
 
-  #{$this}-Inner {
-    &:-webkit-autofill {
-      border: 1px solid rgba(0, 0, 0, 0.54);
-    }
-  }
-
   &-ErrorField {
-    display: block;
-    padding-top: 5px;
+    position: absolute;
+    bottom: -18px;
+    left: 0;
     color: $color-red;
-    transition: all 0.3s;
+    transition: all $transition;
   }
+}
+
+.InputField-Inner.Textarea {
+  height: 100%;
 }
 
 .Input {
   $this: &;
   display: flex;
   align-items: center;
-  padding: 0 16px 0 16px;
+  padding: 8px 16px 0 16px;
   width: 100%;
-  //background-color: $color-primary-light;
+  //background-color: $secondary_bg_color;
   background-color: #eee;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
   outline: transparent;
 
   &:hover {
-    //background-color: $color-primary-light-hover;
     transition: background-color 0.25s ease;
   }
 
@@ -107,4 +116,12 @@ $transition: 150ms;
       transition: background-color 0.25s ease;
     }
   }
+}
+
+.Input.Textarea {
+  $this: &;
+  display: block;
+  padding: 8px 16px 0 16px;
+  height: 50px;
+  width: 100%;
 }

@@ -10,12 +10,12 @@ import type {
 } from "react";
 import { Error } from "@/app/uikit/components/error";
 // import { ETypographyVariant, Typography } from "@/app/uikit/components/typography";
-import "./Input.scss";
+import "../input/Input.scss";
 
-export interface IInputProps
+export interface ITextareaProps
   extends DetailedHTMLProps<
-    HTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
+    HTMLAttributes<HTMLTextAreaElement>,
+    HTMLTextAreaElement
   > {
   autoComplete?: string;
   className?: string;
@@ -31,12 +31,12 @@ export interface IInputProps
   value?: string;
 }
 
-const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
+const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
   (
     {
       autoComplete,
       className,
-      dataTestId = "uikit__input",
+      dataTestId = "uikit__textarea",
       defaultValue,
       errors,
       hidden,
@@ -50,14 +50,14 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       onChange,
       onFocus,
       ...rest
-    }: IInputProps,
-    ref: ForwardedRef<HTMLInputElement>,
+    }: ITextareaProps,
+    ref: ForwardedRef<HTMLTextAreaElement>,
   ): JSX.Element => {
     const [isFocused, setIsFocused] = useState<boolean | undefined>(
       isInputFocused || !!defaultValue,
     );
 
-    const onBlurCallback = (event: FocusEvent<HTMLInputElement>) => {
+    const onBlurCallback = (event: FocusEvent<HTMLTextAreaElement>) => {
       if (event.target.value !== "") {
         setIsFocused(true);
       } else {
@@ -69,7 +69,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       }
     };
 
-    const onFocusCallback = (event: FocusEvent<HTMLInputElement>) => {
+    const onFocusCallback = (event: FocusEvent<HTMLTextAreaElement>) => {
       if (!isFocused) {
         setIsFocused(true);
       }
@@ -100,28 +100,23 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
         )}
         <div className="InputField-Wrapper">
           <div
-            className={clsx("InputField-Inner", {
+            className={clsx("InputField-Inner Textarea", {
               "InputField-Inner__active": isFocused,
               "InputField-Inner__error": errors,
             })}
           >
-            <input
+            <textarea
               {...rest}
-              aria-disabled={isReadOnly}
-              autoComplete={autoComplete}
-              className={clsx(className, "Input", {
-                Input__active: isFocused && !isReadOnly,
-                Input__error: errors,
+              className={clsx(className, "Input Textarea", {
+                Input__active: isFocused,
               })}
-              defaultValue={defaultValue}
+              autoComplete={autoComplete}
               hidden={hidden}
               name={name}
-              onBlur={onBlurCallback}
+              ref={ref}
               onChange={onChange}
               onFocus={onFocusCallback}
-              readOnly={isReadOnly}
-              ref={ref}
-              type={type}
+              onBlur={onBlurCallback}
             />
           </div>
           {errors && (
@@ -135,6 +130,6 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
   },
 );
 
-InputComponent.displayName = "InputComponent";
+TextareaComponent.displayName = "TextareaComponent";
 
-export const Input = memo(InputComponent);
+export const Textarea = memo(TextareaComponent);
