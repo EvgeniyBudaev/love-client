@@ -1,7 +1,7 @@
 "use client";
 
 import { ru } from "date-fns/locale";
-import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
@@ -15,7 +15,7 @@ import { useFiles } from "@/app/shared/hooks";
 import type { TFile } from "@/app/shared/types/file";
 import { Input } from "@/app/uikit/components/input";
 import { InputDateField } from "@/app/uikit/components/inputDateField";
-import { Select } from "@/app/uikit/components/select";
+import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileAddPage.scss";
 
@@ -30,7 +30,7 @@ export const ProfileAddPage: FC = () => {
     { label: "Парень", value: EGender.Man },
     { label: "Девушка", value: EGender.Woman },
   ];
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState<TSelectOption | undefined>();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [valueInputDateField, setValueInputDateField] = useState<Date | null>(
     null,
@@ -75,9 +75,9 @@ export const ProfileAddPage: FC = () => {
     setIsSidebarOpen(true);
   };
 
-  const handleChangeGender = (value?: string | number) => {
+  const handleChangeGender = (value?: TSelectOption) => {
     if (value) {
-      value && setGender(value.toString());
+      value && setGender(value);
       handleCloseSidebar();
     }
   };
@@ -93,7 +93,7 @@ export const ProfileAddPage: FC = () => {
     });
     const utcDate = valueInputDateField?.toISOString() ?? "";
     formDataDto.append(EFormFields.Birthday, utcDate);
-    formDataDto.append(EFormFields.Gender, gender);
+    formDataDto.append(EFormFields.Gender, gender?.value.toString() ?? "");
     formAction(formDataDto);
   };
 
@@ -152,7 +152,7 @@ export const ProfileAddPage: FC = () => {
           <Select
             isSidebarOpen={isSidebarOpen}
             label="Пол"
-            value={!isEmpty(gender) ? gender : "--"}
+            value={!isNil(gender) ? gender?.value : "--"}
             onHeaderClick={handleOpenSidebar}
             onSidebarClose={handleCloseSidebar}
           >
@@ -161,7 +161,7 @@ export const ProfileAddPage: FC = () => {
               options={genderOptions}
               onCloseSidebar={handleCloseSidebar}
               title="Пол"
-              value={gender}
+              value={gender?.value}
             />
           </Select>
         </Section>

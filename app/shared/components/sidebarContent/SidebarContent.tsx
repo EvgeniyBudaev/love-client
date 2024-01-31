@@ -1,20 +1,18 @@
+"use client";
+
 import clsx from "clsx";
 import {FC, useState} from "react";
 import {Header} from "@/app/shared/components/header";
 import {Icon} from "@/app/uikit/components/icon";
+import type {TSelectOption} from "@/app/uikit/components/select";
 import "./SidebarContent.scss";
 
-type TOption = {
-  label: string;
-  value: string | number;
-};
-
 type TProps = {
-  options: TOption[];
+  options: TSelectOption[];
   onCloseSidebar?: () => void;
-  onSave?: (value?: string | number) => void;
+  onSave?: (value?: TSelectOption) => void;
   title: string;
-  value?: string;
+  value?: string | number;
 };
 
 export const SidebarContent: FC<TProps> = ({
@@ -24,7 +22,7 @@ export const SidebarContent: FC<TProps> = ({
                                              onCloseSidebar,
                                              title,
                                            }) => {
-  const [checkedItem, setCheckedItem] = useState<string | number | undefined>();
+  const [checkedItem, setCheckedItem] = useState<TSelectOption | undefined>();
 
   return (
     <>
@@ -44,14 +42,14 @@ export const SidebarContent: FC<TProps> = ({
       </Header>
       <div className="SidebarContent-List">
         {(options ?? []).map((item) => {
-          const isChecked = item.value === checkedItem;
+          const isChecked = item.value === checkedItem?.value;
           return (
             <div
               className={clsx("SidebarContent-List-Item", {
                 ["SidebarContent-List-Item__isChecked"]: isChecked,
               })}
               key={item.value}
-              onClick={() => setCheckedItem(item.value)}
+              onClick={() => setCheckedItem(item)}
             >
               <div>{item.label}</div>
               {isChecked && <Icon type="Checkbox"/>}

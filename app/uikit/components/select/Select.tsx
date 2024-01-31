@@ -1,5 +1,6 @@
-import {FC, type ReactNode, useRef, useState} from "react";
-import {Header} from "@/app/shared/components/header";
+"use client";
+
+import {FC, type ReactNode, useRef} from "react";
 import {Icon} from "@/app/uikit/components/icon";
 import {Sidebar} from "@/app/uikit/components/sidebar";
 import "./Select.scss";
@@ -10,7 +11,7 @@ type TProps = {
   label: string;
   onHeaderClick?: () => void;
   onSidebarClose?: () => void;
-  value?: string;
+  value?: string | number;
 };
 
 export const Select: FC<TProps> = ({
