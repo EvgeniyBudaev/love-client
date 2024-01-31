@@ -1,7 +1,7 @@
 "use client";
 
 import {ru} from "date-fns/locale";
-import {type FC, useEffect, useState} from "react";
+import {type FC, useEffect, useRef, useState} from "react";
 import {useFormState} from "react-dom";
 import {addProfileAction} from "@/app/actions/profile/add/AddProfileAction";
 import {EFormFields} from "@/app/pages/profileAddPage/enums";
@@ -27,6 +27,7 @@ export const ProfileAddPage: FC = () => {
   );
   const [files, setFiles] = useState<TFile[] | null>(null);
   const [state, formAction] = useFormState(addProfileAction, initialState);
+  const buttonSubmitRef = useRef<HTMLInputElement>(null);
 
   const {onAddFiles, onDeleteFile} = useFiles({
     fieldName: EFormFields.Image,
@@ -49,6 +50,10 @@ export const ProfileAddPage: FC = () => {
     setValueInputDateField?.(date);
   };
 
+  const handleClickSaveButton = () => {
+    buttonSubmitRef.current && buttonSubmitRef.current.click();
+  }
+
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
@@ -69,9 +74,9 @@ export const ProfileAddPage: FC = () => {
         <Container>
           <div className="ProfileAddPage-Header">
             <div className="ProfileAddPage-Header-Cancel">Отменить</div>
-            <button className="ProfileAddPage-Header-Save" type="submit">
+            <div className="ProfileAddPage-Header-Save" onClick={handleClickSaveButton}>
               Сохранить
-            </button>
+            </div>
           </div>
         </Container>
         <Section title="Публичные фото">
@@ -118,6 +123,7 @@ export const ProfileAddPage: FC = () => {
             value={valueInputDateField}
           />
         </Section>
+        <input hidden={true} ref={buttonSubmitRef} type="submit"/>
       </form>
     </div>
   );

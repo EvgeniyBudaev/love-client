@@ -41,6 +41,14 @@ $transition: 150ms;
     border-top-right-radius: $border-radius;
   }
 
+  input,
+  input:hover,
+  textarea,
+  textarea:hover {
+    background-color: $secondary_bg_color;
+    padding: 8px 16px;
+  }
+
   &__active {
     width: 100%;
 
@@ -48,14 +56,13 @@ $transition: 150ms;
       background-color: transparent;
       color: $text_color;
 
-      input,
-      input:hover,
-      textarea,
-      textarea:hover {
-        background-color: $secondary_bg_color;
-        //background-color: #ccc;
-        padding: 8px 16px;
-      }
+      //input,
+      //input:hover,
+      //textarea,
+      //textarea:hover {
+      //  background-color: $secondary_bg_color;
+      //  //background-color: #ccc;
+      //}
     }
 
     input:-webkit-autofill.Input__active,
