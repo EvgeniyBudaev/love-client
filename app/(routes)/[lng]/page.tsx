@@ -18,7 +18,11 @@ async function loader() {
   }
 }
 
-export default async function MainRoute() {
+type TProps = {
+  params: { lng: string };
+};
+
+export default async function MainRoute(props: TProps) {
   const data = await loader();
 
   return (

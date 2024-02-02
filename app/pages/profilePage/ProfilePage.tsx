@@ -2,50 +2,52 @@
 
 import isNil from "lodash/isNil";
 import Image from "next/image";
-import type {FC} from "react";
-import {TProfile} from "@/app/api/profile/add";
-import {Container} from "@/app/shared/components/container";
-import {Field} from "@/app/shared/components/form/field";
-import {useProxyUrl, useTelegram} from "@/app/shared/hooks";
-import {PROFILE_LOOKING_FOR_MAPPING} from "@/app/shared/mapping/profile";
-import {DropDown} from "@/app/uikit/components/dropDown";
-import {Hamburger} from "@/app/uikit/components/hamburger";
-import {Icon} from "@/app/uikit/components/icon";
-import {Slider} from "@/app/uikit/components/slider";
-import {getFullYear} from "@/app/uikit/utils/date";
+import type { FC } from "react";
+import { TProfile } from "@/app/api/profile/add";
+import { useTranslation } from "@/app/i18n/client";
+import { Container } from "@/app/shared/components/container";
+import { Field } from "@/app/shared/components/form/field";
+import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
+import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
+import { DropDown } from "@/app/uikit/components/dropDown";
+import { Hamburger } from "@/app/uikit/components/hamburger";
+import { Icon } from "@/app/uikit/components/icon";
+import { Slider } from "@/app/uikit/components/slider";
+import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
 
 type TProps = {
   profile?: TProfile;
 };
 
-export const ProfilePage: FC<TProps> = ({profile}) => {
-  const {proxyUrl} = useProxyUrl();
-  const {user} = useTelegram();
+export const ProfilePage: FC<TProps> = ({ profile }) => {
+  const { proxyUrl } = useProxyUrl();
+  const { user } = useTelegram();
+  const { t } = useTranslation("index");
   const fullYear = getFullYear(profile?.birthday);
 
   return (
     <>
       <DropDown>
         <DropDown.Button>
-          <Hamburger/>
+          <Hamburger />
         </DropDown.Button>
         <DropDown.Panel>
           <div className="ProfilePage-DropDown-Menu">
             <div className="ProfilePage-DropDown-MenuItem">
-              Редактировать профиль
+              {t("common.actions.edit")}
             </div>
           </div>
           <div className="ProfilePage-DropDown-Menu">
             <div className="ProfilePage-DropDown-MenuItem ProfilePage-DropDown-MenuItem-Cancel">
-              Отменить
+              {t("common.actions.cancel")}
             </div>
           </div>
         </DropDown.Panel>
       </DropDown>
       <div className="ProfilePage">
         <div className="ProfilePage-Slider">
-          <Slider images={profile?.images}/>
+          <Slider images={profile?.images} />
         </div>
         <Container>
           <div className="ProfilePage-User">
@@ -61,7 +63,7 @@ export const ProfilePage: FC<TProps> = ({profile}) => {
                   quality={100}
                 />
               ) : (
-                <Icon type="NoImage"/>
+                <Icon type="NoImage" />
               )}
             </div>
             <div className="ProfilePage-Inner">
@@ -81,7 +83,7 @@ export const ProfilePage: FC<TProps> = ({profile}) => {
           {profile?.location && (
             <Field>
               <div className="ProfilePage-Row">
-                <Icon className="ProfilePage-Icon" type="Location"/>
+                <Icon className="ProfilePage-Icon" type="Location" />
                 <span>{profile?.location}</span>
               </div>
             </Field>
@@ -89,7 +91,7 @@ export const ProfilePage: FC<TProps> = ({profile}) => {
           {(profile?.height || profile?.weight) && (
             <Field>
               <div className="ProfilePage-Row">
-                <Icon className="ProfilePage-Icon" type="Person"/>
+                <Icon className="ProfilePage-Icon" type="Person" />
                 {profile?.height && <span>{profile?.height} см&nbsp;</span>}
                 {profile?.weight && <span>{profile?.weight} кг&nbsp;</span>}
               </div>
@@ -98,7 +100,7 @@ export const ProfilePage: FC<TProps> = ({profile}) => {
           {profile?.lookingFor && (
             <Field>
               <div className="ProfilePage-Row">
-                <Icon className="ProfilePage-Icon" type="Watch"/>
+                <Icon className="ProfilePage-Icon" type="Watch" />
                 <span>{PROFILE_LOOKING_FOR_MAPPING[profile?.lookingFor]}</span>
               </div>
             </Field>

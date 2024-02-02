@@ -1,0 +1,17 @@
+{
+  "common": {
+    "actions": {
+      "edit": "Edit",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "empty": "Field cannot be empty",
+      "onlyLetters": "Allowed characters: letters only",
+      "file": {
+        "expectedFile": "You can only attach a file",
+        "maxSize": "Maximum size 200mb",
+        "maxAmount": "Maximum number of files 50"
+      }
+    }
+  }
+}
