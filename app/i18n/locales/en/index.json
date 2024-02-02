@@ -1,8 +1,34 @@
 {
   "common": {
     "actions": {
-      "edit": "Edit",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit"
+    },
+    "titles": {
+      "publicPhotos": "Public photos",
+      "moreDetails": "More details",
+      "properties": "Properties"
+    },
+    "form": {
+      "field": {
+        "name": "First name",
+        "birthday": "Birthday",
+        "date": {
+          "placeholder": "Select date"
+        },
+        "description": "Description",
+        "gender": "Gender",
+        "searchGender": "Gender search",
+        "location": "Location",
+        "height": "Height",
+        "weight": "Weight",
+        "lookingFor": "Looking for"
+      }
+    },
+    "reductions": {
+      "cm": "cm",
+      "kg": "kg"
     },
     "validation": {
       "empty": "Field cannot be empty",

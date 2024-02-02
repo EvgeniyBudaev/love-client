@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { FC, useState } from "react";
+import { useTranslation } from "@/app/i18n/client";
 import { Header } from "@/app/shared/components/header";
 import { Icon } from "@/app/uikit/components/icon";
 import type { TSelectOption } from "@/app/uikit/components/select";
@@ -21,6 +22,7 @@ export const SidebarContent: FC<TProps> = ({
   title,
 }) => {
   const [checkedItem, setCheckedItem] = useState<TSelectOption | undefined>();
+  const { t } = useTranslation("index");
 
   return (
     <>
@@ -35,7 +37,7 @@ export const SidebarContent: FC<TProps> = ({
           className="SidebarContent-Header-Save"
           onClick={() => onSave?.(checkedItem)}
         >
-          Сохранить
+          {t("common.actions.save")}
         </div>
       </Header>
       <div className="SidebarContent-List">

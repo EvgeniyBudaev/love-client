@@ -7,6 +7,8 @@ import { TProfile } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
+import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
+import { ELanguage } from "@/app/shared/enums";
 import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
 import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
 import { DropDown } from "@/app/uikit/components/dropDown";
@@ -25,6 +27,7 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
   const { user } = useTelegram();
   const { t } = useTranslation("index");
   const fullYear = getFullYear(profile?.birthday);
+  const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
 
   return (
     <>
@@ -79,7 +82,9 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
               </div>
             </Field>
           )}
-          <div className="ProfilePage-Label">Подробнее</div>
+          <div className="ProfilePage-Label">
+            {t("common.titles.moreDetails")}
+          </div>
           {profile?.location && (
             <Field>
               <div className="ProfilePage-Row">
@@ -92,8 +97,16 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
             <Field>
               <div className="ProfilePage-Row">
                 <Icon className="ProfilePage-Icon" type="Person" />
-                {profile?.height && <span>{profile?.height} см&nbsp;</span>}
-                {profile?.weight && <span>{profile?.weight} кг&nbsp;</span>}
+                {profile?.height && (
+                  <span>
+                    {profile?.height} {t("common.reductions.cm")}&nbsp;
+                  </span>
+                )}
+                {profile?.weight && (
+                  <span>
+                    {profile?.weight} {t("common.reductions.kg")}&nbsp;
+                  </span>
+                )}
               </div>
             </Field>
           )}
@@ -101,7 +114,9 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
             <Field>
               <div className="ProfilePage-Row">
                 <Icon className="ProfilePage-Icon" type="Watch" />
-                <span>{PROFILE_LOOKING_FOR_MAPPING[profile?.lookingFor]}</span>
+                <span>
+                  {PROFILE_LOOKING_FOR_MAPPING[profile?.lookingFor][language]}
+                </span>
               </div>
             </Field>
           )}

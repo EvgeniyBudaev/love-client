@@ -1,24 +1,29 @@
 "use client";
 
-import { ru } from "date-fns/locale";
 import isNil from "lodash/isNil";
 import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/AddProfileAction";
+import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
 import { Section } from "@/app/shared/components/section";
 import { Field } from "@/app/shared/components/form/field";
 import { FileUploader } from "@/app/shared/components/form/fileUploader";
 import { Header } from "@/app/shared/components/header";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
-import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
+import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
+import { ELanguage } from "@/app/shared/enums";
 import { useFiles, useTelegram } from "@/app/shared/hooks";
+import { LANGUAGE_MAPPING } from "@/app/shared/mapping/language";
 import type { TFile } from "@/app/shared/types/file";
 import { Input } from "@/app/uikit/components/input";
 import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileAddPage.scss";
+import { GENDER_MAPPING } from "@/app/shared/mapping/gender";
+import { SEARCH_GENDER_MAPPING } from "@/app/shared/mapping/searchGender";
+import { LOOKING_FOR_MAPPING } from "@/app/shared/mapping/lookingFor";
 
 export const ProfileAddPage: FC = () => {
   const initialState = {
@@ -27,23 +32,6 @@ export const ProfileAddPage: FC = () => {
     errors: undefined,
     success: false,
   };
-  const genderOptions = [
-    { label: "Парень", value: EGender.Man },
-    { label: "Девушка", value: EGender.Woman },
-  ];
-  const searchGenderOptions = [
-    { label: "Парня", value: ESearchGender.Man },
-    { label: "Девушку", value: ESearchGender.Woman },
-    { label: "Всех", value: ESearchGender.All },
-  ];
-  const lookingForOptions = [
-    { label: "Чат", value: ELookingFor.Chat },
-    { label: "Свидания", value: ELookingFor.Dates },
-    { label: "Отношения", value: ELookingFor.Relationship },
-    { label: "Дружба", value: ELookingFor.Friendship },
-    { label: "Деловые связи", value: ELookingFor.Business },
-    { label: "Секс", value: ELookingFor.Sex },
-  ];
   const [gender, setGender] = useState<TSelectOption | undefined>();
   const [searchGender, setSearchGender] = useState<TSelectOption | undefined>();
   const [lookingFor, setLookingFor] = useState<TSelectOption | undefined>();
@@ -59,6 +47,8 @@ export const ProfileAddPage: FC = () => {
   const [state, formAction] = useFormState(addProfileAction, initialState);
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const { queryId, user } = useTelegram();
+  const { t } = useTranslation("index");
+  const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
 
   const { onAddFiles, onDeleteFile } = useFiles({
     fieldName: EFormFields.Image,
@@ -157,12 +147,14 @@ export const ProfileAddPage: FC = () => {
     <div className="ProfileAddPage">
       <form action={handleSubmit} className="ProfileAddPage-Form">
         <Header>
-          <div className="ProfileAddPage-Header-Cancel">Отменить</div>
+          <div className="ProfileAddPage-Header-Cancel">
+            {t("common.actions.cancel")}
+          </div>
           <div className="ProfileAddPage-Header-Save" onClick={handleClickSave}>
-            Сохранить
+            {t("common.actions.save")}
           </div>
         </Header>
-        <Section title="Публичные фото">
+        <Section title={t("common.titles.publicPhotos")}>
           <FileUploader
             accept={{
               "image/jpeg": [".jpeg"],
@@ -181,40 +173,40 @@ export const ProfileAddPage: FC = () => {
             type="file"
           />
         </Section>
-        <Section title="Подробнее">
+        <Section title={t("common.titles.moreDetails")}>
           <Field>
             <Input
               errors={state?.errors?.displayName}
               isRequired={true}
-              label={"Имя" ?? "Name"}
+              label={t("common.form.field.name") ?? "First name"}
               name={EFormFields.DisplayName}
               type="text"
             />
           </Field>
           <Field>
-            <span>Дата рождения</span>
+            <span>{t("common.form.field.birthday")}</span>
             <InputDateField
-              locale={ru}
+              locale={LANGUAGE_MAPPING[language]}
               onChange={handleDateChange}
               onFieldClear={() => setValueInputDateField(null)}
-              placeholder="Выберите дату"
+              placeholder={t("common.form.field.date.placeholder")}
               value={valueInputDateField}
             />
           </Field>
           <Field>
             <Textarea
               errors={state?.errors?.description}
-              label={"Описание" ?? "Description"}
+              label={t("common.form.field.description") ?? "Description"}
               name={EFormFields.Description}
               type="text"
             />
           </Field>
         </Section>
-        <Section title="Свойства">
+        <Section title={t("common.titles.properties")}>
           <Field>
             <Select
               isSidebarOpen={isSidebarOpen.isGender}
-              label="Пол"
+              label={t("common.form.field.gender")}
               headerTitle={!isNil(gender) ? gender?.label : "--"}
               onHeaderClick={() =>
                 setIsSidebarOpen((prev) => ({ ...prev, isGender: true }))
@@ -223,16 +215,16 @@ export const ProfileAddPage: FC = () => {
             >
               <SidebarContent
                 onSave={handleChangeGender}
-                options={genderOptions}
+                options={GENDER_MAPPING[language]}
                 onCloseSidebar={handleCloseSidebar}
-                title="Пол"
+                title={t("common.form.field.gender")}
               />
             </Select>
           </Field>
           <Field>
             <Select
               isSidebarOpen={isSidebarOpen.isSearchGender}
-              label="Ищу"
+              label={t("common.form.field.searchGender")}
               headerTitle={!isNil(searchGender) ? searchGender?.label : "--"}
               onHeaderClick={() =>
                 setIsSidebarOpen((prev) => ({ ...prev, isSearchGender: true }))
@@ -241,9 +233,9 @@ export const ProfileAddPage: FC = () => {
             >
               <SidebarContent
                 onSave={handleChangeSearchGender}
-                options={searchGenderOptions}
+                options={SEARCH_GENDER_MAPPING[language]}
                 onCloseSidebar={handleCloseSidebar}
-                title="Ищу"
+                title={t("common.form.field.searchGender")}
               />
             </Select>
           </Field>
@@ -251,7 +243,7 @@ export const ProfileAddPage: FC = () => {
             <Input
               errors={state?.errors?.location}
               isRequired={true}
-              label={"Местоположение" ?? "Location"}
+              label={t("common.form.field.location") ?? "Location"}
               name={EFormFields.Location}
               type="text"
             />
@@ -260,7 +252,7 @@ export const ProfileAddPage: FC = () => {
             <Input
               errors={state?.errors?.height}
               isRequired={true}
-              label={"Рост" ?? "Height"}
+              label={t("common.form.field.height") ?? "Height"}
               name={EFormFields.Height}
               type="text"
             />
@@ -269,7 +261,7 @@ export const ProfileAddPage: FC = () => {
             <Input
               errors={state?.errors?.weight}
               isRequired={true}
-              label={"Вес" ?? "Weight"}
+              label={t("common.form.field.weight") ?? "Weight"}
               name={EFormFields.Weight}
               type="text"
             />
@@ -277,7 +269,7 @@ export const ProfileAddPage: FC = () => {
           <Field>
             <Select
               isSidebarOpen={isSidebarOpen.isLookingFor}
-              label="Ищу для"
+              label={t("common.form.field.lookingFor")}
               headerTitle={!isNil(lookingFor) ? lookingFor?.label : "--"}
               onHeaderClick={() =>
                 setIsSidebarOpen((prev) => ({ ...prev, isLookingFor: true }))
@@ -286,9 +278,9 @@ export const ProfileAddPage: FC = () => {
             >
               <SidebarContent
                 onSave={handleChangeLookingFor}
-                options={lookingForOptions}
+                options={LOOKING_FOR_MAPPING[language]}
                 onCloseSidebar={handleCloseSidebar}
-                title="Ищу для"
+                title={t("common.form.field.lookingFor")}
               />
             </Select>
           </Field>

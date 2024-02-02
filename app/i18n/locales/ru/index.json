@@ -1,8 +1,34 @@
 {
   "common": {
     "actions": {
-      "edit": "Редактировать",
-      "cancel": "Отменить"
+      "cancel": "Отменить",
+      "save": "Сохранить",
+      "edit": "Редактировать"
+    },
+    "titles": {
+      "publicPhotos": "Публичные фото",
+      "moreDetails": "Подробнее",
+      "properties": "Свойства"
+    },
+    "form": {
+      "field": {
+        "name": "Имя",
+        "birthday": "Дата рождения",
+        "date": {
+          "placeholder": "Выберите дату"
+        },
+        "description": "Описание",
+        "gender": "Пол",
+        "searchGender": "Ищу",
+        "location": "Местоположение",
+        "height": "Рост",
+        "weight": "Вес",
+        "lookingFor": "Ищу для"
+      }
+    },
+    "reductions": {
+      "cm": "см",
+      "kg": "кг"
     },
     "validation": {
       "empty": "Поле не может быть пустым!",
