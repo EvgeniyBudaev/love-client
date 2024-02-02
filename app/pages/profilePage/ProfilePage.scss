@@ -3,16 +3,15 @@
 .ProfilePage {
   position: relative;
 
-  &-WrapperMainImage {
+  & .swiper {
+    height: 100%;
+  }
+
+  &-Slider {
     position: relative;
     height: 400px;
     width: 100%;
     margin-bottom: 16px;
-  }
-
-  &-MainImage {
-    object-fit: cover;
-    object-position: center;
   }
 
   &-User {

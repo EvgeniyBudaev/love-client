@@ -140,16 +140,16 @@ export const ProfileAddPage: FC = () => {
       EFormFields.LookingFor,
       lookingFor?.value.toString() ?? "",
     );
-    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "2");
-    formDataDto.append(EFormFields.FirstName, user?.first_name ?? "Надя");
-    formDataDto.append(EFormFields.LastName, user?.last_name ?? "Валова");
-    formDataDto.append(EFormFields.Username, user?.username ?? "valova");
+    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "3");
+    formDataDto.append(EFormFields.QueryId, queryId ?? "3");
+    formDataDto.append(EFormFields.FirstName, user?.first_name ?? "Оля");
+    formDataDto.append(EFormFields.LastName, user?.last_name ?? "Макарова");
+    formDataDto.append(EFormFields.Username, user?.username ?? "makarove");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
       EFormFields.AllowsWriteToPm,
       user?.allows_write_to_pm?.toString() ?? "true",
     );
-    formDataDto.append(EFormFields.QueryId, queryId ?? "2");
     formAction(formDataDto);
   };
 

@@ -1,33 +1,9 @@
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { imageSchema } from "@/app/api/profile/image";
+import { telegramSchema } from "@/app/api/profile/telegram";
 import { fileSchema } from "@/app/api/upload";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
-
-const telegramSchema = z.object({
-  id: z.number(),
-  profileId: z.number(),
-  telegramId: z.number(),
-  username: z.string(),
-  firstName: z.string(),
-  lastName: z.string().nullish(),
-  languageCode: z.string(),
-  allowsWriteToPm: z.boolean(),
-  queryId: z.string(),
-});
-
-const imageSchema = z.object({
-  id: z.number(),
-  profileId: z.number(),
-  name: z.string(),
-  url: z.string(),
-  size: z.number(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  isDeleted: z.boolean(),
-  isBlocked: z.boolean(),
-  isPrimary: z.boolean(),
-  isPrivate: z.boolean(),
-});
 
 export const profileSchema = z.object({
   id: z.number(),
