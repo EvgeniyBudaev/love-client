@@ -10,3 +10,18 @@ export enum EGender {
   Man = "man",
   Woman = "woman",
 }
+
+export enum ESearchGender {
+  Man = "man",
+  Woman = "woman",
+  All = "all",
+}
+
+export enum ELookingFor {
+  Chat = "chat",
+  Dates = "dates",
+  Relationship = "relationship",
+  Friendship = "friendship",
+  Business = "business",
+  Sex = "sex",
+}

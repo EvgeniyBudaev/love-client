@@ -32,17 +32,23 @@
     border-radius: $border-radius-2xl;
   }
 
-  &-UserWraperName {
+  &-Inner {
     display: flex;
     flex-direction: column;
   }
 
-  &-UserDisplayName {
-    font-weight: bold;
+  &-Row {
+    display: flex;
+    align-items: center;
   }
 
-  &-Description {
+  &-Label {
+    font-weight: bold;
     margin-bottom: 8px;
+  }
+
+  &-Icon {
+    margin-right: 8px;
   }
 
   &-DropDown {

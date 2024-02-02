@@ -1,15 +1,28 @@
 "use client";
 
+import isNil from "lodash/isNil";
 import Image from "next/image";
 import type { FC } from "react";
+import { TProfile } from "@/app/api/profile/add";
 import { Container } from "@/app/shared/components/container";
-import { useTelegram } from "@/app/shared/hooks";
-import { Hamburger } from "@/app/uikit/components/hamburger";
-import "./ProfilePage.scss";
+import { Field } from "@/app/shared/components/form/field";
+import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
+import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
 import { DropDown } from "@/app/uikit/components/dropDown";
+import { Hamburger } from "@/app/uikit/components/hamburger";
+import { Icon } from "@/app/uikit/components/icon";
+import { getFullYear } from "@/app/uikit/utils/date";
+import "./ProfilePage.scss";
 
-export const ProfilePage: FC = () => {
+type TProps = {
+  profile?: TProfile;
+};
+
+export const ProfilePage: FC<TProps> = ({ profile }) => {
+  const { proxyUrl } = useProxyUrl();
   const { user } = useTelegram();
+  const fullYear = getFullYear(profile?.birthday);
+  console.log("profile: ", profile);
 
   return (
     <>
@@ -38,41 +51,69 @@ export const ProfilePage: FC = () => {
             fill={true}
             priority={true}
             sizes="100vw"
-            src="https://img.freepik.com/premium-photo/photo-portrait-of-pretty-girl-in-orange-sweater-smiling-isolated-on-bright-teal-color-background_908985-11469.jpg"
+            src={`${proxyUrl}${profile?.images?.[0].url}`}
             quality={100}
           />
         </div>
         <Container>
           <div className="ProfilePage-User">
             <div className="ProfilePage-UserAvatar">
-              <Image
-                alt="Фото"
-                className="ProfilePage-UserAvatarImage"
-                height={50}
-                width={50}
-                priority={true}
-                src="https://img.freepik.com/premium-photo/photo-portrait-of-pretty-girl-in-orange-sweater-smiling-isolated-on-bright-teal-color-background_908985-11469.jpg"
-                quality={100}
-              />
+              {!isNil(profile?.images?.[0]) ? (
+                <Image
+                  alt="Фото"
+                  className="ProfilePage-UserAvatarImage"
+                  height={50}
+                  width={50}
+                  priority={true}
+                  src={`${proxyUrl}${profile?.images?.[0].url}`}
+                  quality={100}
+                />
+              ) : (
+                <Icon type="NoImage" />
+              )}
             </div>
-            <div className="ProfilePage-UserWraperName">
-              <div className="ProfilePage-UserDisplayName">
-                Наташа, 19, Москва
+            <div className="ProfilePage-Inner">
+              <div className="ProfilePage-Label">
+                {profile?.displayName}, {fullYear}
               </div>
-              <div className="ProfilePage-Username">
-                {user?.username ?? "-"}
-              </div>
+              {/*<div className="ProfilePage-Username">*/}
+              {/*  {user?.username ?? "-"}*/}
+              {/*</div>*/}
             </div>
           </div>
-          <div className="ProfilePage-Description">
-            Я учусь на 2-ом курсе на факультете иностранных языков,
-            специализируюсь на английском, ведь это самый популярный язык
-            международного общения. Меня с детства привлекала профессия
-            переводчика, так как этот специалист помогает людям разных культур
-            общаться и понимать друг друга. Также увлекаюсь театральным
-            искусством: не только посещаю спектакли, но и сама играю в
-            любительских постановках.
-          </div>
+          {profile?.description && (
+            <Field>
+              <div className="ProfilePage-Inner">
+                <div>{profile?.description}</div>
+              </div>
+            </Field>
+          )}
+          <div className="ProfilePage-Label">Подробнее</div>
+          {profile?.location && (
+            <Field>
+              <div className="ProfilePage-Row">
+                <Icon className="ProfilePage-Icon" type="Location" />
+                <span>{profile?.location}</span>
+              </div>
+            </Field>
+          )}
+          {(profile?.height || profile?.weight) && (
+            <Field>
+              <div className="ProfilePage-Row">
+                <Icon className="ProfilePage-Icon" type="Person" />
+                {profile?.height && <span>{profile?.height} см&nbsp;</span>}
+                {profile?.weight && <span>{profile?.weight} кг&nbsp;</span>}
+              </div>
+            </Field>
+          )}
+          {profile?.lookingFor && (
+            <Field>
+              <div className="ProfilePage-Row">
+                <Icon className="ProfilePage-Icon" type="Watch" />
+                <span>{PROFILE_LOOKING_FOR_MAPPING[profile?.lookingFor]}</span>
+              </div>
+            </Field>
+          )}
         </Container>
       </div>
     </>

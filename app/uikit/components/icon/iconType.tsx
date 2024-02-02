@@ -5,9 +5,13 @@ import {
   CalendarIcon,
   CheckboxIcon,
   ImageIcon,
+  LocationIcon,
   MoreHorizIcon,
+  NoImageIcon,
+  PersonIcon,
   SearchIcon,
   TrashIcon,
+  WatchIcon,
 } from "@/app/uikit/assets/icons";
 
 export type IconType =
@@ -17,9 +21,13 @@ export type IconType =
   | "Calendar"
   | "Checkbox"
   | "Image"
+  | "Location"
   | "MoreHoriz"
+  | "NoImage"
+  | "Person"
   | "Search"
-  | "Trash";
+  | "Trash"
+  | "Watch";
 
 export const iconTypes = new Map([
   ["AddCircleOutline", <AddCircleOutlineIcon key="AddCircleOutlineIcon" />],
@@ -28,7 +36,11 @@ export const iconTypes = new Map([
   ["Calendar", <CalendarIcon key="CalendarIcon" />],
   ["Checkbox", <CheckboxIcon key="CheckboxIcon" />],
   ["Image", <ImageIcon key="ImageIcon" />],
+  ["Location", <LocationIcon key="LocationIcon" />],
   ["MoreHoriz", <MoreHorizIcon key="MoreHorizIcon" />],
+  ["NoImage", <NoImageIcon key="NoImageIcon" />],
+  ["Person", <PersonIcon key="PersonIcon" />],
   ["Search", <SearchIcon key="SearchIcon" />],
   ["Trash", <TrashIcon key="TrashIcon" />],
+  ["Watch", <WatchIcon key="WatchIcon" />],
 ]);

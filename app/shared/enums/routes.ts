@@ -1,6 +1,5 @@
 export enum ERoutes {
   Root = "/",
-  Profile = "/profile",
+  Profile = "/profile/:id",
   ProfileAdd = "/profile/add",
-  NotUse = "/notUse/:id",
 }

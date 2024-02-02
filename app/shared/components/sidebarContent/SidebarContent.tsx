@@ -12,11 +12,9 @@ type TProps = {
   onCloseSidebar?: () => void;
   onSave?: (value?: TSelectOption) => void;
   title: string;
-  value?: string | number;
 };
 
 export const SidebarContent: FC<TProps> = ({
-  value,
   onSave,
   options,
   onCloseSidebar,
