@@ -49,41 +49,4 @@
   &-Icon {
     margin-right: 8px;
   }
-
-  &-DropDown {
-    &-Menu {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 8px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    &-MenuItem {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $link_color;
-      background-color: $secondary_bg_color;
-      width: 100%;
-      padding: 0 16px;
-      min-height: 46px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      border-radius: $border-radius-xl;
-      transition: all $transition;
-
-      &-Cancel {
-        font-weight: bold;
-      }
-
-      &:hover,
-      &:active {
-        opacity: $opacity;
-      }
-    }
-  }
 }

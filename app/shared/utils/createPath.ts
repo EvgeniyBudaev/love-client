@@ -2,7 +2,7 @@ import { ERoutes } from "@/app/shared/enums";
 
 type TRoutes = ERoutes.Root | ERoutes.ProfileAdd;
 
-type TRoutesWithParams = ERoutes.Profile;
+type TRoutesWithParams = ERoutes.Profile | ERoutes.ProfileEdit;
 
 type TCreatePathProps =
   | { route: TRoutes }

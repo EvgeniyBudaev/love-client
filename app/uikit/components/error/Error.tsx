@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import type { FC } from "react";
-// import { useTranslation } from "@/app/i18n/client";
+import { useTranslation } from "@/app/i18n/client";
 import { FadeIn } from "@/app/uikit/components/fadeIn";
 // import { ETypographyVariant, Typography } from "@/app/uikit/components/typography";
 import "./Error.scss";
@@ -13,7 +13,7 @@ type TProps = {
 };
 
 const ErrorComponent: FC<TProps> = ({ errors }) => {
-  // const { t } = useTranslation("index");
+  const { t } = useTranslation("index");
 
   return (
     <ul className="Error-List">
@@ -26,8 +26,8 @@ const ErrorComponent: FC<TProps> = ({ errors }) => {
         (errors ?? []).map((error, index) => (
           <li className="Error-ListItem" key={`error-item-${index}`}>
             <FadeIn>
-              {/*<Typography value={t(error)} variant={ETypographyVariant.TextB3Regular} />*/}
-              <span>{error}</span>
+              {/*<Typography value={t(errorUI)} variant={ETypographyVariant.TextB3Regular} />*/}
+              <span>{t(error)}</span>
             </FadeIn>
           </li>
         ))}

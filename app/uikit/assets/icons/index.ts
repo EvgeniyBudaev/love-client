@@ -1,6 +1,7 @@
 import { AddCircleOutlineIcon } from "./addCircleOutlineIcon";
 import { ArrowBackIcon } from "./arrowBackIcon";
 import { ArrowRightIcon } from "./arrowRightIcon";
+import { AttentionIcon } from "./attentionIcon";
 import { CalendarIcon } from "./calendarIcon";
 import { CheckboxIcon } from "./checkboxIcon";
 import { ImageIcon } from "./imageIcon";
@@ -16,6 +17,7 @@ export {
   AddCircleOutlineIcon,
   ArrowBackIcon,
   ArrowRightIcon,
+  AttentionIcon,
   CalendarIcon,
   CheckboxIcon,
   ImageIcon,

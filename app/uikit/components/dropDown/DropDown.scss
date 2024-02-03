@@ -5,10 +5,12 @@ $transition: 0.3s;
 
 .DropDown {
   position: absolute;
-  bottom: 20px;
+  //bottom: 20px;
   left: 0;
   right: 0;
-  width: calc(100% - 16px);
+  height: 100%;
+  width: 100%;
+  //width: calc(100% - 16px);
   margin-left: auto;
   margin-right: auto;
 
@@ -43,6 +45,41 @@ $transition: 0.3s;
     &.exit-active {
       transform: translateY(200px);
       transition: transform $transition;
+    }
+  }
+
+  &-Menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &-MenuItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $link_color;
+    background-color: $secondary_bg_color;
+    width: 100%;
+    padding: 0 16px;
+    min-height: 46px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: $border-radius-xl;
+    transition: all $transition;
+
+    &-Cancel {
+      font-weight: bold;
+    }
+
+    &:hover,
+    &:active {
+      opacity: $opacity;
     }
   }
 }

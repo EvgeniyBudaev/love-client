@@ -12,6 +12,7 @@ type TProps = {
   options: TSelectOption[];
   onCloseSidebar?: () => void;
   onSave?: (value?: TSelectOption) => void;
+  selectedItem?: TSelectOption;
   title: string;
 };
 
@@ -19,9 +20,12 @@ export const SidebarContent: FC<TProps> = ({
   onSave,
   options,
   onCloseSidebar,
+  selectedItem,
   title,
 }) => {
-  const [checkedItem, setCheckedItem] = useState<TSelectOption | undefined>();
+  const [checkedItem, setCheckedItem] = useState<TSelectOption | undefined>(
+    selectedItem,
+  );
   const { t } = useTranslation("index");
 
   return (

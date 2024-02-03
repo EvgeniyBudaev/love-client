@@ -3,7 +3,8 @@
     "actions": {
       "cancel": "Cancel",
       "save": "Save",
-      "edit": "Edit"
+      "edit": "Edit",
+      "delete": "Delete"
     },
     "titles": {
       "publicPhotos": "Public photos",
@@ -38,6 +39,11 @@
         "maxSize": "Maximum size 200mb",
         "maxAmount": "Maximum number of files 50"
       }
+    }
+  },
+  "errorBoundary": {
+    "common": {
+      "unexpectedError": "Unexpected error"
     }
   }
 }

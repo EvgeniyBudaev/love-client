@@ -36,13 +36,11 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
           <Hamburger />
         </DropDown.Button>
         <DropDown.Panel>
-          <div className="ProfilePage-DropDown-Menu">
-            <div className="ProfilePage-DropDown-MenuItem">
-              {t("common.actions.edit")}
-            </div>
+          <div className="DropDown-Menu">
+            <div className="DropDown-MenuItem">{t("common.actions.edit")}</div>
           </div>
-          <div className="ProfilePage-DropDown-Menu">
-            <div className="ProfilePage-DropDown-MenuItem ProfilePage-DropDown-MenuItem-Cancel">
+          <div className="DropDown-Menu">
+            <div className="DropDown-MenuItem DropDown-MenuItem-Cancel">
               {t("common.actions.cancel")}
             </div>
           </div>
@@ -57,7 +55,7 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
             <div className="ProfilePage-UserAvatar">
               {!isNil(profile?.images?.[0]) ? (
                 <Image
-                  alt="Фото"
+                  alt={`${profile?.images?.[0].url}`}
                   className="ProfilePage-UserAvatarImage"
                   height={50}
                   width={50}

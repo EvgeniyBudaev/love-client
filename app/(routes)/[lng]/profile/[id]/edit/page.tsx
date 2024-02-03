@@ -1,6 +1,6 @@
 import { getProfileDetail } from "@/app/api/profile/detail";
 import { useTranslation } from "@/app/i18n";
-import { ProfilePage } from "@/app/pages/profilePage";
+import { ProfileEditPage } from "@/app/pages/profileEditPage";
 import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 
 type TLoader = {
@@ -22,14 +22,14 @@ type TProps = {
   params: { lng: string; id: string };
 };
 
-export default async function ProfileDetailRoute(props: TProps) {
+export default async function ProfileEditRoute(props: TProps) {
   const { params } = props;
   const { lng, id } = params;
   const { i18n, t } = await useTranslation(lng, "index");
 
   try {
     const data = await loader({ id });
-    return <ProfilePage profile={data?.profile} />;
+    return <ProfileEditPage profile={data?.profile} />;
   } catch (error) {
     const err = error as Error;
     return <ErrorBoundary i18n={i18n} message={t(err.message)} />;

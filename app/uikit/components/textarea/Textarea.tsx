@@ -107,16 +107,17 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
           >
             <textarea
               {...rest}
+              autoComplete={autoComplete}
               className={clsx(className, "Input Textarea", {
                 Input__active: isFocused,
               })}
-              autoComplete={autoComplete}
+              defaultValue={defaultValue}
               hidden={hidden}
               name={name}
-              ref={ref}
+              onBlur={onBlurCallback}
               onChange={onChange}
               onFocus={onFocusCallback}
-              onBlur={onBlurCallback}
+              ref={ref}
             />
           </div>
           {errors && (

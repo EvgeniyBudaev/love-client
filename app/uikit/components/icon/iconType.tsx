@@ -2,6 +2,7 @@ import {
   AddCircleOutlineIcon,
   ArrowBackIcon,
   ArrowRightIcon,
+  AttentionIcon,
   CalendarIcon,
   CheckboxIcon,
   ImageIcon,
@@ -18,6 +19,7 @@ export type IconType =
   | "AddCircleOutline"
   | "ArrowBack"
   | "ArrowRight"
+  | "Attention"
   | "Calendar"
   | "Checkbox"
   | "Image"
@@ -33,6 +35,7 @@ export const iconTypes = new Map([
   ["AddCircleOutline", <AddCircleOutlineIcon key="AddCircleOutlineIcon" />],
   ["ArrowBack", <ArrowBackIcon key="ArrowBackIcon" />],
   ["ArrowRight", <ArrowRightIcon key="ArrowRightIcon" />],
+  ["Attention", <AttentionIcon key="AttentionIcon" />],
   ["Calendar", <CalendarIcon key="CalendarIcon" />],
   ["Checkbox", <CheckboxIcon key="CheckboxIcon" />],
   ["Image", <ImageIcon key="ImageIcon" />],

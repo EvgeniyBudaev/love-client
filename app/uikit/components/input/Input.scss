@@ -115,10 +115,10 @@ $transition: 150ms;
   }
 
   &#{$this}__error {
-    background-color: $color-light-red;
+    background-color: $secondary_bg_color;
 
     &:hover {
-      background-color: $color-light-red-hover;
+      background-color: $secondary_bg_color;
       transition: background-color 0.25s ease;
     }
   }
@@ -127,7 +127,7 @@ $transition: 150ms;
 .Input.Textarea {
   $this: &;
   display: block;
-  padding: 8px 16px 0 16px;
-  height: 50px;
+  padding: 8px 8px 0 8px;
+  height: 100px;
   width: 100%;
 }

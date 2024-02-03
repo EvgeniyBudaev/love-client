@@ -115,7 +115,6 @@
       "create": "Create",
       "update": "Обновить",
       "apply": "Применить",
-      "delete": "Удалить",
       "add": "Добавить",
       "search": "Поиск"
     },
@@ -204,8 +203,7 @@
   },
   "errorBoundary": {
     "common": {
-      "forbidden": "Недостаточно прав доступа",
-      "unexpectedError": "Произошла непредвиденная ошибка"
+      "forbidden": "Недостаточно прав доступа"
     }
   },
   "globalSearchResults": {

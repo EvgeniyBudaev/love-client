@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { FC } from "react";
 import { ERoutes } from "@/app/shared/enums";
 import { NavLink } from "@/app/shared/components/navLink";
@@ -25,6 +24,8 @@ export const Footer: FC = () => {
           activeClassName="Footer-Link__isActive"
           href={createPath({
             route: ERoutes.Profile,
+            // TODO: добавить id профиля
+            params: { id: "1" },
           })}
         >
           <div className="Footer-Avatar">

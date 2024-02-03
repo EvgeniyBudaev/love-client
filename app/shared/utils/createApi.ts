@@ -79,9 +79,9 @@ export function createApi(config: TApiConfig): {
         const errorMsg = await errorResponse.response.text();
         throw new Response(errorMsg, { status: response?.status });
       }
-      throw internalError("Unexpected error");
+      throw internalError("Unexpected errorUI");
     }
-    throw internalError("Unexpected error");
+    throw internalError("Unexpected errorUI");
   };
 
   const setApiLanguage = (lng: string) => {

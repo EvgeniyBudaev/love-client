@@ -115,7 +115,6 @@
       "create": "Создать",
       "update": "Update",
       "apply": "Apply",
-      "delete": "Delete",
       "add": "Add",
       "search": "Search"
     },
@@ -204,8 +203,7 @@
   },
   "errorBoundary": {
     "common": {
-      "forbidden": "No access to the report",
-      "unexpectedError": "Unexpected error"
+      "forbidden": "No access to the report"
     }
   },
   "globalSearchResults": {

@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import type { FC, ReactElement } from "react";
 import type { DropEvent, FileRejection } from "react-dropzone";
+import type { TImage } from "@/app/api/profile/image";
 // import {useTranslation} from "@/app/i18n/client";
 import { Previews } from "@/app/shared/components/form/fileUploader/previews";
 import {
@@ -10,14 +11,12 @@ import {
   getTypes,
 } from "@/app/shared/components/form/fileUploader/utils";
 import type { TFile } from "@/app/shared/types/file";
-import {
-  Dropzone,
-  type TDropzoneProps,
-} from "@/app/uikit/components/dropzone/Dropzone";
+import { type TDropzoneProps } from "@/app/uikit/components/dropzone/Dropzone";
 // import {ETypographyVariant, Typography} from "@/app/uikit/components/typography";
 import "./FileUploader.scss";
 
 export type TFileUploaderProps = {
+  defaultImages?: TImage[];
   files?: TFile[];
   Input?: ReactElement;
   isLoading?: boolean;
@@ -30,6 +29,7 @@ export type TFileUploaderProps = {
 
 export const FileUploader: FC<TFileUploaderProps> = ({
   accept,
+  defaultImages,
   files,
   Input,
   isLoading,
@@ -84,6 +84,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
       <Previews
         accept={accept}
         className="FileUploader-Previews"
+        defaultImages={defaultImages}
         files={files}
         isLoading={isLoading}
         onAddFile={onAddFile}

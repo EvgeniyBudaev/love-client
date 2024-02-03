@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { addProfileFormSchema } from "@/app/actions/profile/add/schemas";
-import { addProfile, TAddProfileParams } from "@/app/api/profile/add";
+import { addProfile, type TAddProfileParams } from "@/app/api/profile/add";
 import { ERoutes } from "@/app/shared/enums";
 import type { TCommonResponseError } from "@/app/shared/types/error";
 import {
@@ -46,7 +46,7 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     };
     // return {
     //   data: undefined,
-    //   error: undefined,
+    //   errorUI: undefined,
     //   errors: undefined,
     //   success: true,
     // };
