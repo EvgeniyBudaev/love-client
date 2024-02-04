@@ -2,7 +2,7 @@ import { ELookingFor } from "@/app/shared/enums/form";
 import { ELanguage } from "@/app/shared/enums";
 
 const lookingForOptionsRU = [
-  { label: "Чат", value: ELookingFor.Chat },
+  { label: "Общение", value: ELookingFor.Chat },
   { label: "Свидания", value: ELookingFor.Dates },
   { label: "Отношения", value: ELookingFor.Relationship },
   { label: "Дружба", value: ELookingFor.Friendship },
@@ -11,7 +11,7 @@ const lookingForOptionsRU = [
 ];
 
 const lookingForOptionsEN = [
-  { label: "Chat", value: ELookingFor.Chat },
+  { label: "Communication", value: ELookingFor.Chat },
   { label: "Dates", value: ELookingFor.Dates },
   { label: "Relationship", value: ELookingFor.Relationship },
   { label: "Friendship", value: ELookingFor.Friendship },

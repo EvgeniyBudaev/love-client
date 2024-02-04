@@ -1,6 +1,8 @@
 "use client";
 
+import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
+import { redirect } from "next/navigation";
 import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/addProfileAction";
@@ -14,13 +16,17 @@ import { FileUploader } from "@/app/shared/components/form/fileUploader";
 import { Header } from "@/app/shared/components/header";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
-import { ELanguage } from "@/app/shared/enums";
+import { ELanguage, ERoutes } from "@/app/shared/enums";
 import { useFiles, useTelegram } from "@/app/shared/hooks";
 import { GENDER_MAPPING } from "@/app/shared/mapping/gender";
 import { LANGUAGE_MAPPING } from "@/app/shared/mapping/language";
 import { LOOKING_FOR_MAPPING } from "@/app/shared/mapping/lookingFor";
 import { SEARCH_GENDER_MAPPING } from "@/app/shared/mapping/searchGender";
 import type { TFile } from "@/app/shared/types/file";
+import { createPath } from "@/app/shared/utils";
+import { Container } from "@/app/shared/components/container";
+import { formattedDate } from "@/app/shared/utils/date";
+import { Error } from "@/app/uikit/components/error";
 import { Input } from "@/app/uikit/components/input";
 import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
@@ -40,7 +46,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     success: false,
   };
   const [state, formAction] = useFormState(
-    isEdit ? addProfileAction : editProfileAction,
+    isEdit ? editProfileAction : addProfileAction,
     initialState,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
@@ -85,12 +91,35 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     setValue: (_fieldName: string, files: TFile[]) => setFiles(files),
   });
 
-  useEffect(() => {
-    console.log("files: ", files);
-  }, [files]);
+  // useEffect(() => {
+  //   console.log("files: ", files);
+  // }, [files]);
   useEffect(() => {
     console.log("state: ", state);
   }, [state]);
+  useEffect(() => {
+    console.log(" profile: ", profile);
+  }, [profile]);
+
+  useEffect(() => {
+    if (isEdit && !isNil(profile)) {
+      if (!isNil(state.data) && state.success && !state?.error) {
+        const path = createPath({
+          route: ERoutes.ProfileEdit,
+          params: { id: profile.id },
+        });
+        redirect(path);
+      }
+    } else {
+      if (!isNil(state.data) && state.success && !state?.error) {
+        const path = createPath({
+          route: ERoutes.Profile,
+          params: { id: state.data.id },
+        });
+        redirect(path);
+      }
+    }
+  }, [isEdit, profile, state]);
 
   const handleDeleteFile = (file: TFile, files: TFile[]) => {
     onDeleteFile?.(file, files);
@@ -148,8 +177,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     (files ?? []).forEach((file) => {
       formDataDto.append(EFormFields.Image, file);
     });
-    const utcDate = valueInputDateField?.toISOString() ?? "";
-    formDataDto.append(EFormFields.Birthday, utcDate);
+    const utcDate = formattedDate(valueInputDateField);
+    formDataDto.append(EFormFields.Birthday, utcDate ?? "");
     formDataDto.append(EFormFields.Gender, gender?.value.toString() ?? "");
     formDataDto.append(
       EFormFields.SearchGender,
@@ -159,11 +188,11 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
       EFormFields.LookingFor,
       lookingFor?.value.toString() ?? "",
     );
-    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "3");
-    formDataDto.append(EFormFields.QueryId, queryId ?? "3");
-    formDataDto.append(EFormFields.FirstName, user?.first_name ?? "Оля");
-    formDataDto.append(EFormFields.LastName, user?.last_name ?? "Макарова");
-    formDataDto.append(EFormFields.Username, user?.username ?? "makarove");
+    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
+    formDataDto.append(EFormFields.QueryId, queryId ?? "1");
+    formDataDto.append(EFormFields.FirstName, user?.first_name ?? "Евгений");
+    formDataDto.append(EFormFields.LastName, user?.last_name ?? "Будаев");
+    formDataDto.append(EFormFields.Username, user?.username ?? "budaev");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
       EFormFields.AllowsWriteToPm,
@@ -171,6 +200,13 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     );
     if (isEdit) {
       formDataDto.append("id", profile?.id.toString() ?? "");
+      if (
+        !isNil(profile?.images) &&
+        !isEmpty(profile?.images) &&
+        isEmpty(files)
+      ) {
+        formDataDto.append("isDefaultImage", "true");
+      }
     }
     formAction(formDataDto);
   };
@@ -185,25 +221,35 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
           {t("common.actions.save")}
         </div>
       </Header>
-      <Section title={t("common.titles.publicPhotos")}>
-        <FileUploader
-          accept={{
-            "image/jpeg": [".jpeg"],
-            "image/jpg": [".jpg"],
-            "image/png": [".png"],
-          }}
-          defaultImages={isEdit ? profile?.images ?? undefined : undefined}
-          files={files ?? []}
-          // isLoading={fetcherFilesLoading}
-          // maxFiles={4}
-          // maxSize={1024 * 1024}
-          multiple={false}
-          name={EFormFields.Image}
-          // onAddFile={handleAddFileToDefaultImage}
-          onAddFiles={onAddFiles}
-          onDeleteFile={handleDeleteFile}
-          type="file"
-        />
+      <Section isRequired={true} title={t("common.titles.publicPhotos")}>
+        <Field>
+          <FileUploader
+            accept={{
+              "image/avif": [".avif"],
+              "image/jpeg": [".jpeg"],
+              "image/jpg": [".jpg"],
+              "image/png": [".png"],
+              "image/webp": [".webp"],
+            }}
+            defaultImages={isEdit ? profile?.images ?? undefined : undefined}
+            files={files ?? []}
+            // isLoading={fetcherFilesLoading}
+            // maxFiles={4}
+            // maxSize={1280 * 1280}
+            multiple={true}
+            name={EFormFields.Image}
+            onAddFiles={onAddFiles}
+            onDeleteFile={handleDeleteFile}
+            type="file"
+          />
+          {state?.errors?.image && (
+            <Container>
+              <div className="InputField-ErrorField">
+                <Error errors={state?.errors?.image} />
+              </div>
+            </Container>
+          )}
+        </Field>
       </Section>
       <Section title={t("common.titles.moreDetails")}>
         <Field>
@@ -217,8 +263,12 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
           />
         </Field>
         <Field>
-          <span>{t("common.form.field.birthday")}</span>
+          <span>
+            {t("common.form.field.birthday")}
+            <span className="ProfileForm-Required"> *</span>
+          </span>
           <InputDateField
+            errors={state?.errors?.birthday}
             locale={LANGUAGE_MAPPING[language]}
             onChange={handleDateChange}
             onFieldClear={() => setValueInputDateField(null)}
@@ -241,6 +291,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
       <Section title={t("common.titles.properties")}>
         <Field>
           <Select
+            errors={state?.errors?.gender}
+            isRequired={true}
             isSidebarOpen={isSidebarOpen.isGender}
             label={t("common.form.field.gender")}
             headerTitle={!isNil(gender) ? gender?.label : "--"}
@@ -260,6 +312,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
         </Field>
         <Field>
           <Select
+            errors={state?.errors?.searchGender}
             isSidebarOpen={isSidebarOpen.isSearchGender}
             label={t("common.form.field.searchGender")}
             headerTitle={!isNil(searchGender) ? searchGender?.label : "--"}
@@ -289,9 +342,12 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
         </Field>
         <Field>
           <Input
-            defaultValue={isEdit ? profile?.height ?? undefined : undefined}
+            defaultValue={
+              isEdit && profile?.height !== 0
+                ? profile?.height ?? undefined
+                : undefined
+            }
             errors={state?.errors?.height}
-            isRequired={true}
             label={t("common.form.field.height") ?? "Height"}
             name={EFormFields.Height}
             type="text"
@@ -299,9 +355,12 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
         </Field>
         <Field>
           <Input
-            defaultValue={isEdit ? profile?.weight ?? undefined : undefined}
+            defaultValue={
+              isEdit && profile?.weight !== 0
+                ? profile?.weight ?? undefined
+                : undefined
+            }
             errors={state?.errors?.weight}
-            isRequired={true}
             label={t("common.form.field.weight") ?? "Weight"}
             name={EFormFields.Weight}
             type="text"
@@ -309,6 +368,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
         </Field>
         <Field>
           <Select
+            errors={state?.errors?.lookingFor}
             isSidebarOpen={isSidebarOpen.isLookingFor}
             label={t("common.form.field.lookingFor")}
             headerTitle={!isNil(lookingFor) ? lookingFor?.label : "--"}

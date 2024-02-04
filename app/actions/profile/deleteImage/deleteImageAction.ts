@@ -1,8 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { addProfileFormSchema } from "@/app/actions/profile/add/schemas";
-import { addProfile, type TAddProfileParams } from "@/app/api/profile/add";
+import { deleteImageFormSchema } from "@/app/actions/profile/deleteImage/schemas";
+import {
+  deleteImage,
+  type TDeleteImageParams,
+} from "@/app/api/profile/image/delete";
 import { ERoutes } from "@/app/shared/enums";
 import type { TCommonResponseError } from "@/app/shared/types/error";
 import {
@@ -11,12 +14,9 @@ import {
   createPath,
 } from "@/app/shared/utils";
 
-export async function addProfileAction(prevState: any, formData: FormData) {
-  console.log(
-    "addProfileAction resolver: ",
-    Object.fromEntries(formData.entries()),
-  );
-  const resolver = addProfileFormSchema.safeParse(
+export async function deleteImageAction(prevState: any, formData: FormData) {
+  console.log("resolver: ", Object.fromEntries(formData.entries()));
+  const resolver = deleteImageFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
 
@@ -34,25 +34,28 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("addProfileAction formattedParams: ", formattedParams);
-    const response = await addProfile(formData as unknown as TAddProfileParams);
-    console.log("addProfileAction response: ", response);
+    console.log("formattedParams: ", formattedParams);
+    const response = await deleteImage(
+      formData as unknown as TDeleteImageParams,
+    );
+    console.log("response: ", response);
     const path = createPath({
-      route: ERoutes.ProfileAdd,
+      route: ERoutes.ProfileEdit,
+      params: { id: resolver.data.id },
     });
     revalidatePath(path);
-    return {
-      data: response.data,
-      error: undefined,
-      errors: undefined,
-      success: true,
-    };
     // return {
-    //   data: undefined,
-    //   errorUI: undefined,
+    //   data: response.data,
+    //   error: undefined,
     //   errors: undefined,
     //   success: true,
     // };
+    return {
+      data: undefined,
+      errorUI: undefined,
+      errors: undefined,
+      success: true,
+    };
   } catch (error) {
     const errorResponse = error as Response;
     const responseData: TCommonResponseError = await errorResponse.json();

@@ -3,14 +3,18 @@ import "./Section.scss";
 
 type TProps = {
   children?: ReactNode;
+  isRequired?: boolean;
   title: string;
 };
 
-export const Section: FC<TProps> = ({ children, title }) => {
+export const Section: FC<TProps> = ({ children, isRequired, title }) => {
   return (
     <div className="Section">
       <div className="Section-Header">
-        <span className="Section-Title">{title}</span>
+        <span className="Section-Title">
+          {title}
+          {isRequired && <span className="Section-TitleRequired"> *</span>}
+        </span>
       </div>
       <div className="Section-Container">{children}</div>
     </div>

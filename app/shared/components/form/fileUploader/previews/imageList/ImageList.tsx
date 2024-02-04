@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import { type FC } from "react";
+import { deleteImageAction } from "@/app/actions/profile/deleteImage/deleteImageAction";
 import type { TImage } from "@/app/api/profile/image";
 import { useTranslation } from "@/app/i18n/client";
+import { EFormFields } from "@/app/shared/components/form/fileUploader/previews/imageList/enums";
 import { useProxyUrl } from "@/app/shared/hooks";
 import { DropDown } from "@/app/uikit/components/dropDown";
 
@@ -14,6 +16,13 @@ type TProps = {
 export const ImageList: FC<TProps> = ({ defaultImages }) => {
   const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation("index");
+
+  const handleDeleteImage = async (image: TImage) => {
+    const formDataDto = new FormData();
+    formDataDto.append(EFormFields.Id, image.id.toString());
+    formDataDto.append(EFormFields.ProfileId, image.profileId.toString());
+    await deleteImageAction({}, formDataDto);
+  };
 
   return (
     <>
@@ -36,7 +45,7 @@ export const ImageList: FC<TProps> = ({ defaultImages }) => {
                 <div className="DropDown-Menu">
                   <div
                     className="DropDown-MenuItem"
-                    // onClick={() => deleteImageAction(image.id)}
+                    onClick={() => handleDeleteImage(image)}
                   >
                     {t("common.actions.delete")}
                   </div>

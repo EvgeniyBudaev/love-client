@@ -9,6 +9,7 @@ export enum EFormFields {
   Height = "height",
   Weight = "weight",
   LookingFor = "lookingFor",
+  IsDefaultImage = "isDefaultImage",
   Image = "image",
   TelegramID = "telegramId",
   Username = "username",

@@ -2,15 +2,17 @@
 
 import isNil from "lodash/isNil";
 import Image from "next/image";
+import Link from "next/link";
 import type { FC } from "react";
 import { TProfile } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
-import { ELanguage } from "@/app/shared/enums";
+import { ELanguage, ERoutes } from "@/app/shared/enums";
 import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
 import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
+import { createPath } from "@/app/shared/utils";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Hamburger } from "@/app/uikit/components/hamburger";
 import { Icon } from "@/app/uikit/components/icon";
@@ -37,7 +39,17 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
         </DropDown.Button>
         <DropDown.Panel>
           <div className="DropDown-Menu">
-            <div className="DropDown-MenuItem">{t("common.actions.edit")}</div>
+            {profile?.id && (
+              <Link
+                className="DropDown-MenuItem"
+                href={createPath({
+                  route: ERoutes.ProfileEdit,
+                  params: { id: profile.id },
+                })}
+              >
+                {t("common.actions.edit")}
+              </Link>
+            )}
           </div>
           <div className="DropDown-Menu">
             <div className="DropDown-MenuItem DropDown-MenuItem-Cancel">
@@ -91,16 +103,17 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
               </div>
             </Field>
           )}
-          {(profile?.height || profile?.weight) && (
+          {((!isNil(profile?.height) && profile?.height !== 0) ||
+            (!isNil(profile?.weight) && profile?.weight !== 0)) && (
             <Field>
               <div className="ProfilePage-Row">
                 <Icon className="ProfilePage-Icon" type="Person" />
-                {profile?.height && (
+                {!isNil(profile?.height) && (
                   <span>
                     {profile?.height} {t("common.reductions.cm")}&nbsp;
                   </span>
                 )}
-                {profile?.weight && (
+                {!isNil(profile?.weight) && (
                   <span>
                     {profile?.weight} {t("common.reductions.kg")}&nbsp;
                   </span>

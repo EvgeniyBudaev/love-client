@@ -9,9 +9,10 @@ import type { FC, SyntheticEvent } from "react";
 
 import { FORMAT_DATE } from "@/app/uikit/constants";
 import { DatePicker } from "@/app/uikit/components/datePicker";
-import { usePopover } from "@/app/uikit/hooks";
+import { Error } from "@/app/uikit/components/error";
 import { InputDate } from "@/app/uikit/components/inputDate";
 import { POPOVER_POSITION_STYLES } from "@/app/uikit/components/popover";
+import { usePopover } from "@/app/uikit/hooks";
 import "./InputDateField.scss";
 import "../popover/Popover.scss";
 
@@ -21,6 +22,7 @@ type TClasses = {
 
 type TProps = {
   classes?: TClasses;
+  errors?: string | string[];
   isDisabled?: boolean;
   isInvalid?: boolean;
   locale?: Locale;
@@ -37,6 +39,7 @@ type TProps = {
 const InputDateFieldComponent: FC<TProps> = (props) => {
   const {
     classes,
+    errors,
     isDisabled,
     isInvalid,
     locale,
@@ -84,6 +87,11 @@ const InputDateFieldComponent: FC<TProps> = (props) => {
               title={title}
               value={formattedValue}
             />
+            {errors && (
+              <div className="InputField-ErrorField">
+                <Error errors={errors} />
+              </div>
+            )}
           </div>
         </UiPopover.Button>
         <Transition as={Fragment}>

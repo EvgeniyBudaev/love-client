@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import type { FC, ReactElement } from "react";
 import type { DropEvent, FileRejection } from "react-dropzone";
 import type { TImage } from "@/app/api/profile/image";
-// import {useTranslation} from "@/app/i18n/client";
 import { Previews } from "@/app/shared/components/form/fileUploader/previews";
 import {
   filterDuplicatedFiles,

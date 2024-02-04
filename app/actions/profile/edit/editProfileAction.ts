@@ -12,7 +12,10 @@ import {
 } from "@/app/shared/utils";
 
 export async function editProfileAction(prevState: any, formData: FormData) {
-  console.log("resolver: ", Object.fromEntries(formData.entries()));
+  // console.log(
+  //   "editProfileAction resolver: ",
+  //   Object.fromEntries(formData.entries()),
+  // );
   const resolver = editProfileFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
@@ -31,7 +34,7 @@ export async function editProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("formattedParams: ", formattedParams);
+    console.log("editProfileAction formattedParams: ", formattedParams);
     const response = await editProfile(
       formData as unknown as TEditProfileParams,
     );
