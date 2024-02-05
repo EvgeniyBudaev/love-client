@@ -3,8 +3,9 @@
 import isNil from "lodash/isNil";
 import Image from "next/image";
 import Link from "next/link";
-import type { FC } from "react";
-import { TProfile } from "@/app/api/profile/add";
+import { FC, useRef, useState } from "react";
+import type { TProfile } from "@/app/api/profile/add";
+import { ProfileSidebar } from "@/app/entities/profile/profileSidebar";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
@@ -28,8 +29,18 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
   const { proxyUrl } = useProxyUrl();
   const { user } = useTelegram();
   const { t } = useTranslation("index");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null);
   const fullYear = getFullYear(profile?.birthday);
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
+
+  const handleOpenSidebar = () => {
+    setIsSidebarOpen(true);
+  };
+
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false);
+  };
 
   return (
     <>
@@ -52,12 +63,23 @@ export const ProfilePage: FC<TProps> = ({ profile }) => {
             )}
           </div>
           <div className="DropDown-Menu">
+            <div className="DropDown-MenuItem" onClick={handleOpenSidebar}>
+              {t("common.actions.settings")}
+            </div>
+          </div>
+          <div className="DropDown-Menu">
             <div className="DropDown-MenuItem DropDown-MenuItem-Cancel">
               {t("common.actions.cancel")}
             </div>
           </div>
         </DropDown.Panel>
       </DropDown>
+      <ProfileSidebar
+        isSidebarOpen={isSidebarOpen}
+        onCloseSidebar={handleCloseSidebar}
+        profile={profile}
+        ref={sidebarRef}
+      />
       <div className="ProfilePage">
         <div className="ProfilePage-Slider">
           <Slider images={profile?.images} />

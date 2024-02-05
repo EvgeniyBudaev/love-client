@@ -1,15 +1,19 @@
 {
   "common": {
-    "actions": {
-      "cancel": "Cancel",
-      "save": "Save",
-      "edit": "Edit",
-      "delete": "Delete"
-    },
     "titles": {
+      "accountBlocked": "Account blocked",
+      "accountDeleted": "Account deleted",
       "publicPhotos": "Public photos",
       "moreDetails": "More details",
       "properties": "Properties"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "settings": "Settings",
+      "deleteAccount": "Delete account",
+      "edit": "Edit",
+      "delete": "Delete"
     },
     "form": {
       "field": {

@@ -1,5 +1,7 @@
 import { getProfileDetail } from "@/app/api/profile/detail";
 import { useTranslation } from "@/app/i18n";
+import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";
+import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
 import { ProfilePage } from "@/app/pages/profilePage";
 import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 
@@ -29,6 +31,15 @@ export default async function ProfileDetailRoute(props: TProps) {
 
   try {
     const data = await loader({ id });
+
+    if (data?.profile?.isBlocked) {
+      return <ProfileBlocked />;
+    }
+
+    if (data?.profile?.isDeleted) {
+      return <ProfileDeleted />;
+    }
+
     return <ProfilePage profile={data?.profile} />;
   } catch (error) {
     const err = error as Error;

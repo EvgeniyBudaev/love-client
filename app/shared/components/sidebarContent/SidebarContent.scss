@@ -3,7 +3,6 @@
 .SidebarContent {
   &-Header {
     background-color: $bg_color;
-    //background-color: #ccc;
     margin-bottom: 25px;
   }
 
@@ -28,7 +27,6 @@
 
   &-List {
     background-color: $bg_color;
-    //background-color: #ccc;
     border-top: 1px solid $secondary_bg_color;
     border-bottom: 1px solid $secondary_bg_color;
     padding: 0 0 0 16px;
@@ -43,6 +41,11 @@
 
       &:last-child {
         border-bottom: none;
+      }
+
+      &:hover,
+      &:active {
+        opacity: $opacity;
       }
     }
 

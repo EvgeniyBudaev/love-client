@@ -91,15 +91,13 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     setValue: (_fieldName: string, files: TFile[]) => setFiles(files),
   });
 
+  // TODO: удалить useEffect
   // useEffect(() => {
   //   console.log("files: ", files);
   // }, [files]);
   useEffect(() => {
     console.log("state: ", state);
   }, [state]);
-  useEffect(() => {
-    console.log(" profile: ", profile);
-  }, [profile]);
 
   useEffect(() => {
     if (isEdit && !isNil(profile)) {

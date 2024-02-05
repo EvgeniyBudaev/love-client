@@ -1,15 +1,19 @@
 {
   "common": {
-    "actions": {
-      "cancel": "Отменить",
-      "save": "Сохранить",
-      "edit": "Редактировать",
-      "delete": "Удалить"
-    },
     "titles": {
+      "accountBlocked": "Аккаунт заблокирован",
+      "accountDeleted": "Аккаунт удален",
       "publicPhotos": "Публичные фото",
       "moreDetails": "Подробнее",
       "properties": "Свойства"
+    },
+    "actions": {
+      "cancel": "Отменить",
+      "save": "Сохранить",
+      "settings": "Настройки",
+      "deleteAccount": "Удалить аккаунт",
+      "edit": "Редактировать",
+      "delete": "Удалить"
     },
     "form": {
       "field": {

@@ -1,4 +1,6 @@
 import { getProfileDetail } from "@/app/api/profile/detail";
+import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
+import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";
 import { useTranslation } from "@/app/i18n";
 import { ProfileEditPage } from "@/app/pages/profileEditPage";
 import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
@@ -29,6 +31,15 @@ export default async function ProfileEditRoute(props: TProps) {
 
   try {
     const data = await loader({ id });
+
+    if (data?.profile?.isBlocked) {
+      return <ProfileBlocked />;
+    }
+
+    if (data?.profile?.isDeleted) {
+      return <ProfileDeleted />;
+    }
+
     return <ProfileEditPage profile={data?.profile} />;
   } catch (error) {
     const err = error as Error;
