@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "./arrowRightIcon";
 import { AttentionIcon } from "./attentionIcon";
 import { CalendarIcon } from "./calendarIcon";
 import { CheckboxIcon } from "./checkboxIcon";
+import { FilterIcon } from "./filterIcon";
 import { ImageIcon } from "./imageIcon";
 import { LocationIcon } from "./locationIcon";
 import { MoreHorizIcon } from "./moreHorizIcon";
@@ -20,6 +21,7 @@ export {
   AttentionIcon,
   CalendarIcon,
   CheckboxIcon,
+  FilterIcon,
   ImageIcon,
   LocationIcon,
   MoreHorizIcon,

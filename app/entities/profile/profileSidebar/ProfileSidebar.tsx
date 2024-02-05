@@ -1,5 +1,6 @@
 "use client";
 
+import isNil from "lodash/isNil";
 import { redirect } from "next/navigation";
 import { type ForwardedRef, forwardRef, memo, useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
@@ -8,14 +9,11 @@ import type { TProfile } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profilePage/enums";
 import { Header } from "@/app/shared/components/header";
+import { ERoutes } from "@/app/shared/enums";
+import { createPath } from "@/app/shared/utils";
 import { Icon } from "@/app/uikit/components/icon";
 import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./ProfileSidebar.scss";
-import { editProfileAction } from "@/app/actions/profile/edit/editProfileAction";
-import { addProfileAction } from "@/app/actions/profile/add/addProfileAction";
-import { createPath } from "@/app/shared/utils";
-import { ERoutes } from "@/app/shared/enums";
-import isNil from "lodash/isNil";
 
 type TProps = {
   isSidebarOpen: boolean;

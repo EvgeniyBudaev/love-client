@@ -5,7 +5,8 @@
       "accountDeleted": "Аккаунт удален",
       "publicPhotos": "Публичные фото",
       "moreDetails": "Подробнее",
-      "properties": "Свойства"
+      "properties": "Свойства",
+      "filtersGeneral": "Общие фильтры"
     },
     "actions": {
       "cancel": "Отменить",
@@ -13,7 +14,8 @@
       "settings": "Настройки",
       "deleteAccount": "Удалить аккаунт",
       "edit": "Редактировать",
-      "delete": "Удалить"
+      "delete": "Удалить",
+      "filterSetup": "Настройте фильтр"
     },
     "form": {
       "field": {

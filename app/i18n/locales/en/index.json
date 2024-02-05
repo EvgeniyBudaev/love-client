@@ -5,7 +5,8 @@
       "accountDeleted": "Account deleted",
       "publicPhotos": "Public photos",
       "moreDetails": "More details",
-      "properties": "Properties"
+      "properties": "Properties",
+      "filtersGeneral": "General filters"
     },
     "actions": {
       "cancel": "Cancel",
@@ -13,7 +14,8 @@
       "settings": "Settings",
       "deleteAccount": "Delete account",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "filterSetup": "Set up a filter"
     },
     "form": {
       "field": {

@@ -12,7 +12,7 @@ type TProps = {
   headerTitle?: string | number;
   isRequired?: boolean;
   isSidebarOpen?: boolean;
-  label: string;
+  label?: string | ReactNode;
   onHeaderClick?: () => void;
   onSidebarClose?: () => void;
 };
