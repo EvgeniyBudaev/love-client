@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import { TProfileList } from "@/app/api/profile/list";
+import { SearchForm } from "@/app/entities/search/searchForm";
 import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
 import { ERoutes } from "@/app/shared/enums";
@@ -19,6 +20,7 @@ export const MainPage: FC<TProps> = ({ profileList }) => {
 
   return (
     <div className="MainPage">
+      <SearchForm />
       <Link
         href={createPath({
           route: ERoutes.ProfileAdd,

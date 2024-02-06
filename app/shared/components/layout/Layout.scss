@@ -1,41 +1,6 @@
 @import "@/app/styles";
 
 .Layout {
-  position: relative;
-
-  &-Header {
-    position: relative;
-
-    &Inner {
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  &-WrapperIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 34px;
-    width: 34px;
-    background-color: $secondary_bg_color;
-    border-radius: 50%;
-    margin-left: 8px;
-  }
-
-  &-Icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 34px;
-    width: 34px;
-
-    & svg {
-      height: 24px;
-      width: 24px;
-    }
-  }
-
   &-Content {
     margin-bottom: 78px;
   }
