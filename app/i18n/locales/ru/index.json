@@ -6,7 +6,8 @@
       "publicPhotos": "Публичные фото",
       "moreDetails": "Подробнее",
       "properties": "Свойства",
-      "filtersGeneral": "Общие фильтры"
+      "filtersGeneral": "Общие фильтры",
+      "age": "Возраст"
     },
     "actions": {
       "cancel": "Отменить",

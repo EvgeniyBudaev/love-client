@@ -1,5 +1,9 @@
 @import "./colors";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* -------------------- Global Styles -------------------- */
 
 html {

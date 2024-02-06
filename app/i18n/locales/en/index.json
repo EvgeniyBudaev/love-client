@@ -6,7 +6,8 @@
       "publicPhotos": "Public photos",
       "moreDetails": "More details",
       "properties": "Properties",
-      "filtersGeneral": "General filters"
+      "filtersGeneral": "General filters",
+      "age": "Age"
     },
     "actions": {
       "cancel": "Cancel",

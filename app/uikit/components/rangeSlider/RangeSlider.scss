@@ -1,0 +1,23 @@
+@import "@/app/styles";
+
+.RangeSlider {
+  $this: &;
+
+  &-Info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  &-NumberList {
+    display: flex;
+    align-items: center;
+  }
+
+  & #{$this}-Thumb {
+    &::after {
+      background-color: $bg_color;
+    }
+  }
+}

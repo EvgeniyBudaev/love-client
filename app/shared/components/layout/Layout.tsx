@@ -8,8 +8,10 @@ import { useTelegram } from "@/app/shared/hooks";
 import { SearchBar } from "@/app/shared/components/searchBar";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Icon } from "@/app/uikit/components/icon";
+import { RangeSlider } from "@/app/uikit/components/rangeSlider";
 import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./Layout.scss";
+import { SliderValue } from "@nextui-org/slider";
 
 type TProps = {
   children?: ReactNode;
@@ -20,6 +22,7 @@ export const Layout: FC<TProps> = ({ children }) => {
   const { t } = useTranslation("index");
   const sidebarRef = useRef(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [ageRange, setAgeRange] = useState<SliderValue>([18, 50]);
 
   useEffect(() => {
     tg?.ready();
@@ -77,7 +80,16 @@ export const Layout: FC<TProps> = ({ children }) => {
             {t("common.actions.save")}
           </div>
         </Header>
-        <div className="SidebarContent-List">Content</div>
+        <div className="SidebarContent-List">
+          <RangeSlider
+            label={t("common.titles.age")}
+            maxValue={100}
+            minValue={18}
+            onChange={setAgeRange}
+            step={1}
+            value={ageRange}
+          />
+        </div>
       </Sidebar>
       <div className="Layout-Content">{children}</div>
       <Footer />
