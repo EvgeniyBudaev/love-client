@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { I18nContextProvider } from "@/app/i18n/context";
-import { Providers } from "@/app/providers";
 import { InitClient } from "@/app/shared/components/init";
 import { Layout as LayoutComponent } from "@/app/shared/components/layout";
 import "@/app/styles/_index.scss";
@@ -31,9 +30,7 @@ export default function RootLayout({
       <body>
         <I18nContextProvider lng={lng}>
           <InitClient />
-          <Providers>
-            <LayoutComponent>{children}</LayoutComponent>
-          </Providers>
+          <LayoutComponent>{children}</LayoutComponent>
         </I18nContextProvider>
       </body>
     </html>

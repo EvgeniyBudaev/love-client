@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { SliderValue } from "@nextui-org/slider";
 import { type FC, useRef, useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
 import { Header } from "@/app/shared/components/header";
@@ -20,11 +19,11 @@ export const SearchForm: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const defaultAgeRangeFrom = searchParams.get("ageFrom")
     ? Number(searchParams.get("ageFrom"))
-    : 18;
+    : 0;
   const defaultAgeRangeTo = searchParams.get("ageTo")
     ? Number(searchParams.get("ageTo"))
-    : 50;
-  const [ageRange, setAgeRange] = useState<SliderValue>([
+    : 10;
+  const [ageRange, setAgeRange] = useState<any>([
     defaultAgeRangeFrom,
     defaultAgeRangeTo,
   ]);
@@ -95,8 +94,8 @@ export const SearchForm: FC = () => {
         <div className="SidebarContent-List">
           <RangeSlider
             label={t("common.titles.age")}
-            maxValue={100}
-            minValue={18}
+            maxValue={10}
+            minValue={0}
             onChange={setAgeRange}
             step={1}
             value={ageRange}
