@@ -19,10 +19,10 @@ export const SearchForm: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const defaultAgeRangeFrom = searchParams.get("ageFrom")
     ? Number(searchParams.get("ageFrom"))
-    : 0;
+    : 18;
   const defaultAgeRangeTo = searchParams.get("ageTo")
     ? Number(searchParams.get("ageTo"))
-    : 10;
+    : 50;
   const [ageRange, setAgeRange] = useState<any>([
     defaultAgeRangeFrom,
     defaultAgeRangeTo,
@@ -93,9 +93,11 @@ export const SearchForm: FC = () => {
         </Header>
         <div className="SidebarContent-List">
           <RangeSlider
+            // isShowRangeValue={true}
+            isShowTooltip={true}
             label={t("common.titles.age")}
-            maxValue={10}
-            minValue={0}
+            maxValue={100}
+            minValue={18}
             onChange={setAgeRange}
             step={1}
             value={ageRange}
