@@ -12,8 +12,10 @@ const profileListItemSchema = z.object({
 });
 
 export const profileListParamsSchema = z.object({
-  limit: z.string(),
   page: z.string(),
+  limit: z.string(),
+  ageFrom: z.string(),
+  ageTo: z.string(),
 });
 
 export const profileListSchema = paginationSchema.extend({

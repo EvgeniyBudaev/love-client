@@ -1,10 +1,18 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type FC, useRef, useState } from "react";
 import { useTranslation } from "@/app/i18n/client";
 import { Header } from "@/app/shared/components/header";
 import { SearchBar } from "@/app/shared/components/searchBar";
+import {
+  DEFAULT_AGE_FROM,
+  DEFAULT_AGE_TO,
+} from "@/app/shared/constants/filter";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_LIMIT,
+} from "@/app/shared/constants/pagination";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Icon } from "@/app/uikit/components/icon";
 import { RangeSlider } from "@/app/uikit/components/rangeSlider";
@@ -14,6 +22,7 @@ import "./SearchForm.scss";
 export const SearchForm: FC = () => {
   const { t } = useTranslation("index");
   const { replace } = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const sidebarRef = useRef(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,11 +49,15 @@ export const SearchForm: FC = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("ageFrom");
     params.delete("ageTo");
+    const page = params.get("page") ?? DEFAULT_PAGE;
+    const limit = params.get("limit") ?? DEFAULT_PAGE_LIMIT;
+    params.set("page", page.toString());
+    params.set("limit", limit.toString());
     const ageRangeValueFrom = Array.isArray(ageRange) ? ageRange[0] : ageRange;
     params.set("ageFrom", ageRangeValueFrom.toString());
     const ageRangeValueTo = Array.isArray(ageRange) ? ageRange[1] : ageRange;
     params.set("ageTo", ageRangeValueTo.toString());
-    replace(`?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -96,8 +109,8 @@ export const SearchForm: FC = () => {
             // isShowRangeValue={true}
             isShowTooltip={true}
             label={t("common.titles.age")}
-            maxValue={100}
-            minValue={18}
+            max={DEFAULT_AGE_TO}
+            min={DEFAULT_AGE_FROM}
             onChange={setAgeRange}
             step={1}
             value={ageRange}

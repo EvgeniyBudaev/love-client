@@ -4,12 +4,30 @@ import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_LIMIT,
 } from "@/app/shared/constants/pagination";
+import {
+  DEFAULT_AGE_FROM,
+  DEFAULT_AGE_TO,
+} from "@/app/shared/constants/filter";
 
-async function loader() {
+type TSearchParams = {
+  page?: string;
+  limit?: string;
+  ageFrom?: string;
+  ageTo?: string;
+};
+
+type TMainLoader = {
+  searchParams: TSearchParams;
+};
+
+async function mainLoader(params: TMainLoader) {
+  const { searchParams } = params;
   try {
     const profileListResponse = await getProfileList({
-      page: DEFAULT_PAGE.toString(),
-      limit: DEFAULT_PAGE_LIMIT.toString(),
+      page: searchParams.page ?? DEFAULT_PAGE.toString(),
+      limit: searchParams.limit ?? DEFAULT_PAGE_LIMIT.toString(),
+      ageFrom: searchParams.ageFrom ?? DEFAULT_AGE_FROM.toString(),
+      ageTo: searchParams.ageTo ?? DEFAULT_AGE_TO.toString(),
     });
     const profileList = profileListResponse.data;
     return { profileList };
@@ -20,10 +38,11 @@ async function loader() {
 
 type TProps = {
   params: { lng: string };
+  searchParams?: TSearchParams;
 };
 
 export default async function MainRoute(props: TProps) {
-  const data = await loader();
+  const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
 
   return (
     <main>
