@@ -1,9 +1,9 @@
 import type { FC } from "react";
-import { TProfile } from "@/app/api/profile/add";
+import { TProfileDetail } from "@/app/api/profile/add";
 import { ProfileForm } from "@/app/entities/profile/profileForm";
 
 type TProps = {
-  profile?: TProfile;
+  profile?: TProfileDetail;
 };
 
 export const ProfileEditPage: FC<TProps> = ({ profile }) => {

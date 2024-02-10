@@ -8,8 +8,13 @@ import { Icon } from "@/app/uikit/components/icon";
 import type { TSelectOption } from "@/app/uikit/components/select";
 import "./SidebarContent.scss";
 
+type TClasses = {
+  item?: string;
+};
+
 type TProps = {
   children?: ReactNode;
+  classes?: TClasses;
   options?: TSelectOption[];
   onCloseSidebar?: () => void;
   onSave?: (value?: TSelectOption) => void;
@@ -19,6 +24,7 @@ type TProps = {
 
 export const SidebarContent: FC<TProps> = ({
   children,
+  classes,
   onSave,
   options,
   onCloseSidebar,
@@ -52,7 +58,7 @@ export const SidebarContent: FC<TProps> = ({
             const isChecked = item.value === checkedItem?.value;
             return (
               <div
-                className={clsx("SidebarContent-List-Item", {
+                className={clsx("SidebarContent-List-Item", classes?.item, {
                   ["SidebarContent-List-Item__isChecked"]: isChecked,
                 })}
                 key={item.value}

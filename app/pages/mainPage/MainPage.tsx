@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-import { TProfileList } from "@/app/api/profile/list";
+import type { TProfileByTelegramId } from "@/app/api/profile/byTelegramId";
+import type { TProfileList } from "@/app/api/profile/list";
 import { SearchForm } from "@/app/entities/search/searchForm";
 import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
@@ -11,16 +12,17 @@ import { ERoutes } from "@/app/shared/enums";
 import "./MainPage.scss";
 
 type TProps = {
+  profile?: TProfileByTelegramId;
   profileList?: TProfileList;
 };
 
-export const MainPage: FC<TProps> = ({ profileList }) => {
+export const MainPage: FC<TProps> = ({ profile, profileList }) => {
   const { tg, user, queryId } = useTelegram();
   const { proxyUrl } = useProxyUrl();
 
   return (
     <div className="MainPage">
-      <SearchForm />
+      <SearchForm profile={profile} />
       <Link
         href={createPath({
           route: ERoutes.ProfileAdd,

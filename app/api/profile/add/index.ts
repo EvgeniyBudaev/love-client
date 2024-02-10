@@ -2,16 +2,20 @@ import { addProfile } from "./domain";
 import {
   addProfileParamsSchema,
   addProfileResponseSchema,
-  profileSchema,
+  profileDetailSchema,
 } from "./schemas";
-import { TAddProfileParams, TAddProfileResponse, TProfile } from "./types";
+import {
+  TAddProfileParams,
+  TAddProfileResponse,
+  TProfileDetail,
+} from "./types";
 
 export {
   addProfile,
   addProfileParamsSchema,
   addProfileResponseSchema,
-  profileSchema,
+  profileDetailSchema,
   type TAddProfileParams,
   type TAddProfileResponse,
-  type TProfile,
+  type TProfileDetail,
 };

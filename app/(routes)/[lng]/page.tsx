@@ -7,13 +7,18 @@ import {
 import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
+  DEFAULT_SEARCH_GENDER,
 } from "@/app/shared/constants/filter";
+import { getProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 
 type TSearchParams = {
+  profileId?: string;
+  telegramId?: string;
   page?: string;
   limit?: string;
   ageFrom?: string;
   ageTo?: string;
+  searchGender?: string;
 };
 
 type TMainLoader = {
@@ -23,14 +28,19 @@ type TMainLoader = {
 async function mainLoader(params: TMainLoader) {
   const { searchParams } = params;
   try {
+    const profileResponse = searchParams.telegramId
+      ? await getProfileByTelegramId({ telegramId: searchParams.telegramId })
+      : undefined;
     const profileListResponse = await getProfileList({
-      page: searchParams.page ?? DEFAULT_PAGE.toString(),
-      limit: searchParams.limit ?? DEFAULT_PAGE_LIMIT.toString(),
-      ageFrom: searchParams.ageFrom ?? DEFAULT_AGE_FROM.toString(),
-      ageTo: searchParams.ageTo ?? DEFAULT_AGE_TO.toString(),
+      page: searchParams?.page ?? DEFAULT_PAGE.toString(),
+      limit: searchParams?.limit ?? DEFAULT_PAGE_LIMIT.toString(),
+      ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
+      ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
+      searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
     });
+    const profile = profileResponse?.data;
     const profileList = profileListResponse.data;
-    return { profileList };
+    return { profile, profileList };
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
   }
@@ -46,7 +56,7 @@ export default async function MainRoute(props: TProps) {
 
   return (
     <main>
-      <MainPage profileList={data?.profileList} />
+      <MainPage profile={data?.profile} profileList={data?.profileList} />
     </main>
   );
 }

@@ -16,6 +16,7 @@ export const profileListParamsSchema = z.object({
   limit: z.string(),
   ageFrom: z.string(),
   ageTo: z.string(),
+  searchGender: z.string(),
 });
 
 export const profileListSchema = paginationSchema.extend({

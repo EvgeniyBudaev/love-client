@@ -49,6 +49,8 @@ const RangeSliderComponent: FC<TProps> = ({
   const maxInputRef = useRef<HTMLInputElement | null>(null);
   const minTooltipRef = useRef<HTMLDivElement | null>(null);
   const maxTooltipRef = useRef<HTMLDivElement | null>(null);
+  const zIndexMin = "10";
+  const zIndexMax = "20";
 
   useEffect(() => {
     if (
@@ -64,7 +66,9 @@ const RangeSliderComponent: FC<TProps> = ({
       trackRef.current.style.left = minLeft;
       trackRef.current.style.right = maxRight;
       minTooltipRef.current.style.left = minLeft;
+      minTooltipRef.current.style.transform = `translateX(-${minLeft})`;
       maxTooltipRef.current.style.right = maxRight;
+      maxTooltipRef.current.style.transform = `translateX(${maxRight})`;
     }
   }, [max, maxValue, min, minValue]);
 
@@ -75,8 +79,8 @@ const RangeSliderComponent: FC<TProps> = ({
       maxInputRef &&
       maxInputRef.current
     ) {
-      minInputRef.current.style.zIndex = "10";
-      maxInputRef.current.style.zIndex = "5";
+      minInputRef.current.style.zIndex = zIndexMax;
+      maxInputRef.current.style.zIndex = zIndexMin;
     }
     if (
       minTooltipRef &&
@@ -84,8 +88,8 @@ const RangeSliderComponent: FC<TProps> = ({
       maxTooltipRef &&
       maxTooltipRef.current
     ) {
-      minTooltipRef.current.style.zIndex = "10";
-      maxTooltipRef.current.style.zIndex = "5";
+      minTooltipRef.current.style.zIndex = zIndexMax;
+      maxTooltipRef.current.style.zIndex = zIndexMin;
     }
     const value = Number(event?.target.value);
     if (value <= maxValue) {
@@ -104,8 +108,8 @@ const RangeSliderComponent: FC<TProps> = ({
       maxInputRef &&
       maxInputRef.current
     ) {
-      minInputRef.current.style.zIndex = "5";
-      maxInputRef.current.style.zIndex = "10";
+      minInputRef.current.style.zIndex = zIndexMin;
+      maxInputRef.current.style.zIndex = zIndexMax;
     }
     if (
       minTooltipRef &&
@@ -113,8 +117,8 @@ const RangeSliderComponent: FC<TProps> = ({
       maxTooltipRef &&
       maxTooltipRef.current
     ) {
-      minTooltipRef.current.style.zIndex = "5";
-      maxTooltipRef.current.style.zIndex = "10";
+      minTooltipRef.current.style.zIndex = zIndexMin;
+      maxTooltipRef.current.style.zIndex = zIndexMax;
     }
     const value = Number(event?.target.value);
     if (value >= minValue) {
@@ -126,16 +130,16 @@ const RangeSliderComponent: FC<TProps> = ({
 
   return (
     <div className={clsx("RangeSlider", classes?.root)}>
-      {isShowRangeValue && (
-        <div className="RangeSlider-Info">
-          <div className="RangeSlider-Title">{label}</div>
+      <div className="RangeSlider-Info">
+        <div className="RangeSlider-Title">{label}</div>
+        {isShowRangeValue && (
           <div className="RangeSlider-NumberList">
             <div>{Array.isArray(value) && value?.[0]}</div>
             &nbsp;-&nbsp;
             <div>{Array.isArray(value) && value?.[1]}</div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <div className="RangeSlider-Slider">
         <div className="RangeSlider-Slider-Track" ref={trackRef}></div>
         <input

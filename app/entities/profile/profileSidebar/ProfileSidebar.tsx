@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { type ForwardedRef, forwardRef, memo, useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 import { deleteProfileAction } from "@/app/actions/profile/delete/deleteProfileAction";
-import type { TProfile } from "@/app/api/profile/add";
+import type { TProfileDetail } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profilePage/enums";
 import { Header } from "@/app/shared/components/header";
@@ -18,7 +18,7 @@ import "./ProfileSidebar.scss";
 type TProps = {
   isSidebarOpen: boolean;
   onCloseSidebar?: () => void;
-  profile?: TProfile;
+  profile?: TProfileDetail;
 };
 
 const ProfileSidebarComponent = forwardRef(
@@ -35,10 +35,6 @@ const ProfileSidebarComponent = forwardRef(
     const buttonSubmitRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation("index");
     const [state, formAction] = useFormState(deleteProfileAction, initialState);
-    // TODO: удалить useEffect
-    useEffect(() => {
-      console.log("state: ", state);
-    }, [state]);
 
     useEffect(() => {
       if (!isNil(state.data) && state.success && !state?.error) {

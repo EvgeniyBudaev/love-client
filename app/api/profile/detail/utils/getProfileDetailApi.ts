@@ -10,7 +10,7 @@ export const getProfileDetailApi: TApiFunction<
   TProfileDetailResponse
 > = (params) => {
   const { id } = params;
-  const url = `/api/v1/profile/${id}`;
+  const url = `/api/v1/profile/detail/${id}`;
   return fetchApi<TProfileDetailResponse>(url, {
     method: EFormMethods.Get,
   });

@@ -5,7 +5,7 @@ import { telegramSchema } from "@/app/api/profile/telegram";
 import { fileSchema } from "@/app/api/upload";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
 
-export const profileSchema = z.object({
+export const profileDetailSchema = z.object({
   id: z.number(),
   displayName: z.string(),
   birthday: z.string(),
@@ -60,7 +60,7 @@ export const addProfileParamsSchema = zfd.formData({
 });
 
 export const addProfileResponseSchema = z.object({
-  data: profileSchema.optional(),
+  data: profileDetailSchema.optional(),
   message: z.string().optional(),
   statusCode: z.number(),
   success: z.boolean(),

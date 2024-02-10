@@ -1,63 +1,116 @@
 "use client";
 
+import isNil from "lodash/isNil";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type FC, useRef, useState } from "react";
+import type { TProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 import { useTranslation } from "@/app/i18n/client";
+import { Field } from "@/app/shared/components/form/field";
 import { Header } from "@/app/shared/components/header";
 import { SearchBar } from "@/app/shared/components/searchBar";
+import { SidebarContent } from "@/app/shared/components/sidebarContent";
 import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
+  DEFAULT_SEARCH_GENDER,
 } from "@/app/shared/constants/filter";
+import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_LIMIT,
 } from "@/app/shared/constants/pagination";
+import { ELanguage } from "@/app/shared/enums";
+import { useTelegram } from "@/app/shared/hooks";
+import { SEARCH_GENDER_MAPPING } from "@/app/shared/mapping/searchGender";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Icon } from "@/app/uikit/components/icon";
 import { RangeSlider } from "@/app/uikit/components/rangeSlider";
+import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./SearchForm.scss";
+import { Container } from "@/app/shared/components/container";
 
-export const SearchForm: FC = () => {
+type TProps = {
+  profile?: TProfileByTelegramId;
+};
+
+export const SearchForm: FC<TProps> = ({ profile }) => {
+  const AGE_FROM = "ageFrom";
+  const AGE_TO = "ageTo";
+  const SEARCH_GENDER = "searchGender";
+  const PAGE = "page";
+  const LIMIT = "limit";
+  const { user } = useTelegram();
+  const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
   const { t } = useTranslation("index");
   const { replace } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const sidebarRef = useRef(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const defaultAgeRangeFrom = searchParams.get("ageFrom")
-    ? Number(searchParams.get("ageFrom"))
-    : 18;
-  const defaultAgeRangeTo = searchParams.get("ageTo")
-    ? Number(searchParams.get("ageTo"))
-    : 50;
+  const [isSidebarOpen, setIsSidebarOpen] = useState({
+    isGeneralFilters: false,
+    isSearchGender: false,
+  });
+  const defaultAgeRangeFrom = searchParams.get(AGE_FROM)
+    ? Number(searchParams.get(AGE_FROM))
+    : DEFAULT_AGE_FROM;
+  const defaultAgeRangeTo = searchParams.get(AGE_TO)
+    ? Number(searchParams.get(AGE_TO))
+    : DEFAULT_AGE_TO;
   const [ageRange, setAgeRange] = useState<any>([
     defaultAgeRangeFrom,
     defaultAgeRangeTo,
   ]);
+  const searchGenderDefault = SEARCH_GENDER_MAPPING[language].find(
+    (item) => item.value === profile?.searchGender,
+  );
+  const [searchGender, setSearchGender] = useState<TSelectOption | undefined>(
+    searchGenderDefault,
+  );
 
   const handleOpenSidebar = () => {
-    setIsSidebarOpen(true);
+    setIsSidebarOpen((prev) => ({
+      ...prev,
+      isGeneralFilters: true,
+    }));
   };
 
   const handleCloseSidebar = () => {
-    setIsSidebarOpen(false);
+    setIsSidebarOpen({
+      isGeneralFilters: false,
+      isSearchGender: false,
+    });
+  };
+
+  const handleChangeSearchGender = (value?: TSelectOption) => {
+    if (value) {
+      value && setSearchGender(value);
+      setIsSidebarOpen({
+        isGeneralFilters: true,
+        isSearchGender: false,
+      });
+    }
   };
 
   const handleSubmit = () => {
     const params = new URLSearchParams(searchParams.toString());
-    params.delete("ageFrom");
-    params.delete("ageTo");
-    const page = params.get("page") ?? DEFAULT_PAGE;
-    const limit = params.get("limit") ?? DEFAULT_PAGE_LIMIT;
-    params.set("page", page.toString());
-    params.set("limit", limit.toString());
+    params.delete(AGE_FROM);
+    params.delete(AGE_TO);
+    params.delete(SEARCH_GENDER);
+    const page = params.get(PAGE) ?? DEFAULT_PAGE;
+    const limit = params.get(LIMIT) ?? DEFAULT_PAGE_LIMIT;
+    params.set(PAGE, page.toString());
+    params.set(LIMIT, limit.toString());
     const ageRangeValueFrom = Array.isArray(ageRange) ? ageRange[0] : ageRange;
-    params.set("ageFrom", ageRangeValueFrom.toString());
+    params.set(AGE_FROM, ageRangeValueFrom.toString());
     const ageRangeValueTo = Array.isArray(ageRange) ? ageRange[1] : ageRange;
-    params.set("ageTo", ageRangeValueTo.toString());
+    params.set(AGE_TO, ageRangeValueTo.toString());
+    params.set(
+      SEARCH_GENDER,
+      searchGender?.value.toString() ?? DEFAULT_SEARCH_GENDER,
+    );
     replace(`${pathname}?${params.toString()}`);
+    handleCloseSidebar();
   };
 
   return (
@@ -89,7 +142,7 @@ export const SearchForm: FC = () => {
         </DropDown>
       </Header>
       <Sidebar
-        isActive={isSidebarOpen}
+        isActive={isSidebarOpen.isGeneralFilters}
         onClose={handleCloseSidebar}
         ref={sidebarRef}
       >
@@ -106,7 +159,6 @@ export const SearchForm: FC = () => {
         </Header>
         <div className="SidebarContent-List">
           <RangeSlider
-            // isShowRangeValue={true}
             isShowTooltip={true}
             label={t("common.titles.age")}
             max={DEFAULT_AGE_TO}
@@ -116,6 +168,28 @@ export const SearchForm: FC = () => {
             value={ageRange}
           />
         </div>
+        <Container>
+          <Field>
+            <Select
+              isSidebarOpen={isSidebarOpen.isSearchGender}
+              label={t("common.form.field.searchGender")}
+              headerTitle={!isNil(searchGender) ? searchGender?.label : "--"}
+              onHeaderClick={() =>
+                setIsSidebarOpen((prev) => ({ ...prev, isSearchGender: true }))
+              }
+              onSidebarClose={handleCloseSidebar}
+            >
+              <SidebarContent
+                classes={{ item: "SearchForm-SidebarContent-Item" }}
+                onSave={handleChangeSearchGender}
+                options={SEARCH_GENDER_MAPPING[language]}
+                onCloseSidebar={handleCloseSidebar}
+                selectedItem={searchGender}
+                title={t("common.form.field.searchGender")}
+              />
+            </Select>
+          </Field>
+        </Container>
       </Sidebar>
     </div>
   );

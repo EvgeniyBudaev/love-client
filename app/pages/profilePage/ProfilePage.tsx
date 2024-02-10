@@ -4,7 +4,7 @@ import isNil from "lodash/isNil";
 import Image from "next/image";
 import Link from "next/link";
 import { FC, useRef, useState } from "react";
-import type { TProfile } from "@/app/api/profile/add";
+import type { TProfileDetail } from "@/app/api/profile/add";
 import { ProfileSidebar } from "@/app/entities/profile/profileSidebar";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/app/shared/components/container";
@@ -22,7 +22,7 @@ import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
 
 type TProps = {
-  profile?: TProfile;
+  profile?: TProfileDetail;
 };
 
 export const ProfilePage: FC<TProps> = ({ profile }) => {

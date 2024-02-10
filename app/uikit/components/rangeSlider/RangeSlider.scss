@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 60px;
   }
 
   &-NumberList {
@@ -20,7 +20,6 @@
     width: 100%;
     height: 5px;
     margin: 30px 0;
-    background-color: #8a8a8a;
 
     &-Track {
       height: 100%;
@@ -79,7 +78,6 @@
       border-radius: 0.25rem;
       bottom: 120%;
       display: block;
-      position: absolute;
       text-align: center;
       white-space: nowrap;
       //pointer-events: auto; // enables/disables interaction with tooltip
@@ -87,12 +85,12 @@
 
     &-Tooltip-Min {
       transform: translateY(-200%);
-      z-index: 5;
+      z-index: 10;
     }
 
     &-Tooltip-Max {
       transform: translateY(-200%);
-      z-index: 5;
+      z-index: 10;
     }
   }
 }

@@ -7,7 +7,7 @@ import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/addProfileAction";
 import { editProfileAction } from "@/app/actions/profile/edit/editProfileAction";
-import type { TProfile } from "@/app/api/profile/add";
+import type { TProfileDetail } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
 import { Section } from "@/app/shared/components/section";
@@ -35,7 +35,7 @@ import "./ProfileForm.scss";
 
 type TProps = {
   isEdit?: boolean;
-  profile?: TProfile;
+  profile?: TProfileDetail;
 };
 
 export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
@@ -90,14 +90,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     files: files ?? [],
     setValue: (_fieldName: string, files: TFile[]) => setFiles(files),
   });
-
-  // TODO: удалить useEffect
-  // useEffect(() => {
-  //   console.log("files: ", files);
-  // }, [files]);
-  useEffect(() => {
-    console.log("state: ", state);
-  }, [state]);
 
   useEffect(() => {
     if (isEdit && !isNil(profile)) {
