@@ -2,10 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { deleteImageFormSchema } from "@/app/actions/profile/deleteImage/schemas";
-import {
-  deleteImage,
-  type TDeleteImageParams,
-} from "@/app/api/profile/image/delete";
+import { deleteImage } from "@/app/api/profile/image/delete";
 import { ERoutes } from "@/app/shared/enums";
 import type { TCommonResponseError } from "@/app/shared/types/error";
 import {
@@ -34,11 +31,8 @@ export async function deleteImageAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("formattedParams: ", formattedParams);
-    const response = await deleteImage(
-      formData as unknown as TDeleteImageParams,
-    );
-    console.log("response: ", response);
+
+    const response = await deleteImage(formattedParams);
     const path = createPath({
       route: ERoutes.ProfileEdit,
       params: { id: resolver.data.id },

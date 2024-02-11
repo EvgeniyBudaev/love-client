@@ -22,6 +22,8 @@ export const editProfileParamsSchema = zfd.formData({
   languageCode: zfd.text(),
   allowsWriteToPm: zfd.text(),
   queryId: zfd.text(),
+  latitude: zfd.text(),
+  longitude: zfd.text(),
 });
 
 export const editProfileResponseSchema = z.object({

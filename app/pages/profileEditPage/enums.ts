@@ -18,4 +18,6 @@ export enum EFormFields {
   LanguageCode = "languageCode",
   AllowsWriteToPm = "allowsWriteToPm",
   QueryId = "queryId",
+  Latitude = "latitude",
+  Longitude = "longitude",
 }

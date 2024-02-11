@@ -37,11 +37,11 @@ export async function deleteProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("deleteProfileAction formattedParams: ", formattedParams);
+
     const response = await deleteProfile(
       formData as unknown as TDeleteProfileParams,
     );
-    console.log("deleteProfileAction response: ", response);
+
     const path = createPath({
       route: ERoutes.Profile,
       params: { id: resolver.data.id },

@@ -74,6 +74,11 @@ export const editProfileFormSchema = zfd
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.QueryId]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Latitude]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Longitude]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
   })
   .superRefine(({ isDefaultImage, image }, ctx) => {
     if (

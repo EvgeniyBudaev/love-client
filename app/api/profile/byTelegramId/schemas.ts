@@ -22,6 +22,8 @@ export const profileByTelegramIdSchema = z.object({
 
 export const profileByTelegramIdParamsSchema = z.object({
   telegramId: z.string(),
+  latitude: z.string().nullish(),
+  longitude: z.string().nullish(),
 });
 
 export const profileByTelegramIdResponseSchema = z.object({

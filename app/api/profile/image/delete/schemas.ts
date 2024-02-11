@@ -1,8 +1,12 @@
 import { z } from "zod";
 import { imageSchema } from "@/app/api/profile/image";
+import { zfd } from "zod-form-data";
 
 export const deleteImageParamsSchema = z.object({
   id: z.string(),
+  profileId: z.string(),
+  latitude: z.string(),
+  longitude: z.string(),
 });
 
 export const deleteImageResponseSchema = z.object({

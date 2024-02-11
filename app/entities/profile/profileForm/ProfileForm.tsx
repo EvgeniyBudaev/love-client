@@ -17,7 +17,7 @@ import { Header } from "@/app/shared/components/header";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
-import { useFiles, useTelegram } from "@/app/shared/hooks";
+import { useFiles, useNavigator, useTelegram } from "@/app/shared/hooks";
 import { GENDER_MAPPING } from "@/app/shared/mapping/gender";
 import { LANGUAGE_MAPPING } from "@/app/shared/mapping/language";
 import { LOOKING_FOR_MAPPING } from "@/app/shared/mapping/lookingFor";
@@ -50,6 +50,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     initialState,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
+  const navigator = useNavigator();
+  console.log("ProfileForm navigator: ", navigator);
   const { queryId, user } = useTelegram();
   const { t } = useTranslation("index");
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
@@ -188,6 +190,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
       EFormFields.AllowsWriteToPm,
       user?.allows_write_to_pm?.toString() ?? "true",
     );
+    formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
+    formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
     if (isEdit) {
       formDataDto.append("id", profile?.id.toString() ?? "");
       if (

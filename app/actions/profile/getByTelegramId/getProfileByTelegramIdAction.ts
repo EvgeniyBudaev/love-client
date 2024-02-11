@@ -32,9 +32,8 @@ export async function getProfileByTelegramIdAction(
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("formattedParams: ", formattedParams);
+
     const response = await getProfileByTelegramId(formattedParams);
-    console.log("response: ", response);
     // const path = createPath({
     //   route: ERoutes.ProfileEdit,
     //   params: { id: resolver.data.id },

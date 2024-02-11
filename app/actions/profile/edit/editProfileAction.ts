@@ -34,11 +34,9 @@ export async function editProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("editProfileAction formattedParams: ", formattedParams);
     const response = await editProfile(
       formData as unknown as TEditProfileParams,
     );
-    console.log("response: ", response);
     const path = createPath({
       route: ERoutes.ProfileEdit,
       params: { id: resolver.data.id },

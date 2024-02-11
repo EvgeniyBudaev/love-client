@@ -6,7 +6,7 @@ import { deleteImageAction } from "@/app/actions/profile/deleteImage/deleteImage
 import type { TImage } from "@/app/api/profile/image";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/shared/components/form/fileUploader/previews/imageList/enums";
-import { useProxyUrl } from "@/app/shared/hooks";
+import { useNavigator, useProxyUrl } from "@/app/shared/hooks";
 import { DropDown } from "@/app/uikit/components/dropDown";
 
 type TProps = {
@@ -14,6 +14,7 @@ type TProps = {
 };
 
 export const ImageList: FC<TProps> = ({ defaultImages }) => {
+  const navigator = useNavigator();
   const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation("index");
 
@@ -21,6 +22,8 @@ export const ImageList: FC<TProps> = ({ defaultImages }) => {
     const formDataDto = new FormData();
     formDataDto.append(EFormFields.Id, image.id.toString());
     formDataDto.append(EFormFields.ProfileId, image.profileId.toString());
+    formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
+    formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
     await deleteImageAction({}, formDataDto);
   };
 

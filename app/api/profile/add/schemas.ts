@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { imageSchema } from "@/app/api/profile/image";
+import { navigatorSchema } from "@/app/api/profile/navigator";
 import { telegramSchema } from "@/app/api/profile/telegram";
 import { fileSchema } from "@/app/api/upload";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
@@ -37,6 +38,7 @@ export const profileDetailSchema = z.object({
   lastOnline: z.string(),
   images: imageSchema.array().nullish(),
   telegram: telegramSchema.nullish(),
+  navigator: navigatorSchema.nullish(),
 });
 
 export const addProfileParamsSchema = zfd.formData({
@@ -57,6 +59,8 @@ export const addProfileParamsSchema = zfd.formData({
   languageCode: zfd.text(),
   allowsWriteToPm: zfd.text(),
   queryId: zfd.text(),
+  latitude: zfd.text(),
+  longitude: zfd.text(),
 });
 
 export const addProfileResponseSchema = z.object({

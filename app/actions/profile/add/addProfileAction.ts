@@ -34,9 +34,8 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    console.log("addProfileAction formattedParams: ", formattedParams);
+
     const response = await addProfile(formData as unknown as TAddProfileParams);
-    console.log("addProfileAction response: ", response);
     const path = createPath({
       route: ERoutes.ProfileAdd,
     });

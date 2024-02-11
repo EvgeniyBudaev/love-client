@@ -5,7 +5,7 @@ import { useFormState } from "react-dom";
 import { getProfileByTelegramIdAction } from "@/app/actions/profile/getByTelegramId/getProfileByTelegramIdAction";
 import { Footer } from "@/app/shared/components/footer";
 import { EFormFields } from "@/app/shared/components/layout/enums";
-import { useTelegram } from "@/app/shared/hooks";
+import { useNavigator, useTelegram } from "@/app/shared/hooks";
 import "./Layout.scss";
 
 type TProps = {
@@ -25,6 +25,8 @@ export const Layout: FC<TProps> = ({ children }) => {
     initialState,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
+  const navigator = useNavigator();
+  console.log("Layout navigator: ", navigator);
 
   useEffect(() => {
     tg?.ready();
@@ -38,6 +40,8 @@ export const Layout: FC<TProps> = ({ children }) => {
     const formDataDto = new FormData();
     // formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "");
     formDataDto.append(EFormFields.TelegramID, "1");
+    formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
+    formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
     formAction(formDataDto);
   };
 

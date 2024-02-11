@@ -1,15 +1,15 @@
-import { MainPage } from "@/app/pages/mainPage";
+import { getProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 import { getProfileList } from "@/app/api/profile/list";
-import {
-  DEFAULT_PAGE,
-  DEFAULT_PAGE_LIMIT,
-} from "@/app/shared/constants/pagination";
+import { MainPage } from "@/app/pages/mainPage";
 import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
   DEFAULT_SEARCH_GENDER,
 } from "@/app/shared/constants/filter";
-import { getProfileByTelegramId } from "@/app/api/profile/byTelegramId";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_LIMIT,
+} from "@/app/shared/constants/pagination";
 
 type TSearchParams = {
   profileId?: string;
