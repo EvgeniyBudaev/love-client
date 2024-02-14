@@ -3,12 +3,7 @@
     "login": {
       "enter": "Войти",
       "service": "Войти в сервис авторизации",
-      "signup": "Зарегистрироваться",
-      "keycloak": "Начать общаться",
-      "title": "MyChat Desktop",
-      "description": "Добро пожаловать в официальное приложение MyChat Desktop",
-      "noAccount": "нет аккаунта?",
-      "goToSignup": "Зарегистрироваться"
+      "signup": "Зарегистрироваться"
     },
     "admin": {
       "title": "Панель администратора",
@@ -143,12 +138,6 @@
     "modal": {
       "deleteQuestion": "Вы действительно хотите удалить?"
     },
-    "validation": {
-      "email": "Email указан неправильно",
-      "cyrillicEmail": "Только латинские символы",
-      "passwordNotMatch": "Пароли не совпадают",
-      "wrongCharacter": "Допустимые символы: 0-9, \"-\", \" \", \"+\", \"(\", \")\""
-    },
     "titles": {
       "birthday": "Дата рождения"
     },
@@ -157,7 +146,8 @@
         "placeholder": {
           "date": "Добавь сюда перевод!!!"
         },
-        "filterSetup": "Настроить фильтр"
+        "filterSetup": "Настроить фильтр",
+        "name": "Имя"
       }
     }
   },
@@ -172,8 +162,8 @@
     "userName": "Логин",
     "firstName": "Имя",
     "lastName": "Фамилия",
-    "mobileNumber": "Мобильный номер",
     "email": "Электронная почта",
+    "mobileNumber": "Мобильный номер",
     "password": "Пароль",
     "passwordConfirm": "Подтверждение пароля"
   },

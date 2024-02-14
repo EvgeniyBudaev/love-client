@@ -1,3 +1,6 @@
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 import { getProfileList } from "@/app/api/profile/list";
 import { MainPage } from "@/app/pages/mainPage";
@@ -10,6 +13,9 @@ import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_LIMIT,
 } from "@/app/shared/constants/pagination";
+import { ERoutes } from "@/app/shared/enums";
+import type { TSession } from "@/app/shared/types/session";
+import { createPath } from "@/app/shared/utils";
 
 type TSearchParams = {
   profileId?: string;
@@ -26,6 +32,14 @@ type TMainLoader = {
 };
 
 async function mainLoader(params: TMainLoader) {
+  const session = (await getServerSession(authOptions)) as TSession;
+  if (!session) {
+    return redirect(
+      createPath({
+        route: ERoutes.Login,
+      }),
+    );
+  }
   const { searchParams } = params;
   try {
     const profileResponse = searchParams.telegramId

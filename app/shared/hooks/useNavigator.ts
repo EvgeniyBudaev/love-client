@@ -1,6 +1,8 @@
 import { useGeolocated } from "react-geolocated";
+import { useMemo } from "react";
 
-type TUseNavigatorResponse = {
+export type TUseNavigatorResponse = {
+  isCoords: boolean;
   latitude?: number;
   longitude?: number;
 };
@@ -11,14 +13,18 @@ export const useNavigator: TUseNavigator = () => {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
       },
       // userDecisionTimeout: 5000,
       watchPosition: true,
     });
-  console.log("coords: ", coords);
+
+  const isCoords = useMemo(() => {
+    return !!coords?.longitude && !!coords.latitude;
+  }, [coords]);
 
   return {
+    isCoords,
     latitude: coords?.latitude,
     longitude: coords?.longitude,
   };

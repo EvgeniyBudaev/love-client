@@ -10,9 +10,11 @@ import { editProfileAction } from "@/app/actions/profile/edit/editProfileAction"
 import type { TProfileDetail } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
+import { Container } from "@/app/shared/components/container";
 import { Section } from "@/app/shared/components/section";
 import { Field } from "@/app/shared/components/form/field";
 import { FileUploader } from "@/app/shared/components/form/fileUploader";
+import { PhoneInputMask } from "@/app/shared/components/form/phoneInputMask";
 import { Header } from "@/app/shared/components/header";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
@@ -24,7 +26,6 @@ import { LOOKING_FOR_MAPPING } from "@/app/shared/mapping/lookingFor";
 import { SEARCH_GENDER_MAPPING } from "@/app/shared/mapping/searchGender";
 import type { TFile } from "@/app/shared/types/file";
 import { createPath } from "@/app/shared/utils";
-import { Container } from "@/app/shared/components/container";
 import { formattedDate } from "@/app/shared/utils/date";
 import { Error } from "@/app/uikit/components/error";
 import { Input } from "@/app/uikit/components/input";
@@ -51,7 +52,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const navigator = useNavigator();
-  console.log("ProfileForm navigator: ", navigator);
   const { queryId, user } = useTelegram();
   const { t } = useTranslation("index");
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
@@ -157,11 +157,31 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
+    const firstName = formData.get(EFormFields.FirstName);
+    const lastName = formData.get(EFormFields.LastName);
+    const username = formData.get(EFormFields.Username);
+    const email = formData.get(EFormFields.Email);
+    const mobileNumber = formData.get(EFormFields.MobileNumber);
+    const password = formData.get(EFormFields.Password);
+    const passwordConfirm = formData.get(EFormFields.PasswordConfirm);
     const description = formData.get(EFormFields.Description);
     const location = formData.get(EFormFields.Location);
     const height = formData.get(EFormFields.Height);
     const weight = formData.get(EFormFields.Weight);
     formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
+    formDataDto.append(EFormFields.FirstName, (firstName ?? "").toString());
+    formDataDto.append(EFormFields.LastName, (lastName ?? "").toString());
+    formDataDto.append(EFormFields.Username, (username ?? "").toString());
+    formDataDto.append(EFormFields.Email, (email ?? "").toString());
+    formDataDto.append(
+      EFormFields.MobileNumber,
+      (mobileNumber ?? "").toString(),
+    );
+    formDataDto.append(EFormFields.Password, (password ?? "").toString());
+    formDataDto.append(
+      EFormFields.PasswordConfirm,
+      (passwordConfirm ?? "").toString(),
+    );
     formDataDto.append(EFormFields.Description, (description ?? "").toString());
     formDataDto.append(EFormFields.Location, (location ?? "").toString());
     formDataDto.append(EFormFields.Height, (height ?? "").toString());
@@ -182,9 +202,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     );
     formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
     formDataDto.append(EFormFields.QueryId, queryId ?? "1");
-    formDataDto.append(EFormFields.FirstName, user?.first_name ?? "Евгений");
-    formDataDto.append(EFormFields.LastName, user?.last_name ?? "Будаев");
-    formDataDto.append(EFormFields.Username, user?.username ?? "budaev");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
       EFormFields.AllowsWriteToPm,
@@ -204,6 +221,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     }
     formAction(formDataDto);
   };
+
+  if (!navigator.isCoords) return <div>Определяется ваше местоположение</div>;
 
   return (
     <form action={handleSubmit} className="ProfileForm-Form">
@@ -251,8 +270,81 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
             defaultValue={isEdit ? profile?.displayName : undefined}
             errors={state?.errors?.displayName}
             isRequired={true}
-            label={t("common.form.field.name") ?? "First name"}
+            label={t("common.form.field.displayName") ?? "Display name"}
             name={EFormFields.DisplayName}
+            type="text"
+          />
+        </Field>
+        <Field>
+          <Input
+            defaultValue={
+              isEdit ? profile?.firstName : user?.first_name ?? undefined
+            }
+            errors={state?.errors?.firstName}
+            isRequired={true}
+            label={t("common.form.field.firstName") ?? "First name"}
+            name={EFormFields.FirstName}
+            type="text"
+          />
+        </Field>
+        <Field>
+          <Input
+            defaultValue={
+              isEdit ? profile?.lastName : user?.last_name ?? undefined
+            }
+            errors={state?.errors?.lastName}
+            label={t("common.form.field.lastName") ?? "Last name"}
+            name={EFormFields.LastName}
+            type="text"
+          />
+        </Field>
+        <Field>
+          <Input
+            defaultValue={
+              isEdit ? profile?.userName : user?.username ?? undefined
+            }
+            errors={state?.errors?.username}
+            isRequired={true}
+            label={
+              t("common.form.field.username") ?? "Username for authorization"
+            }
+            name={EFormFields.Username}
+            type="text"
+          />
+        </Field>
+        <Field>
+          <PhoneInputMask
+            errors={state?.errors?.mobileNumber}
+            isRequired={true}
+            label={t("common.form.field.mobileNumber") ?? "Mobile phone"}
+            name={EFormFields.MobileNumber}
+          />
+        </Field>
+        <Field>
+          <Input
+            defaultValue={isEdit ? profile?.email : undefined}
+            errors={state?.errors?.email}
+            isRequired={true}
+            label={t("common.form.field.email") ?? "Email"}
+            name={EFormFields.Email}
+            type="text"
+          />
+        </Field>
+        <Field>
+          <Input
+            errors={state?.errors?.password}
+            isRequired={true}
+            label={t("common.form.field.password") ?? "Password"}
+            name={EFormFields.Password}
+            type="text"
+          />
+        </Field>
+        <Field>
+          <Input
+            errors={state?.errors?.passwordConfirm}
+            isRequired={true}
+            label={t("common.form.field.passwordConfirm") ?? "Password confirm"}
+            name={EFormFields.PasswordConfirm}
             type="text"
           />
         </Field>

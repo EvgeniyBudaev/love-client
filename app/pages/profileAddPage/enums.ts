@@ -1,5 +1,9 @@
 export enum EFormFields {
   DisplayName = "displayName",
+  Email = "email",
+  MobileNumber = "mobileNumber",
+  Password = "password",
+  PasswordConfirm = "passwordConfirm",
   Birthday = "birthday",
   Gender = "gender",
   SearchGender = "searchGender",
@@ -10,7 +14,7 @@ export enum EFormFields {
   LookingFor = "lookingFor",
   Image = "image",
   TelegramID = "telegramId",
-  Username = "username",
+  Username = "userName",
   FirstName = "firstName",
   LastName = "lastName",
   LanguageCode = "languageCode",

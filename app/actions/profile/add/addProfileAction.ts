@@ -10,6 +10,9 @@ import {
   getErrorsResolver,
   createPath,
 } from "@/app/shared/utils";
+import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
+import { mapSignupToDto } from "@/app/api/auth/signup/utils/mapSignupToDto";
+import { signup } from "@/app/api/auth/signup";
 
 export async function addProfileAction(prevState: any, formData: FormData) {
   console.log(
@@ -33,25 +36,38 @@ export async function addProfileAction(prevState: any, formData: FormData) {
   try {
     const formattedParams = {
       ...resolver.data,
+      mobileNumber: normalizePhoneNumber(resolver.data?.mobileNumber),
     };
+    const mapperParams = mapSignupToDto(formattedParams);
+    console.log("[mapperParams] ", mapperParams);
+    const userResponse = await signup(mapperParams);
 
-    const response = await addProfile(formData as unknown as TAddProfileParams);
-    const path = createPath({
-      route: ERoutes.ProfileAdd,
-    });
-    revalidatePath(path);
+    // if (userResponse.success) {
+    //   const profileFormData = new FormData();
+    //   profileFormData.append("userId", userResponse.data.id);
+    //   profileFormData.append("username", userResponse.data.username);
+    //   profileFormData.append("firstName", userResponse.data.firstName);
+    //   profileFormData.append("lastName", userResponse.data.lastName);
+    //   profileFormData.append("email", userResponse.data.email);
+    //   const response = await addProfile(formData as unknown as TAddProfileParams);
+    //   const path = createPath({
+    //     route: ERoutes.ProfileAdd,
+    //   });
+    //   revalidatePath(path);
+    //   return {
+    //     data: response.data,
+    //     error: undefined,
+    //     errors: undefined,
+    //     success: true,
+    //   };
+    // }
+
     return {
-      data: response.data,
-      error: undefined,
+      data: undefined,
+      errorUI: undefined,
       errors: undefined,
       success: true,
     };
-    // return {
-    //   data: undefined,
-    //   errorUI: undefined,
-    //   errors: undefined,
-    //   success: true,
-    // };
   } catch (error) {
     const errorResponse = error as Response;
     const responseData: TCommonResponseError = await errorResponse.json();

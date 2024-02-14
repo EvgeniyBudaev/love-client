@@ -1,4 +1,13 @@
 {
+  "pages": {
+    "login": {
+      "keycloak": "Sing in",
+      "title": "Love assistant",
+      "description": "Welcome to the official Love assistant app.",
+      "noAccount": "no account?",
+      "goToSignup": "Sign up"
+    }
+  },
   "common": {
     "titles": {
       "accountBlocked": "Account blocked",
@@ -14,13 +23,20 @@
       "save": "Save",
       "settings": "Settings",
       "deleteAccount": "Delete account",
+      "filterSetup": "Set up a filter",
       "edit": "Edit",
-      "delete": "Delete",
-      "filterSetup": "Set up a filter"
+      "delete": "Delete"
     },
     "form": {
       "field": {
-        "name": "First name",
+        "displayName": "Display name",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "username": "Username for authorization",
+        "mobileNumber": "Mobile number",
+        "email": "Email",
+        "password": "Password",
+        "passwordConfirm": "Password confirmation",
         "birthday": "Birthday",
         "date": {
           "placeholder": "Select date"
@@ -39,8 +55,12 @@
       "kg": "kg"
     },
     "validation": {
+      "email": "Invalid email",
+      "cyrillicEmail": "Only Latin characters",
       "empty": "Field cannot be empty",
       "onlyLetters": "Allowed characters: letters only",
+      "passwordNotMatch": "Password mismatch",
+      "wrongCharacter": "Allowed characters: 0-9, \"-\", \" \", \"+\", \"(\", \")\"",
       "file": {
         "expectedFile": "You can only attach a file",
         "maxSize": "Maximum size 200mb",

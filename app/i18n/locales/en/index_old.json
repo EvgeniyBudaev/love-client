@@ -3,12 +3,7 @@
     "login": {
       "enter": "Login",
       "service": "Login to the authorization service",
-      "signup": "Register",
-      "keycloak": "Start messaging",
-      "title": "MyChat Desktop",
-      "description": "Welcome to the official MyChat Desktop app.",
-      "noAccount": "no account?",
-      "goToSignup": "Sign up"
+      "signup": "Register"
     },
     "admin": {
       "title": "Admin panel",
@@ -143,12 +138,6 @@
     "modal": {
       "deleteQuestion": "Are you sure you want to delete?"
     },
-    "validation": {
-      "email": "Invalid email",
-      "cyrillicEmail": "Only Latin characters",
-      "passwordNotMatch": "Password mismatch",
-      "wrongCharacter": "Allowed characters: 0-9, \"-\", \" \", \"+\", \"(\", \")\""
-    },
     "titles": {
       "birthday": "Birthday"
     },
@@ -157,7 +146,8 @@
         "placeholder": {
           "date": "Добавь сюда перевод!!!"
         },
-        "filterSetup": "Set up filter"
+        "filterSetup": "Set up filter",
+        "name": "First name"
       }
     }
   },
@@ -172,8 +162,8 @@
     "userName": "Login",
     "firstName": "First name",
     "lastName": "Last name",
-    "mobileNumber": "Mobile number",
     "email": "Email",
+    "mobileNumber": "Mobile number",
     "password": "Password",
     "passwordConfirm": "Password confirm"
   },

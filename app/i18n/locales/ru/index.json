@@ -1,4 +1,13 @@
 {
+  "pages": {
+    "login": {
+      "keycloak": "Войти",
+      "title": "Love ассистент",
+      "description": "Добро пожаловать в официальное приложение Love ассистент",
+      "noAccount": "нет аккаунта?",
+      "goToSignup": "Зарегистрироваться"
+    }
+  },
   "common": {
     "titles": {
       "accountBlocked": "Аккаунт заблокирован",
@@ -14,13 +23,20 @@
       "save": "Сохранить",
       "settings": "Настройки",
       "deleteAccount": "Удалить аккаунт",
+      "filterSetup": "Настройте фильтр",
       "edit": "Редактировать",
-      "delete": "Удалить",
-      "filterSetup": "Настройте фильтр"
+      "delete": "Удалить"
     },
     "form": {
       "field": {
-        "name": "Имя",
+        "displayName": "Имя для отображения",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "username": "Уникальное название для авторизации",
+        "mobileNumber": "Мобильный номер",
+        "email": "Электронная почта",
+        "password": "Пароль",
+        "passwordConfirm": "Подтверждение пароля",
         "birthday": "Дата рождения",
         "date": {
           "placeholder": "Выберите дату"
@@ -39,8 +55,12 @@
       "kg": "кг"
     },
     "validation": {
+      "email": "Email указан неправильно",
+      "cyrillicEmail": "Только латинские символы",
       "empty": "Поле не может быть пустым!",
       "onlyLetters": "Допустимые символы: только буквы",
+      "passwordNotMatch": "Пароли не совпадают",
+      "wrongCharacter": "Допустимые символы: 0-9, \"-\", \" \", \"+\", \"(\", \")\"",
       "file": {
         "expectedFile": "Прикрепить можно только файл",
         "maxSize": "Максимальный размер 200mb",

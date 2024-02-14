@@ -26,15 +26,16 @@ export const Layout: FC<TProps> = ({ children }) => {
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const navigator = useNavigator();
-  console.log("Layout navigator: ", navigator);
 
   useEffect(() => {
     tg?.ready();
     // if (tg?.ready()) {
     //   buttonSubmitRef.current && buttonSubmitRef.current.click();
     // }
-    buttonSubmitRef.current && buttonSubmitRef.current.click();
-  }, [tg]);
+    if (navigator.isCoords) {
+      // buttonSubmitRef.current && buttonSubmitRef.current.click();
+    }
+  }, [navigator.isCoords, tg]);
 
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
