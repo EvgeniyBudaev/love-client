@@ -259,6 +259,18 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
           {t("common.actions.save")}
         </div>
       </Header>
+      <Container>
+        <Field>
+          <div className="ProfileForm-Star">
+            <span className="ProfileForm-Required">*</span>&nbsp;-&nbsp;
+            {t("common.titles.required")}
+          </div>
+          <div className="ProfileForm-Star">
+            <span className="ProfileForm-Hidden">*</span>&nbsp;-&nbsp;
+            {t("common.titles.hidden")}
+          </div>
+        </Field>
+      </Container>
       <Section isRequired={true} title={t("common.titles.publicPhotos")}>
         <Field>
           <FileUploader
@@ -307,6 +319,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
               isEdit ? profile?.firstName : user?.first_name ?? undefined
             }
             errors={state?.errors?.firstName}
+            isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.firstName") ?? "First name"}
             name={EFormFields.FirstName}
@@ -319,6 +332,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
               isEdit ? profile?.lastName : user?.last_name ?? undefined
             }
             errors={state?.errors?.lastName}
+            isHiddenViewing={true}
             label={t("common.form.field.lastName") ?? "Last name"}
             name={EFormFields.LastName}
             type="text"
@@ -330,6 +344,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
               isEdit ? profile?.userName : user?.username ?? undefined
             }
             errors={state?.errors?.username}
+            isHiddenViewing={true}
             isRequired={true}
             label={
               t("common.form.field.username") ?? "Username for authorization"
@@ -341,6 +356,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         <Field>
           <PhoneInputMask
             errors={state?.errors?.mobileNumber}
+            isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.mobileNumber") ?? "Mobile phone"}
             name={EFormFields.MobileNumber}
@@ -350,6 +366,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
           <Input
             defaultValue={isEdit ? profile?.email : undefined}
             errors={state?.errors?.email}
+            isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.email") ?? "Email"}
             name={EFormFields.Email}
@@ -359,6 +376,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         <Field>
           <Input
             errors={state?.errors?.password}
+            isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.password") ?? "Password"}
             name={EFormFields.Password}
@@ -368,6 +386,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         <Field>
           <Input
             errors={state?.errors?.passwordConfirm}
+            isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.passwordConfirm") ?? "Password confirm"}
             name={EFormFields.PasswordConfirm}
@@ -377,7 +396,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         <Field>
           <span>
             {t("common.form.field.birthday")}
-            <span className="ProfileForm-Required"> *</span>
+            <span className="ProfileForm-Required">&nbsp;*</span>
           </span>
           <InputDateField
             errors={state?.errors?.birthday}

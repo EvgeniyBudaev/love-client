@@ -24,6 +24,7 @@ export interface IInputProps
   hidden?: boolean;
   isDisabled?: boolean;
   isFocused?: boolean;
+  isHiddenViewing?: boolean;
   isReadOnly?: boolean;
   isRequired?: boolean;
   label?: string;
@@ -41,8 +42,9 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       defaultValue,
       errors,
       hidden,
-      isDisabled,
+      isDisabled = false,
       isFocused: isInputFocused,
+      isHiddenViewing = false,
       isReadOnly,
       isRequired,
       label,
@@ -96,7 +98,12 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
             {/*    !isFocused ? ETypographyVariant.TextB3Regular : ETypographyVariant.TextB4Regular*/}
             {/*  }*/}
             {/*/>*/}
-            {isRequired && <span className="InputField-LabelRequired"> *</span>}
+            {isRequired && (
+              <span className="InputField-LabelRequired">&nbsp;*</span>
+            )}
+            {isHiddenViewing && (
+              <span className="InputField-LabelHiddenViewing">&nbsp;*</span>
+            )}
           </label>
         )}
         <div className="InputField-Wrapper">

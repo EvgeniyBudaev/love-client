@@ -12,7 +12,16 @@
     }
   }
 
+  &-Star {
+    display: flex;
+    align-items: center;
+  }
+
   &-Required {
-    color: red;
+    color: $color-red;
+  }
+
+  &-Hidden {
+    color: $link_color;
   }
 }

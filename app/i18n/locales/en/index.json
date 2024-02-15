@@ -12,6 +12,8 @@
     "titles": {
       "accountBlocked": "Account blocked",
       "accountDeleted": "Account deleted",
+      "required": "required field",
+      "hidden": "information is hidden from users",
       "publicPhotos": "Public photos",
       "moreDetails": "More details",
       "properties": "Properties",

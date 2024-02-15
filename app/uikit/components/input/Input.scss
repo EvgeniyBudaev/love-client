@@ -25,11 +25,15 @@ $transition: 150ms;
     margin-bottom: 4px;
 
     #{$this}-Inner__error {
-      background-color: red;
+      background-color: $color-red;
     }
 
     &Required {
-      color: red;
+      color: $color-red;
+    }
+
+    &HiddenViewing {
+      color: $link_color;
     }
   }
 

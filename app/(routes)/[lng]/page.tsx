@@ -68,19 +68,11 @@ type TProps = {
 };
 
 export default async function MainRoute(props: TProps) {
-  const { params } = props;
-  const { lng } = params;
-  const { i18n, t } = await useTranslation(lng, "index");
+  const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
 
-  try {
-    const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
-    return (
-      <main>
-        <MainPage profile={data?.profile} profileList={data?.profileList} />
-      </main>
-    );
-  } catch (error) {
-    const err = error as Error;
-    return <ErrorBoundary i18n={i18n} message={t(err.message)} />;
-  }
+  return (
+    <main>
+      <MainPage profile={data?.profile} profileList={data?.profileList} />
+    </main>
+  );
 }

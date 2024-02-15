@@ -12,6 +12,8 @@
     "titles": {
       "accountBlocked": "Аккаунт заблокирован",
       "accountDeleted": "Аккаунт удален",
+      "required": "поле обязательное к заполнению",
+      "hidden": "информация скрыта от пользователей",
       "publicPhotos": "Публичные фото",
       "moreDetails": "Подробнее",
       "properties": "Свойства",
