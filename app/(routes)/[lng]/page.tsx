@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 import { getProfileList } from "@/app/api/profile/list";
+import { useTranslation } from "@/app/i18n";
 import { MainPage } from "@/app/pages/mainPage";
 import {
   DEFAULT_AGE_FROM,
@@ -16,6 +17,7 @@ import {
 import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
+import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 
 type TSearchParams = {
   profileId?: string;
@@ -66,11 +68,19 @@ type TProps = {
 };
 
 export default async function MainRoute(props: TProps) {
-  const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
+  const { params } = props;
+  const { lng } = params;
+  const { i18n, t } = await useTranslation(lng, "index");
 
-  return (
-    <main>
-      <MainPage profile={data?.profile} profileList={data?.profileList} />
-    </main>
-  );
+  try {
+    const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
+    return (
+      <main>
+        <MainPage profile={data?.profile} profileList={data?.profileList} />
+      </main>
+    );
+  } catch (error) {
+    const err = error as Error;
+    return <ErrorBoundary i18n={i18n} message={t(err.message)} />;
+  }
 }

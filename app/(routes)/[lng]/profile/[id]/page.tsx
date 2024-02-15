@@ -40,7 +40,7 @@ export default async function ProfileDetailRoute(props: TProps) {
       return <ProfileDeleted />;
     }
 
-    return <ProfilePage profile={data?.profile} />;
+    return <ProfilePage lng={lng} profile={data?.profile} />;
   } catch (error) {
     const err = error as Error;
     return <ErrorBoundary i18n={i18n} message={t(err.message)} />;

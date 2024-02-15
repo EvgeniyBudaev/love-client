@@ -19,6 +19,7 @@ export type TFileUploaderProps = {
   files?: TFile[];
   Input?: ReactElement;
   isLoading?: boolean;
+  lng: string;
   maxFiles?: number;
   onAddFile?: (file: File) => void;
   onAddFiles?: (acceptedFiles: TFile[], files: TFile[]) => void;
@@ -32,6 +33,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
   files,
   Input,
   isLoading,
+  lng,
   maxFiles,
   onAddFile,
   onAddFiles,
@@ -86,6 +88,7 @@ export const FileUploader: FC<TFileUploaderProps> = ({
         defaultImages={defaultImages}
         files={files}
         isLoading={isLoading}
+        lng={lng}
         onAddFile={onAddFile}
         onDeleteFile={onDelete}
         onDrop={onDrop}

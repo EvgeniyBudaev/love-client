@@ -32,7 +32,7 @@ export default function RootLayout({
         <body>
           <I18nContextProvider lng={lng}>
             <InitClient />
-            <LayoutComponent>{children}</LayoutComponent>
+            <LayoutComponent lng={lng}>{children}</LayoutComponent>
           </I18nContextProvider>
         </body>
       </html>

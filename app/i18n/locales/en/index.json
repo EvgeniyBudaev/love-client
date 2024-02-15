@@ -70,6 +70,7 @@
   },
   "errorBoundary": {
     "common": {
+      "geoPositionError": "Error determining geoposition. Check your Internet connection and your equipment settings. Try refreshing the page",
       "unexpectedError": "Unexpected error"
     }
   }

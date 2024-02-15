@@ -7,6 +7,7 @@ import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/addProfileAction";
 import { editProfileAction } from "@/app/actions/profile/edit/editProfileAction";
+import { ProfileSkeletonForm } from "@/app/entities/profile/profileForm/profileSkeletonForm";
 import type { TProfileDetail } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
@@ -33,13 +34,15 @@ import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileForm.scss";
+import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 
 type TProps = {
   isEdit?: boolean;
+  lng: string;
   profile?: TProfileDetail;
 };
 
-export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
+export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   const initialState = {
     data: undefined,
     error: undefined,
@@ -51,9 +54,9 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     initialState,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
-  const navigator = useNavigator();
+  const navigator = useNavigator({ lng });
   const { queryId, user } = useTelegram();
-  const { t } = useTranslation("index");
+  const { i18n, t } = useTranslation("index");
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
   const genderDefault = isEdit
     ? GENDER_MAPPING[language].find((item) => item.value === profile?.gender)
@@ -201,6 +204,18 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
       lookingFor?.value.toString() ?? "",
     );
     formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
+    formDataDto.append(
+      EFormFields.TelegramUsername,
+      user?.username?.toString() ?? "ebudaev",
+    );
+    formDataDto.append(
+      EFormFields.TelegramFirstName,
+      user?.first_name?.toString() ?? "Евгений",
+    );
+    formDataDto.append(
+      EFormFields.TelegramLastName,
+      user?.last_name?.toString() ?? "",
+    );
     formDataDto.append(EFormFields.QueryId, queryId ?? "1");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
@@ -222,7 +237,17 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
     formAction(formDataDto);
   };
 
-  if (!navigator.isCoords) return <div>Определяется ваше местоположение</div>;
+  console.log("navigator: ", navigator);
+
+  if (!navigator.isCoords) return <ProfileSkeletonForm />;
+  if (navigator?.errorPosition) {
+    return (
+      <ErrorBoundary
+        i18n={i18n}
+        message={t("errorBoundary.common.geoPositionError")}
+      />
+    );
+  }
 
   return (
     <form action={handleSubmit} className="ProfileForm-Form">
@@ -247,6 +272,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
             defaultImages={isEdit ? profile?.images ?? undefined : undefined}
             files={files ?? []}
             // isLoading={fetcherFilesLoading}
+            lng={lng}
             // maxFiles={4}
             // maxSize={1280 * 1280}
             multiple={true}
@@ -418,8 +444,13 @@ export const ProfileForm: FC<TProps> = ({ isEdit, profile }) => {
         </Field>
         <Field>
           <Input
-            defaultValue={isEdit ? profile?.location : undefined}
+            defaultValue={
+              isEdit
+                ? profile?.location ?? undefined
+                : navigator?.location ?? undefined
+            }
             errors={state?.errors?.location}
+            isDisabled={true}
             isRequired={true}
             label={t("common.form.field.location") ?? "Location"}
             name={EFormFields.Location}

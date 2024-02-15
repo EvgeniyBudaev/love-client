@@ -10,9 +10,10 @@ import "./Layout.scss";
 
 type TProps = {
   children?: ReactNode;
+  lng: string;
 };
 
-export const Layout: FC<TProps> = ({ children }) => {
+export const Layout: FC<TProps> = ({ children, lng }) => {
   const { tg, user } = useTelegram();
   const initialState = {
     data: undefined,
@@ -25,7 +26,7 @@ export const Layout: FC<TProps> = ({ children }) => {
     initialState,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
-  const navigator = useNavigator();
+  const navigator = useNavigator({ lng });
 
   useEffect(() => {
     tg?.ready();

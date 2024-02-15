@@ -22,10 +22,11 @@ import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
 
 type TProps = {
+  lng: string;
   profile?: TProfileDetail;
 };
 
-export const ProfilePage: FC<TProps> = ({ profile }) => {
+export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   const { proxyUrl } = useProxyUrl();
   const { user } = useTelegram();
   const { t } = useTranslation("index");

@@ -80,6 +80,19 @@ $transition: 150ms;
     }
   }
 
+  &__disabled {
+    cursor: default;
+
+    #{$this}-Inner__disabled {
+      background-color: $color-gray;
+
+      input:hover,
+      input {
+        background-color: $color-gray;
+      }
+    }
+  }
+
   /* -------------------- Fix autocomplete form -------------------- */
   #{$this}-Inner:-webkit-autofill {
     -webkit-background-clip: text;

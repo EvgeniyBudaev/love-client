@@ -21,6 +21,7 @@ type TProps = {
   defaultImages?: TImage[];
   files?: TFile[];
   isLoading?: boolean;
+  lng: string;
   onAddFile?: (file: TFile) => void;
   onDeleteFile?: (file: TFile) => void;
   onDrop?: (
@@ -37,6 +38,7 @@ export const Previews: FC<TProps> = ({
   defaultImages,
   files,
   isLoading,
+  lng,
   onAddFile,
   onDeleteFile,
   onDrop,
@@ -46,7 +48,7 @@ export const Previews: FC<TProps> = ({
   const { t } = useTranslation("index");
 
   const renderDefaultImages = !isNil(defaultImages) && (
-    <ImageList defaultImages={defaultImages} />
+    <ImageList defaultImages={defaultImages} lng={lng} />
   );
 
   const renderThumbs =

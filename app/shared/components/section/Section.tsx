@@ -4,7 +4,7 @@ import "./Section.scss";
 type TProps = {
   children?: ReactNode;
   isRequired?: boolean;
-  title: string;
+  title: string | ReactNode;
 };
 
 export const Section: FC<TProps> = ({ children, isRequired, title }) => {

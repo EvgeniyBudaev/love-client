@@ -11,10 +11,11 @@ import { DropDown } from "@/app/uikit/components/dropDown";
 
 type TProps = {
   defaultImages: TImage[];
+  lng: string;
 };
 
-export const ImageList: FC<TProps> = ({ defaultImages }) => {
-  const navigator = useNavigator();
+export const ImageList: FC<TProps> = ({ defaultImages, lng }) => {
+  const navigator = useNavigator({ lng });
   const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation("index");
 

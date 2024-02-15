@@ -1,6 +1,10 @@
 import type { FC } from "react";
 import { ProfileForm } from "@/app/entities/profile/profileForm";
 
-export const ProfileAddPage: FC = () => {
-  return <ProfileForm />;
+type TProps = {
+  lng: string;
+};
+
+export const ProfileAddPage: FC<TProps> = (props) => {
+  return <ProfileForm {...props} />;
 };

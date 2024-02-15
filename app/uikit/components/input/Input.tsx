@@ -22,6 +22,7 @@ export interface IInputProps
   dataTestId?: string;
   errors?: string | string[];
   hidden?: boolean;
+  isDisabled?: boolean;
   isFocused?: boolean;
   isReadOnly?: boolean;
   isRequired?: boolean;
@@ -40,6 +41,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       defaultValue,
       errors,
       hidden,
+      isDisabled,
       isFocused: isInputFocused,
       isReadOnly,
       isRequired,
@@ -63,7 +65,6 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       } else {
         setIsFocused(false);
       }
-
       if (onBlur) {
         onBlur(event);
       }
@@ -73,7 +74,6 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
       if (!isFocused) {
         setIsFocused(true);
       }
-
       if (onFocus) {
         onFocus(event);
       }
@@ -82,7 +82,8 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
     return (
       <div
         className={clsx("InputField", className, {
-          InputField__active: isFocused && !isReadOnly,
+          InputField__disabled: isReadOnly || isDisabled,
+          InputField__active: isFocused && !isReadOnly && !isDisabled,
         })}
         data-testid={dataTestId}
       >
@@ -101,6 +102,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
         <div className="InputField-Wrapper">
           <div
             className={clsx("InputField-Inner", {
+              "InputField-Inner__disabled": isReadOnly || isDisabled,
               "InputField-Inner__active": isFocused,
               "InputField-Inner__error": errors,
             })}
@@ -110,10 +112,12 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
               aria-disabled={isReadOnly}
               autoComplete={autoComplete}
               className={clsx(className, "Input", {
-                Input__active: isFocused && !isReadOnly,
+                Input__disabled: isReadOnly || isDisabled,
+                Input__active: isFocused && !isReadOnly && !isDisabled,
                 Input__error: errors,
               })}
               defaultValue={defaultValue}
+              disabled={isDisabled}
               hidden={hidden}
               name={name}
               onBlur={onBlurCallback}

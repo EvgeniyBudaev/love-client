@@ -13,6 +13,7 @@ import {
 import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
 import { mapSignupToDto } from "@/app/api/auth/signup/utils/mapSignupToDto";
 import { signup } from "@/app/api/auth/signup";
+import { ESearchGender } from "@/app/shared/enums/form";
 
 export async function addProfileAction(prevState: any, formData: FormData) {
   console.log(
@@ -40,27 +41,80 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     };
     const mapperParams = mapSignupToDto(formattedParams);
     console.log("[mapperParams] ", mapperParams);
-    const userResponse = await signup(mapperParams);
+    const userResponse = await signup(mapperParams.signupForm);
 
-    // if (userResponse.success) {
-    //   const profileFormData = new FormData();
-    //   profileFormData.append("userId", userResponse.data.id);
-    //   profileFormData.append("username", userResponse.data.username);
-    //   profileFormData.append("firstName", userResponse.data.firstName);
-    //   profileFormData.append("lastName", userResponse.data.lastName);
-    //   profileFormData.append("email", userResponse.data.email);
-    //   const response = await addProfile(formData as unknown as TAddProfileParams);
-    //   const path = createPath({
-    //     route: ERoutes.ProfileAdd,
-    //   });
-    //   revalidatePath(path);
-    //   return {
-    //     data: response.data,
-    //     error: undefined,
-    //     errors: undefined,
-    //     success: true,
-    //   };
-    // }
+    if (userResponse.success) {
+      const profileFormData = new FormData();
+      profileFormData.append("userId", userResponse.data.id);
+      profileFormData.append(
+        "displayName",
+        mapperParams.profileForm.displayName,
+      );
+      profileFormData.append("firstName", mapperParams.profileForm.firstName);
+      profileFormData.append(
+        "lastName",
+        mapperParams.profileForm?.lastName ?? "",
+      );
+      profileFormData.append("birthday", mapperParams.profileForm.birthday);
+      profileFormData.append("gender", mapperParams.profileForm.gender);
+      profileFormData.append(
+        "searchGender",
+        mapperParams.profileForm?.searchGender ?? ESearchGender.All,
+      );
+      profileFormData.append(
+        "location",
+        mapperParams.profileForm?.location ?? "",
+      );
+      profileFormData.append(
+        "description",
+        mapperParams.profileForm?.description ?? "",
+      );
+      profileFormData.append("height", mapperParams.profileForm?.height ?? "");
+      profileFormData.append("weight", mapperParams.profileForm?.weight ?? "");
+      profileFormData.append(
+        "lookingFor",
+        mapperParams.profileForm?.lookingFor ?? "",
+      );
+      if (Array.isArray(mapperParams.profileForm.image)) {
+        mapperParams.profileForm.image.forEach((item) => {
+          profileFormData.append("image", item);
+        });
+      } else {
+        profileFormData.append("image", mapperParams.profileForm.image);
+      }
+      profileFormData.append("telegramId", mapperParams.profileForm.telegramId);
+      profileFormData.append("username", mapperParams.profileForm.userName);
+      profileFormData.append("firstName", mapperParams.profileForm.firstName);
+      profileFormData.append(
+        "lastName",
+        mapperParams.profileForm?.lastName ?? "",
+      );
+      profileFormData.append(
+        "languageCode",
+        mapperParams.profileForm.languageCode,
+      );
+      profileFormData.append(
+        "allowsWriteToPm",
+        mapperParams.profileForm.allowsWriteToPm,
+      );
+      profileFormData.append("queryId", mapperParams.profileForm.queryId);
+      profileFormData.append("latitude", mapperParams.profileForm.latitude);
+      profileFormData.append("longitude", mapperParams.profileForm.longitude);
+
+      const response = await addProfile(
+        profileFormData as unknown as TAddProfileParams,
+      );
+      const path = createPath({
+        route: ERoutes.ProfileAdd,
+      });
+      revalidatePath(path);
+      return {
+        data: response.data,
+        error: undefined,
+        errors: undefined,
+        success: true,
+      };
+    }
 
     return {
       data: undefined,

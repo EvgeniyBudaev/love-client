@@ -26,6 +26,7 @@ export const addProfileFormSchema = zfd
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Username]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.MobileNumber]: z
       .string()
       .trim()
@@ -53,7 +54,7 @@ export const addProfileFormSchema = zfd
     [EFormFields.SearchGender]: z
       .enum([ESearchGender.Man, ESearchGender.Woman, ESearchGender.All, ""])
       .nullish(),
-    [EFormFields.Location]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Location]: z.string().trim().nullish(),
     [EFormFields.Description]: z.string().trim().nullish(),
     [EFormFields.Height]: z.string().trim().nullish(),
     [EFormFields.Weight]: z.string().trim().nullish(),
@@ -82,7 +83,19 @@ export const addProfileFormSchema = zfd
       .string()
       .trim()
       .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
-    [EFormFields.Username]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.TelegramUsername]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.TelegramFirstName]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE)
+      .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
+    [EFormFields.TelegramLastName]: z
+      .string()
+      .trim()
+      .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
     [EFormFields.LanguageCode]: z
       .string()
       .trim()
