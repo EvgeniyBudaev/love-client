@@ -5,6 +5,8 @@ import { I18nContextProvider } from "@/app/i18n/context";
 import { InitClient } from "@/app/shared/components/init";
 import { Layout as LayoutComponent } from "@/app/shared/components/layout";
 import { SessionProviderWrapper } from "@/app/shared/utils/auth";
+import { ToastContainer } from "@/app/uikit/components/toast/toastContainer";
+import "react-toastify/dist/ReactToastify.css";
 import "@/app/styles/_index.scss";
 
 export const metadata: Metadata = {
@@ -32,6 +34,7 @@ export default function RootLayout({
         <body>
           <I18nContextProvider lng={lng}>
             <InitClient />
+            <ToastContainer />
             <LayoutComponent lng={lng}>{children}</LayoutComponent>
           </I18nContextProvider>
         </body>

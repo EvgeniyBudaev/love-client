@@ -18,6 +18,7 @@ import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
+import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
 
 type TSearchParams = {
   profileId?: string;
@@ -47,16 +48,21 @@ async function mainLoader(params: TMainLoader) {
     const profileResponse = searchParams.telegramId
       ? await getProfileByTelegramId({ telegramId: searchParams.telegramId })
       : undefined;
-    const profileListResponse = await getProfileList({
-      page: searchParams?.page ?? DEFAULT_PAGE.toString(),
-      limit: searchParams?.limit ?? DEFAULT_PAGE_LIMIT.toString(),
-      ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
-      ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
-      searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
-    });
-    const profile = profileResponse?.data;
-    const profileList = profileListResponse.data;
-    return { profile, profileList };
+    if (profileResponse?.success && profileResponse.data) {
+      const profile = profileResponse.data;
+      const profileListResponse = await getProfileList({
+        page: searchParams?.page ?? DEFAULT_PAGE.toString(),
+        limit: searchParams?.limit ?? DEFAULT_PAGE_LIMIT.toString(),
+        ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
+        ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
+        searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
+        profileId: profile.id.toString(),
+        distance: DEFAULT_DISTANCE.toString(),
+      });
+
+      const profileList = profileListResponse.data;
+      return { profile, profileList };
+    }
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
   }

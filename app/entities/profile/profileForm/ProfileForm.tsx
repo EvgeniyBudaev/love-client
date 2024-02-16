@@ -58,6 +58,9 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   const { queryId, user } = useTelegram();
   const { i18n, t } = useTranslation("index");
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
+  const location = isEdit
+    ? profile?.location ?? undefined
+    : navigator?.location ?? undefined;
   const genderDefault = isEdit
     ? GENDER_MAPPING[language].find((item) => item.value === profile?.gender)
     : undefined;
@@ -100,16 +103,15 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     if (isEdit && !isNil(profile)) {
       if (!isNil(state.data) && state.success && !state?.error) {
         const path = createPath({
-          route: ERoutes.ProfileEdit,
-          params: { id: profile.id },
+          route: ERoutes.Profile,
+          params: { id: state.data.id },
         });
         redirect(path);
       }
     } else {
       if (!isNil(state.data) && state.success && !state?.error) {
         const path = createPath({
-          route: ERoutes.Profile,
-          params: { id: state.data.id },
+          route: ERoutes.Login,
         });
         redirect(path);
       }
@@ -168,7 +170,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     const password = formData.get(EFormFields.Password);
     const passwordConfirm = formData.get(EFormFields.PasswordConfirm);
     const description = formData.get(EFormFields.Description);
-    const location = formData.get(EFormFields.Location);
     const height = formData.get(EFormFields.Height);
     const weight = formData.get(EFormFields.Weight);
     formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
@@ -203,20 +204,20 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
       EFormFields.LookingFor,
       lookingFor?.value.toString() ?? "",
     );
-    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
+    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "2");
     formDataDto.append(
       EFormFields.TelegramUsername,
-      user?.username?.toString() ?? "ebudaev",
+      user?.username?.toString() ?? "valova",
     );
     formDataDto.append(
       EFormFields.TelegramFirstName,
-      user?.first_name?.toString() ?? "Евгений",
+      user?.first_name?.toString() ?? "Надя",
     );
     formDataDto.append(
       EFormFields.TelegramLastName,
-      user?.last_name?.toString() ?? "",
+      user?.last_name?.toString() ?? "Валова",
     );
-    formDataDto.append(EFormFields.QueryId, queryId ?? "1");
+    formDataDto.append(EFormFields.QueryId, queryId ?? "2");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
       EFormFields.AllowsWriteToPm,
@@ -463,11 +464,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         </Field>
         <Field>
           <Input
-            defaultValue={
-              isEdit
-                ? profile?.location ?? undefined
-                : navigator?.location ?? undefined
-            }
+            defaultValue={location}
             errors={state?.errors?.location}
             isDisabled={true}
             isRequired={true}

@@ -65,7 +65,8 @@ export const useNavigator: TUseNavigator = ({ lng }) => {
         latitude: undefined,
       });
     }
-  }, [fetchIPInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePositionChange = useCallback((position: GeolocationPosition) => {
     if (

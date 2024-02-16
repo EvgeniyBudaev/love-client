@@ -39,7 +39,7 @@ $transition: 150ms;
 
   &-Inner {
     width: 100%;
-    border: 1px solid transparent;
+    border: 1px solid $secondary_bg_color;
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
   }
@@ -56,7 +56,7 @@ $transition: 150ms;
     width: 100%;
 
     #{$this}-Inner__active {
-      background-color: transparent;
+      background-color: $secondary_bg_color;
       color: $text_color;
 
       input,
@@ -72,6 +72,18 @@ $transition: 150ms;
     input:-webkit-autofill.Input__active:focus,
     input:-webkit-autofill.Input__active:active {
       -webkit-box-shadow: 0 0 0 30px $secondary_bg_color inset !important;
+    }
+
+    input:-webkit-autofill {
+      background-color: $secondary_bg_color !important;
+      border: 1px solid $secondary_bg_color !important;
+      -webkit-text-fill-color: $text_color;
+    }
+
+    input:-webkit-autofill:focus {
+      background-color: $secondary_bg_color !important;
+      border: 1px solid $secondary_bg_color !important;
+      -webkit-text-fill-color: $text_color;
     }
 
     & textarea,
@@ -120,10 +132,10 @@ $transition: 150ms;
   display: flex;
   align-items: center;
   width: 100%;
-  border: 1px solid transparent;
+  border: 1px solid $secondary_bg_color;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
-  outline: transparent;
+  outline: $secondary_bg_color;
   color: $text_color;
   background-color: $secondary_bg_color;
 

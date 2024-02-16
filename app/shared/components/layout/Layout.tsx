@@ -34,7 +34,7 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
     //   buttonSubmitRef.current && buttonSubmitRef.current.click();
     // }
     if (navigator.isCoords) {
-      // buttonSubmitRef.current && buttonSubmitRef.current.click();
+      buttonSubmitRef.current && buttonSubmitRef.current.click();
     }
   }, [navigator.isCoords, tg]);
 
