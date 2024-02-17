@@ -3,6 +3,7 @@ import { profileDetailSchema } from "@/app/api/profile/add";
 
 export const profileDetailParamsSchema = z.object({
   id: z.string(),
+  viewerId: z.string(),
 });
 
 export const profileDetailResponseSchema = z.object({

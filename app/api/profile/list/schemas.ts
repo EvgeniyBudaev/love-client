@@ -13,7 +13,7 @@ const profileListItemSchema = z.object({
 
 export const profileListParamsSchema = z.object({
   page: z.string(),
-  limit: z.string(),
+  size: z.string(),
   ageFrom: z.string(),
   ageTo: z.string(),
   searchGender: z.string(),

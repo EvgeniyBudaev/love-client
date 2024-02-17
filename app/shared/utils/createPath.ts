@@ -10,8 +10,12 @@ type TRoutes =
 type TRoutesWithParams = ERoutes.Profile | ERoutes.ProfileEdit;
 
 type TCreatePathProps =
-  | { route: TRoutes }
-  | { route: TRoutesWithParams; params: Record<string, string | number> };
+  | { route: TRoutes; lng?: string }
+  | {
+      route: TRoutesWithParams;
+      params: Record<string, string | number>;
+      lng?: string;
+    };
 
 type TCreatePathPropsWithParams = Extract<
   TCreatePathProps,
@@ -33,7 +37,7 @@ export function createPath(
   }
 
   if (query && Object.keys(query).length) {
-    path = `${path}${path.includes("?") ? "&" : "?"}${new URLSearchParams(query)}`;
+    path = `${path}${props?.lng ?? ""}${path.includes("?") ? "&" : "?"}${new URLSearchParams(query)}`;
   }
 
   return path;

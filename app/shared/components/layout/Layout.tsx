@@ -2,10 +2,11 @@
 
 import { type FC, type ReactNode, useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
-import { getProfileByTelegramIdAction } from "@/app/actions/profile/getByTelegramId/getProfileByTelegramIdAction";
+import { getProfileByKeycloakIdAction } from "@/app/actions/profile/getByKeycloakId/getByKeycloakIdAction";
 import { Footer } from "@/app/shared/components/footer";
 import { EFormFields } from "@/app/shared/components/layout/enums";
-import { useNavigator, useTelegram } from "@/app/shared/hooks";
+import { useNavigator, useSessionNext, useTelegram } from "@/app/shared/hooks";
+import type { TSession } from "@/app/shared/types/session";
 import "./Layout.scss";
 
 type TProps = {
@@ -14,7 +15,9 @@ type TProps = {
 };
 
 export const Layout: FC<TProps> = ({ children, lng }) => {
-  const { tg, user } = useTelegram();
+  const { data: session, status } = useSessionNext();
+  const isSession = Boolean(session);
+  const { tg } = useTelegram();
   const initialState = {
     data: undefined,
     error: undefined,
@@ -22,7 +25,7 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
     success: false,
   };
   const [state, formAction] = useFormState(
-    getProfileByTelegramIdAction,
+    getProfileByKeycloakIdAction,
     initialState,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
@@ -33,24 +36,26 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
     // if (tg?.ready()) {
     //   buttonSubmitRef.current && buttonSubmitRef.current.click();
     // }
-    if (navigator.isCoords) {
+    if (isSession) {
       buttonSubmitRef.current && buttonSubmitRef.current.click();
     }
-  }, [navigator.isCoords, tg]);
+  }, [isSession, navigator.isCoords, tg]);
 
   const handleSubmit = (formData: FormData) => {
-    const formDataDto = new FormData();
-    // formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "");
-    formDataDto.append(EFormFields.TelegramID, "1");
-    formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
-    formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
-    formAction(formDataDto);
+    if (isSession) {
+      const keycloakSession = session as TSession;
+      const formDataDto = new FormData();
+      formDataDto.append(EFormFields.UserId, keycloakSession.user.id);
+      formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
+      formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
+      formAction(formDataDto);
+    }
   };
 
   return (
     <div className="Layout">
       <div className="Layout-Content">{children}</div>
-      <Footer profile={state.data} />
+      <Footer lng={lng} profile={state.data} />
       <form action={handleSubmit} className="Layout-Form">
         <input hidden={true} ref={buttonSubmitRef} type="submit" />
       </form>

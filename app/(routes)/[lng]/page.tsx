@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getProfileByTelegramId } from "@/app/api/profile/byTelegramId";
+import { getProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
 import { getProfileList } from "@/app/api/profile/list";
-import { useTranslation } from "@/app/i18n";
 import { MainPage } from "@/app/pages/mainPage";
+import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
 import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
@@ -12,22 +12,20 @@ import {
 } from "@/app/shared/constants/filter";
 import {
   DEFAULT_PAGE,
-  DEFAULT_PAGE_LIMIT,
+  DEFAULT_PAGE_SIZE,
 } from "@/app/shared/constants/pagination";
 import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
-import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
-import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
 
 type TSearchParams = {
-  profileId?: string;
-  telegramId?: string;
   page?: string;
-  limit?: string;
+  size?: string;
   ageFrom?: string;
   ageTo?: string;
   searchGender?: string;
+  profileId?: string;
+  distance?: string;
 };
 
 type TMainLoader = {
@@ -45,19 +43,19 @@ async function mainLoader(params: TMainLoader) {
   }
   const { searchParams } = params;
   try {
-    const profileResponse = searchParams.telegramId
-      ? await getProfileByTelegramId({ telegramId: searchParams.telegramId })
-      : undefined;
+    const profileResponse = await getProfileByKeycloakId({
+      userId: session.user.id,
+    });
     if (profileResponse?.success && profileResponse.data) {
       const profile = profileResponse.data;
       const profileListResponse = await getProfileList({
         page: searchParams?.page ?? DEFAULT_PAGE.toString(),
-        limit: searchParams?.limit ?? DEFAULT_PAGE_LIMIT.toString(),
+        size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
         ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
         ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
         searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
         profileId: profile.id.toString(),
-        distance: DEFAULT_DISTANCE.toString(),
+        distance: searchParams?.distance ?? DEFAULT_DISTANCE.toString(),
       });
 
       const profileList = profileListResponse.data;

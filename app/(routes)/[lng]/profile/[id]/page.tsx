@@ -24,7 +24,10 @@ async function loader(params: TLoader) {
   }
   const { id } = params;
   try {
-    const profileDetailResponse = await getProfileDetail({ id: id });
+    const profileDetailResponse = await getProfileDetail({
+      id: id,
+      viewerId: session.user.id,
+    });
     const profile = profileDetailResponse.data;
     return { profile };
   } catch (error) {

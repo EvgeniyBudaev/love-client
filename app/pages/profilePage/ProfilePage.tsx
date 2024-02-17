@@ -3,7 +3,7 @@
 import isNil from "lodash/isNil";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useRef, useState } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import type { TProfileDetail } from "@/app/api/profile/add";
 import { ProfileSidebar } from "@/app/entities/profile/profileSidebar";
 import { useTranslation } from "@/app/i18n/client";
@@ -11,8 +11,9 @@ import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
-import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
+import { useProxyUrl, useSessionNext, useTelegram } from "@/app/shared/hooks";
 import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
+import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Hamburger } from "@/app/uikit/components/hamburger";
@@ -20,6 +21,7 @@ import { Icon } from "@/app/uikit/components/icon";
 import { Slider } from "@/app/uikit/components/slider";
 import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
+import { getDistance } from "@/app/pages/profilePage/utils";
 
 type TProps = {
   lng: string;
@@ -27,6 +29,8 @@ type TProps = {
 };
 
 export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
+  const { data: session } = useSessionNext();
+  const keycloakSession = session as TSession;
   const { proxyUrl } = useProxyUrl();
   const { user } = useTelegram();
   const { t } = useTranslation("index");
@@ -34,6 +38,14 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   const sidebarRef = useRef(null);
   const fullYear = getFullYear(profile?.birthday);
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
+  const isSessionUser =
+    profile?.id && keycloakSession?.user.id === profile?.userId;
+
+  const distance = useMemo(() => {
+    return profile?.navigator
+      ? getDistance(profile.navigator.distance, t)
+      : undefined;
+  }, [profile?.navigator, t]);
 
   const handleOpenSidebar = () => {
     setIsSidebarOpen(true);
@@ -45,13 +57,13 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
 
   return (
     <>
-      <DropDown>
-        <DropDown.Button>
-          <Hamburger />
-        </DropDown.Button>
-        <DropDown.Panel>
-          <div className="DropDown-Menu">
-            {profile?.id && (
+      {isSessionUser && (
+        <DropDown>
+          <DropDown.Button>
+            <Hamburger />
+          </DropDown.Button>
+          <DropDown.Panel>
+            <div className="DropDown-Menu">
               <Link
                 className="DropDown-MenuItem"
                 href={createPath({
@@ -61,20 +73,18 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
               >
                 {t("common.actions.edit")}
               </Link>
-            )}
-          </div>
-          <div className="DropDown-Menu">
-            <div className="DropDown-MenuItem" onClick={handleOpenSidebar}>
-              {t("common.actions.settings")}
+              <div className="DropDown-MenuItem" onClick={handleOpenSidebar}>
+                {t("common.actions.settings")}
+              </div>
             </div>
-          </div>
-          <div className="DropDown-Menu">
-            <div className="DropDown-MenuItem DropDown-MenuItem-Cancel">
-              {t("common.actions.cancel")}
+            <div className="DropDown-Menu">
+              <div className="DropDown-MenuItem DropDown-MenuItem-Cancel">
+                {t("common.actions.cancel")}
+              </div>
             </div>
-          </div>
-        </DropDown.Panel>
-      </DropDown>
+          </DropDown.Panel>
+        </DropDown>
+      )}
       <ProfileSidebar
         isSidebarOpen={isSidebarOpen}
         onCloseSidebar={handleCloseSidebar}
@@ -106,6 +116,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
               <div className="ProfilePage-Label">
                 {profile?.displayName}, {fullYear}
               </div>
+              <div>{distance}</div>
             </div>
           </div>
           {profile?.description && (

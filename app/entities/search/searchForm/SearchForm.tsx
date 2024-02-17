@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type FC, useRef, useState } from "react";
 import type { TProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 import { useTranslation } from "@/app/i18n/client";
+import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
 import { Header } from "@/app/shared/components/header";
 import { SearchBar } from "@/app/shared/components/searchBar";
@@ -17,7 +18,7 @@ import {
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
 import {
   DEFAULT_PAGE,
-  DEFAULT_PAGE_LIMIT,
+  DEFAULT_PAGE_SIZE,
 } from "@/app/shared/constants/pagination";
 import { ELanguage } from "@/app/shared/enums";
 import { useTelegram } from "@/app/shared/hooks";
@@ -28,7 +29,6 @@ import { RangeSlider } from "@/app/uikit/components/rangeSlider";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./SearchForm.scss";
-import { Container } from "@/app/shared/components/container";
 
 type TProps = {
   profile?: TProfileByTelegramId;
@@ -39,7 +39,7 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
   const AGE_TO = "ageTo";
   const SEARCH_GENDER = "searchGender";
   const PAGE = "page";
-  const LIMIT = "limit";
+  const SIZE = "size";
   const { user } = useTelegram();
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
   const { t } = useTranslation("index");
@@ -98,9 +98,9 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
     params.delete(AGE_TO);
     params.delete(SEARCH_GENDER);
     const page = params.get(PAGE) ?? DEFAULT_PAGE;
-    const limit = params.get(LIMIT) ?? DEFAULT_PAGE_LIMIT;
+    const size = params.get(SIZE) ?? DEFAULT_PAGE_SIZE;
     params.set(PAGE, page.toString());
-    params.set(LIMIT, limit.toString());
+    params.set(SIZE, size.toString());
     const ageRangeValueFrom = Array.isArray(ageRange) ? ageRange[0] : ageRange;
     params.set(AGE_FROM, ageRangeValueFrom.toString());
     const ageRangeValueTo = Array.isArray(ageRange) ? ageRange[1] : ageRange;
@@ -126,7 +126,7 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
             </div>
           </DropDown.Button>
           <DropDown.Panel>
-            <div className="SearchForm-DropDown-Menu">
+            <>
               <div className="DropDown-Menu">
                 <div className="DropDown-MenuItem" onClick={handleOpenSidebar}>
                   {t("common.actions.filterSetup")}
@@ -137,7 +137,7 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
                   {t("common.actions.cancel")}
                 </div>
               </div>
-            </div>
+            </>
           </DropDown.Panel>
         </DropDown>
       </Header>

@@ -7,9 +7,10 @@ import "./LoginPage.scss";
 
 type TProps = {
   i18n: any;
+  lng: string;
 };
 
-export const LoginPage: FC<TProps> = ({ i18n }) => {
+export const LoginPage: FC<TProps> = ({ i18n, lng }) => {
   return (
     <div className="LoginPage">
       <div className="LoginPage-Center">
@@ -18,7 +19,7 @@ export const LoginPage: FC<TProps> = ({ i18n }) => {
           <div className="LoginPage-Title">
             {i18n.t("pages.login.description")}
           </div>
-          <LoginForm />
+          <LoginForm lng={lng} />
           <div className="LoginPage-NoAccount">
             {i18n.t("pages.login.noAccount")}&nbsp;
             <Link

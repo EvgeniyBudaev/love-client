@@ -6,8 +6,37 @@ import { telegramSchema } from "@/app/api/profile/telegram";
 import { fileSchema } from "@/app/api/upload";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
 
+export const addProfileParamsSchema = zfd.formData({
+  userId: zfd.text(),
+  displayName: zfd.text(),
+  birthday: zfd.text(),
+  gender: zfd.text(),
+  searchGender: zfd.text(),
+  location: zfd.text().nullish(),
+  description: zfd.text().nullish(),
+  height: zfd.text().nullish(),
+  weight: zfd.text().nullish(),
+  lookingFor: zfd.text().nullish(),
+  image: fileSchema.or(fileSchema.array()).nullish(),
+  telegramId: zfd.text(),
+  firstName: zfd.text(),
+  lastName: zfd.text().nullish(),
+  username: zfd.text(),
+  languageCode: zfd.text(),
+  allowsWriteToPm: zfd.text(),
+  queryId: zfd.text(),
+  latitude: zfd.text(),
+  longitude: zfd.text(),
+  ageFrom: zfd.text(),
+  ageTo: zfd.text(),
+  distance: zfd.text(),
+  page: zfd.text(),
+  size: zfd.text(),
+});
+
 export const profileDetailSchema = z.object({
   id: z.number(),
+  userId: z.string(),
   displayName: z.string(),
   birthday: z.string(),
   gender: z.enum([EGender.Man, EGender.Woman]),
@@ -39,29 +68,6 @@ export const profileDetailSchema = z.object({
   images: imageSchema.array().nullish(),
   telegram: telegramSchema.nullish(),
   navigator: navigatorSchema.nullish(),
-});
-
-export const addProfileParamsSchema = zfd.formData({
-  userId: zfd.text(),
-  displayName: zfd.text(),
-  birthday: zfd.text(),
-  gender: zfd.text(),
-  searchGender: zfd.text(),
-  location: zfd.text().nullish(),
-  description: zfd.text().nullish(),
-  height: zfd.text().nullish(),
-  weight: zfd.text().nullish(),
-  lookingFor: zfd.text().nullish(),
-  image: fileSchema.or(fileSchema.array()).nullish(),
-  telegramId: zfd.text(),
-  firstName: zfd.text(),
-  lastName: zfd.text().nullish(),
-  username: zfd.text(),
-  languageCode: zfd.text(),
-  allowsWriteToPm: zfd.text(),
-  queryId: zfd.text(),
-  latitude: zfd.text(),
-  longitude: zfd.text(),
 });
 
 export const addProfileResponseSchema = z.object({

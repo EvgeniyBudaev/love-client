@@ -110,6 +110,11 @@ export const addProfileFormSchema = zfd
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.AgeFrom]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.AgeTo]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Distance]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Page]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Size]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.Password]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.PasswordConfirm]: z
       .string()

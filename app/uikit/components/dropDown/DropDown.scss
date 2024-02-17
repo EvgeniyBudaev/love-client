@@ -26,6 +26,7 @@ $transition: 0.3s;
     width: 100%;
     border: 1px solid transparent;
     border-radius: $border-radius-lg;
+    background-color: $bg_color;
     z-index: 20;
 
     &.enter {
@@ -69,9 +70,13 @@ $transition: 0.3s;
     padding: 0 16px;
     min-height: 46px;
     cursor: pointer;
-    border: 1px solid transparent;
+    border-bottom: 1px solid $bg_color;
     border-radius: $border-radius-xl;
     transition: all $transition;
+
+    &:last-child {
+      border-bottom: none;
+    }
 
     &-Cancel {
       font-weight: bold;

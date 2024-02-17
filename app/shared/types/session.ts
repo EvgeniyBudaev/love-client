@@ -7,9 +7,11 @@ export type TSession = {
   id_token: string;
   roles: EPermissions[];
   user: {
-    name: string;
     email: string;
+    firstName: string;
     id: string;
+    lastName: string;
+    name: string;
     username: string;
   };
 };

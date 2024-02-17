@@ -12,6 +12,7 @@
   background-color: $bg_color;
 
   &-Item {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,11 +23,10 @@
     &:first-child {
       margin-left: 0;
     }
+  }
 
-    &:hover,
-    &:active {
-      opacity: $opacity;
-    }
+  &-Item-Avatar {
+    top: -22px;
   }
 
   &-Avatar {

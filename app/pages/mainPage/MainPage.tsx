@@ -6,7 +6,7 @@ import { FC } from "react";
 import type { TProfileByTelegramId } from "@/app/api/profile/byTelegramId";
 import type { TProfileList } from "@/app/api/profile/list";
 import { SearchForm } from "@/app/entities/search/searchForm";
-import { useProxyUrl, useTelegram } from "@/app/shared/hooks";
+import { useProxyUrl } from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
 import { ERoutes } from "@/app/shared/enums";
 import "./MainPage.scss";
@@ -17,7 +17,6 @@ type TProps = {
 };
 
 export const MainPage: FC<TProps> = ({ profile, profileList }) => {
-  const { tg, user, queryId } = useTelegram();
   const { proxyUrl } = useProxyUrl();
 
   return (

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ESearchGender } from "@/app/shared/enums/form";
+import { filterSchema } from "@/app/api/profile/filter";
 
 const imageListItemSchema = z.object({
   url: z.string(),
@@ -11,12 +12,9 @@ const telegramSchema = z.object({
 
 export const profileByTelegramIdSchema = z.object({
   id: z.number(),
-  searchGender: z.enum([
-    ESearchGender.Man,
-    ESearchGender.Woman,
-    ESearchGender.All,
-  ]),
+  userId: z.string(),
   image: imageListItemSchema,
+  filter: filterSchema,
   telegram: telegramSchema,
 });
 

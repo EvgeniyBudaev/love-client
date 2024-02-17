@@ -25,4 +25,9 @@ export enum EFormFields {
   QueryId = "queryId",
   Latitude = "latitude",
   Longitude = "longitude",
+  AgeFrom = "ageFrom",
+  AgeTo = "ageTo",
+  Distance = "distance",
+  Page = "page",
+  Size = "size",
 }

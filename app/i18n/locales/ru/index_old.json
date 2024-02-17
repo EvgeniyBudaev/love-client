@@ -192,11 +192,6 @@
     "subTitle": "Поддерживаемые типы файлов: {types}",
     "action": "Добавить"
   },
-  "errorBoundary": {
-    "common": {
-      "forbidden": "Недостаточно прав доступа"
-    }
-  },
   "globalSearchResults": {
     "title": "Глобальный результат поиска"
   }

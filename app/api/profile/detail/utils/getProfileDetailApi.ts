@@ -10,7 +10,10 @@ export const getProfileDetailApi: TApiFunction<
   TProfileDetailResponse
 > = (params) => {
   const { id } = params;
-  const url = `/api/v1/profile/detail/${id}`;
+  const queryParams = {
+    ...(params?.viewerId && { viewerId: params?.viewerId }),
+  };
+  const url = `/api/v1/profile/detail/${id}?${new URLSearchParams(queryParams)}`;
   return fetchApi<TProfileDetailResponse>(url, {
     method: EFormMethods.Get,
   });

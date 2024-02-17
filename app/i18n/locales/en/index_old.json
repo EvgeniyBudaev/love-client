@@ -192,11 +192,6 @@
     "subTitle": "Supported file types: {types}",
     "action": "Add"
   },
-  "errorBoundary": {
-    "common": {
-      "forbidden": "No access to the report"
-    }
-  },
   "globalSearchResults": {
     "title": "Global search results"
   }

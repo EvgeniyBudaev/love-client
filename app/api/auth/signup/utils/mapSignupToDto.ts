@@ -28,6 +28,11 @@ type TProps = {
   [EFormFields.QueryId]: string;
   [EFormFields.Latitude]: string;
   [EFormFields.Longitude]: string;
+  [EFormFields.AgeFrom]: string;
+  [EFormFields.AgeTo]: string;
+  [EFormFields.Distance]: string;
+  [EFormFields.Page]: string;
+  [EFormFields.Size]: string;
 };
 
 type TSignupForm = {
@@ -59,6 +64,11 @@ type TProfileForm = {
   [EFormFields.QueryId]: string;
   [EFormFields.Latitude]: string;
   [EFormFields.Longitude]: string;
+  [EFormFields.AgeFrom]: string;
+  [EFormFields.AgeTo]: string;
+  [EFormFields.Distance]: string;
+  [EFormFields.Page]: string;
+  [EFormFields.Size]: string;
 };
 
 type TResponse = {
@@ -90,6 +100,11 @@ export const mapSignupToDto: TMapSignupToDto = (props: TProps) => {
       [EFormFields.QueryId]: props.queryId,
       [EFormFields.Latitude]: props.latitude,
       [EFormFields.Longitude]: props.longitude,
+      [EFormFields.AgeFrom]: props.ageFrom,
+      [EFormFields.AgeTo]: props.ageTo,
+      [EFormFields.Distance]: props.distance,
+      [EFormFields.Page]: props.page,
+      [EFormFields.Size]: props.size,
     },
     signupForm: {
       [EFormFields.Email]: props.email,

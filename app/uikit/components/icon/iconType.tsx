@@ -13,6 +13,7 @@ import {
   NoImageIcon,
   PersonIcon,
   SearchIcon,
+  SpinnerIcon,
   TrashIcon,
   WatchIcon,
 } from "@/app/uikit/assets/icons";
@@ -32,6 +33,7 @@ export type IconType =
   | "NoImage"
   | "Person"
   | "Search"
+  | "Spinner"
   | "Trash"
   | "Watch";
 
@@ -50,6 +52,7 @@ export const iconTypes = new Map([
   ["NoImage", <NoImageIcon key="NoImageIcon" />],
   ["Person", <PersonIcon key="PersonIcon" />],
   ["Search", <SearchIcon key="SearchIcon" />],
+  ["Spinner", <SpinnerIcon key="SpinnerIcon" />],
   ["Trash", <TrashIcon key="TrashIcon" />],
   ["Watch", <WatchIcon key="WatchIcon" />],
 ]);

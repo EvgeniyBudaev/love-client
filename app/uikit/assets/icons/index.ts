@@ -12,6 +12,7 @@ import { MoreHorizIcon } from "./moreHorizIcon";
 import { NoImageIcon } from "./noImageIcon";
 import { PersonIcon } from "./personIcon";
 import { SearchIcon } from "./searchIcon";
+import { SpinnerIcon } from "./spinnerIcon";
 import { TrashIcon } from "./trashIcon";
 import { WatchIcon } from "./watchIcon";
 
@@ -30,6 +31,7 @@ export {
   NoImageIcon,
   PersonIcon,
   SearchIcon,
+  SpinnerIcon,
   TrashIcon,
   WatchIcon,
 };

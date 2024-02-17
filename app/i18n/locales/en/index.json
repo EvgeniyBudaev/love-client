@@ -1,4 +1,11 @@
 {
+  "errorBoundary": {
+    "common": {
+      "forbidden": "No access to the report",
+      "geoPositionError": "Error determining geoposition. Check your Internet connection and your equipment settings. Try refreshing the page",
+      "unexpectedError": "Unexpected error"
+    }
+  },
   "pages": {
     "login": {
       "keycloak": "Sing in",
@@ -27,6 +34,8 @@
       "deleteAccount": "Delete account",
       "filterSetup": "Set up a filter",
       "edit": "Edit",
+      "profileDetail": "Go to profile",
+      "exit": "Exit",
       "delete": "Delete"
     },
     "form": {
@@ -54,7 +63,9 @@
     },
     "reductions": {
       "cm": "cm",
-      "kg": "kg"
+      "kg": "kg",
+      "km": "km",
+      "m": "m"
     },
     "validation": {
       "email": "Invalid email",
@@ -68,12 +79,6 @@
         "maxSize": "Maximum size 200mb",
         "maxAmount": "Maximum number of files 50"
       }
-    }
-  },
-  "errorBoundary": {
-    "common": {
-      "geoPositionError": "Error determining geoposition. Check your Internet connection and your equipment settings. Try refreshing the page",
-      "unexpectedError": "Unexpected error"
     }
   }
 }

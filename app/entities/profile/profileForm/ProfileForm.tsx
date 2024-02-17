@@ -12,15 +12,30 @@ import type { TProfileDetail } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
 import { Container } from "@/app/shared/components/container";
-import { Section } from "@/app/shared/components/section";
+import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 import { Field } from "@/app/shared/components/form/field";
 import { FileUploader } from "@/app/shared/components/form/fileUploader";
 import { PhoneInputMask } from "@/app/shared/components/form/phoneInputMask";
 import { Header } from "@/app/shared/components/header";
+import { Section } from "@/app/shared/components/section";
 import { SidebarContent } from "@/app/shared/components/sidebarContent";
+import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
+import {
+  DEFAULT_AGE_FROM,
+  DEFAULT_AGE_TO,
+} from "@/app/shared/constants/filter";
 import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_SIZE,
+} from "@/app/shared/constants/pagination";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
-import { useFiles, useNavigator, useTelegram } from "@/app/shared/hooks";
+import {
+  useFiles,
+  useNavigator,
+  useSessionNext,
+  useTelegram,
+} from "@/app/shared/hooks";
 import { GENDER_MAPPING } from "@/app/shared/mapping/gender";
 import { LANGUAGE_MAPPING } from "@/app/shared/mapping/language";
 import { LOOKING_FOR_MAPPING } from "@/app/shared/mapping/lookingFor";
@@ -34,7 +49,7 @@ import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileForm.scss";
-import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
+import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
   isEdit?: boolean;
@@ -53,6 +68,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     isEdit ? editProfileAction : addProfileAction,
     initialState,
   );
+  const { data: session } = useSessionNext();
+  const keycloakSession = session as TSession;
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const navigator = useNavigator({ lng });
   const { queryId, user } = useTelegram();
@@ -100,8 +117,14 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   });
 
   useEffect(() => {
+    if (isEdit && keycloakSession?.user.id !== profile?.userId) {
+      const path = createPath({
+        route: ERoutes.PermissionDenied,
+      });
+      redirect(path);
+    }
     if (isEdit && !isNil(profile)) {
-      if (!isNil(state.data) && state.success && !state?.error) {
+      if (!isNil(state?.data) && state.success && !state?.error) {
         const path = createPath({
           route: ERoutes.Profile,
           params: { id: state.data.id },
@@ -109,7 +132,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         redirect(path);
       }
     } else {
-      if (!isNil(state.data) && state.success && !state?.error) {
+      if (!isNil(state?.data) && state.success && !state?.error) {
         const path = createPath({
           route: ERoutes.Login,
         });
@@ -204,20 +227,20 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
       EFormFields.LookingFor,
       lookingFor?.value.toString() ?? "",
     );
-    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "2");
+    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
     formDataDto.append(
       EFormFields.TelegramUsername,
-      user?.username?.toString() ?? "valova",
+      user?.username?.toString() ?? "ebudaev",
     );
     formDataDto.append(
       EFormFields.TelegramFirstName,
-      user?.first_name?.toString() ?? "Надя",
+      user?.first_name?.toString() ?? "Евгений",
     );
     formDataDto.append(
       EFormFields.TelegramLastName,
-      user?.last_name?.toString() ?? "Валова",
+      user?.last_name?.toString() ?? "Будаев",
     );
-    formDataDto.append(EFormFields.QueryId, queryId ?? "2");
+    formDataDto.append(EFormFields.QueryId, queryId ?? "1");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
       EFormFields.AllowsWriteToPm,
@@ -225,6 +248,11 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     );
     formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
     formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
+    formDataDto.append("ageFrom", DEFAULT_AGE_FROM.toString());
+    formDataDto.append("ageTo", DEFAULT_AGE_TO.toString());
+    formDataDto.append("distance", DEFAULT_DISTANCE.toString());
+    formDataDto.append("page", DEFAULT_PAGE.toString());
+    formDataDto.append("size", DEFAULT_PAGE_SIZE.toString());
     if (isEdit) {
       formDataDto.append("id", profile?.id.toString() ?? "");
       if (
@@ -237,8 +265,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     }
     formAction(formDataDto);
   };
-
-  console.log("navigator: ", navigator);
 
   if (!navigator.isCoords) return <ProfileSkeletonForm />;
   if (navigator?.errorPosition) {

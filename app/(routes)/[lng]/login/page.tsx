@@ -8,5 +8,5 @@ export default async function LoginRoute({
 }) {
   const { i18n } = await useTranslation(lng, "index");
 
-  return <LoginPage i18n={i18n} />;
+  return <LoginPage i18n={i18n} lng={lng} />;
 }
