@@ -14,6 +14,8 @@ import { createPath } from "@/app/shared/utils";
 import { Icon } from "@/app/uikit/components/icon";
 import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./ProfileSidebar.scss";
+import { useSessionNext } from "@/app/shared/hooks";
+import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
   isSidebarOpen: boolean;
@@ -26,6 +28,8 @@ const ProfileSidebarComponent = forwardRef(
     { isSidebarOpen, onCloseSidebar, profile }: TProps,
     ref: ForwardedRef<HTMLDivElement>,
   ): JSX.Element => {
+    const { data: session } = useSessionNext();
+    const isSession = Boolean(session);
     const initialState = {
       data: undefined,
       error: undefined,
@@ -35,15 +39,19 @@ const ProfileSidebarComponent = forwardRef(
     const buttonSubmitRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation("index");
     const [state, formAction] = useFormState(deleteProfileAction, initialState);
+    console.log("state: ", state);
 
     useEffect(() => {
-      if (!isNil(state.data) && state.success && !state?.error) {
+      if (
+        (!isNil(state?.data) && state?.success && !state?.error) ||
+        !isSession
+      ) {
         const path = createPath({
-          route: ERoutes.Root,
+          route: ERoutes.Login,
         });
         redirect(path);
       }
-    }, [state.data, state?.error, state.success]);
+    }, [state?.data, state?.error, state?.success]);
 
     const handleDeleteAccount = () => {
       buttonSubmitRef.current && buttonSubmitRef.current.click();

@@ -124,7 +124,7 @@ const InputComponent = forwardRef<HTMLInputElement, IInputProps>(
                 Input__error: errors,
               })}
               defaultValue={defaultValue}
-              disabled={isDisabled}
+              // disabled={isDisabled}
               hidden={hidden}
               name={name}
               onBlur={onBlurCallback}

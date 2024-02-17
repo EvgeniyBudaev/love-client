@@ -13,12 +13,25 @@ import {
   getErrorsResolver,
   createPath,
 } from "@/app/shared/utils";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import type { TSession } from "@/app/shared/types/session";
+import { redirect } from "next/navigation";
+import { deleteUser } from "@/app/api/auth/delete";
 
 export async function deleteProfileAction(prevState: any, formData: FormData) {
-  console.log(
-    "deleteProfileAction resolver: ",
-    Object.fromEntries(formData.entries()),
-  );
+  const session = (await getServerSession(authOptions)) as TSession;
+  if (!session) {
+    return redirect(
+      createPath({
+        route: ERoutes.Login,
+      }),
+    );
+  }
+  // console.log(
+  //   "deleteProfileAction resolver: ",
+  //   Object.fromEntries(formData.entries()),
+  // );
   const resolver = deleteProfileFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
@@ -34,25 +47,25 @@ export async function deleteProfileAction(prevState: any, formData: FormData) {
   }
 
   try {
-    const formattedParams = {
-      ...resolver.data,
-    };
+    const userResponse = await deleteUser({ id: session.user.id });
 
-    const response = await deleteProfile(
-      formData as unknown as TDeleteProfileParams,
-    );
+    if (userResponse) {
+      const response = await deleteProfile(
+        formData as unknown as TDeleteProfileParams,
+      );
+      const path = createPath({
+        route: ERoutes.Profile,
+        params: { id: resolver.data.id },
+      });
+      revalidatePath(path);
+      return {
+        data: response.data,
+        error: undefined,
+        errors: undefined,
+        success: true,
+      };
+    }
 
-    const path = createPath({
-      route: ERoutes.Profile,
-      params: { id: resolver.data.id },
-    });
-    revalidatePath(path);
-    return {
-      data: response.data,
-      error: undefined,
-      errors: undefined,
-      success: true,
-    };
     // return {
     //   data: undefined,
     //   errorUI: undefined,

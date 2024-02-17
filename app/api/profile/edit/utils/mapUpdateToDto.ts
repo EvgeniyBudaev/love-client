@@ -1,13 +1,12 @@
-import { EFormFields } from "@/app/pages/profileAddPage/enums";
+import { EFormFields } from "@/app/pages/profileEditPage/enums";
 import { TFile } from "@/app/shared/types/file";
 
 type TProps = {
+  [EFormFields.Id]: string;
   [EFormFields.DisplayName]: string;
   [EFormFields.Username]: string;
   [EFormFields.Email]: string;
   [EFormFields.MobileNumber]: string;
-  [EFormFields.Password]: string;
-  [EFormFields.PasswordConfirm]: string;
   [EFormFields.Birthday]: string;
   [EFormFields.Gender]: string;
   [EFormFields.SearchGender]?: string | null;
@@ -16,7 +15,7 @@ type TProps = {
   [EFormFields.Height]?: string | null;
   [EFormFields.Weight]?: string | null;
   [EFormFields.LookingFor]?: string | null;
-  [EFormFields.Image]: TFile | TFile[];
+  [EFormFields.Image]?: TFile | TFile[] | null;
   [EFormFields.TelegramID]: string;
   [EFormFields.TelegramUsername]: string;
   [EFormFields.FirstName]?: string | null;
@@ -33,16 +32,16 @@ type TProps = {
   [EFormFields.Size]: string;
 };
 
-type TSignupForm = {
+type TUpdateForm = {
   [EFormFields.Email]: string;
   [EFormFields.MobileNumber]: string;
-  [EFormFields.Password]: string;
   [EFormFields.Username]: string;
   [EFormFields.FirstName]?: string | null;
   [EFormFields.LastName]?: string | null;
 };
 
 type TProfileForm = {
+  [EFormFields.Id]: string;
   [EFormFields.DisplayName]: string;
   [EFormFields.Birthday]: string;
   [EFormFields.Gender]: string;
@@ -52,7 +51,7 @@ type TProfileForm = {
   [EFormFields.Height]?: string | null;
   [EFormFields.Weight]?: string | null;
   [EFormFields.LookingFor]?: string | null;
-  [EFormFields.Image]: TFile | TFile[];
+  [EFormFields.Image]?: TFile | TFile[] | null;
   [EFormFields.TelegramID]: string;
   [EFormFields.Username]: string;
   [EFormFields.FirstName]?: string | null;
@@ -71,14 +70,15 @@ type TProfileForm = {
 
 type TResponse = {
   profileForm: TProfileForm;
-  signupForm: TSignupForm;
+  updateForm: TUpdateForm;
 };
 
-type TMapSignupToDto = (props: TProps) => TResponse;
+type TMapUpdateToDto = (props: TProps) => TResponse;
 
-export const mapSignupToDto: TMapSignupToDto = (props: TProps) => {
+export const mapUpdateToDto: TMapUpdateToDto = (props: TProps) => {
   return {
     profileForm: {
+      [EFormFields.Id]: props.id,
       [EFormFields.DisplayName]: props.displayName,
       [EFormFields.Birthday]: props.birthday,
       [EFormFields.Gender]: props.gender,
@@ -104,10 +104,9 @@ export const mapSignupToDto: TMapSignupToDto = (props: TProps) => {
       [EFormFields.Page]: props.page,
       [EFormFields.Size]: props.size,
     },
-    signupForm: {
+    updateForm: {
       [EFormFields.Email]: props.email,
       [EFormFields.MobileNumber]: props.mobileNumber,
-      [EFormFields.Password]: props.password,
       [EFormFields.Username]: props.userName,
       [EFormFields.FirstName]: props.firstName,
       [EFormFields.LastName]: props.lastName,

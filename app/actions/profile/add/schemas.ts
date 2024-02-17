@@ -66,11 +66,16 @@ export const addProfileFormSchema = zfd
         ELookingFor.Friendship,
         ELookingFor.Business,
         ELookingFor.Sex,
+        ELookingFor.All,
         "",
       ])
       .nullish(),
     [EFormFields.Image]: imageFileSchema,
     [EFormFields.TelegramID]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.TelegramUsername]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
@@ -80,19 +85,6 @@ export const addProfileFormSchema = zfd
       .min(1, EMPTY_FIELD_ERROR_MESSAGE)
       .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
     [EFormFields.LastName]: z
-      .string()
-      .trim()
-      .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
-    [EFormFields.TelegramUsername]: z
-      .string()
-      .trim()
-      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.TelegramFirstName]: z
-      .string()
-      .trim()
-      .min(1, EMPTY_FIELD_ERROR_MESSAGE)
-      .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
-    [EFormFields.TelegramLastName]: z
       .string()
       .trim()
       .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
@@ -124,6 +116,10 @@ export const addProfileFormSchema = zfd
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
     path: [EFormFields.PasswordConfirm],
     message: PASSWORD_ERROR_MESSAGE,
+  })
+  .refine(({ userName }) => PHONE_REGEXP.test(userName), {
+    path: [EFormFields.Username],
+    message: PHONE_ERROR_MESSAGE,
   })
   .refine(({ mobileNumber }) => PHONE_REGEXP.test(mobileNumber), {
     path: [EFormFields.MobileNumber],

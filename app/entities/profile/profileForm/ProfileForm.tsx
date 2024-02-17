@@ -30,6 +30,7 @@ import {
   DEFAULT_PAGE_SIZE,
 } from "@/app/shared/constants/pagination";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
+import { ELookingFor, ESearchGender } from "@/app/shared/enums/form";
 import {
   useFiles,
   useNavigator,
@@ -41,6 +42,7 @@ import { LANGUAGE_MAPPING } from "@/app/shared/mapping/language";
 import { LOOKING_FOR_MAPPING } from "@/app/shared/mapping/lookingFor";
 import { SEARCH_GENDER_MAPPING } from "@/app/shared/mapping/searchGender";
 import type { TFile } from "@/app/shared/types/file";
+import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 import { formattedDate } from "@/app/shared/utils/date";
 import { Error } from "@/app/uikit/components/error";
@@ -49,7 +51,6 @@ import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileForm.scss";
-import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
   isEdit?: boolean;
@@ -83,12 +84,12 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     : undefined;
   const searchGenderDefault = isEdit
     ? SEARCH_GENDER_MAPPING[language].find(
-        (item) => item.value === profile?.searchGender,
+        (item) => item.value === profile?.filters?.searchGender,
       )
     : undefined;
   const lookingForDefault = isEdit
     ? LOOKING_FOR_MAPPING[language].find(
-        (item) => item.value === profile?.lookingFor,
+        (item) => item.value === profile?.filters?.lookingFor,
       )
     : undefined;
   const [gender, setGender] = useState<TSelectOption | undefined>(
@@ -109,6 +110,29 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     isEdit ? (profile?.birthday as Date | undefined) ?? null : null,
   );
   const [files, setFiles] = useState<TFile[] | null>(null);
+  const page = isEdit
+    ? profile?.filters?.page?.toString() ?? DEFAULT_PAGE.toString()
+    : DEFAULT_PAGE.toString();
+  const size = isEdit
+    ? profile?.filters?.size?.toString() ?? DEFAULT_PAGE_SIZE.toString()
+    : DEFAULT_PAGE_SIZE.toString();
+  const ageFrom = isEdit
+    ? profile?.filters?.ageFrom?.toString() ?? DEFAULT_AGE_FROM.toString()
+    : DEFAULT_AGE_FROM.toString();
+  const ageTo = isEdit
+    ? profile?.filters?.ageTo?.toString() ?? DEFAULT_AGE_TO.toString()
+    : DEFAULT_AGE_TO.toString();
+  const distance = isEdit
+    ? profile?.filters?.distance?.toString() ?? DEFAULT_DISTANCE.toString()
+    : DEFAULT_DISTANCE.toString();
+  const firstName = isEdit
+    ? keycloakSession?.user?.firstName ?? user?.first_name
+    : user?.first_name ?? undefined;
+  const lastName = isEdit
+    ? keycloakSession?.user?.lastName ?? user?.last_name
+    : user?.last_name ?? undefined;
+  const latitude = navigator?.latitude?.toString() ?? "";
+  const longitude = navigator?.longitude?.toString() ?? "";
 
   const { onAddFiles, onDeleteFile } = useFiles({
     fieldName: EFormFields.Image,
@@ -119,7 +143,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   useEffect(() => {
     if (isEdit && keycloakSession?.user.id !== profile?.userId) {
       const path = createPath({
-        route: ERoutes.PermissionDenied,
+        route: ERoutes.Login,
       });
       redirect(path);
     }
@@ -185,9 +209,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
-    const firstName = formData.get(EFormFields.FirstName);
-    const lastName = formData.get(EFormFields.LastName);
-    const username = formData.get(EFormFields.Username);
     const email = formData.get(EFormFields.Email);
     const mobileNumber = formData.get(EFormFields.MobileNumber);
     const password = formData.get(EFormFields.Password);
@@ -196,18 +217,11 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     const height = formData.get(EFormFields.Height);
     const weight = formData.get(EFormFields.Weight);
     formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
-    formDataDto.append(EFormFields.FirstName, (firstName ?? "").toString());
-    formDataDto.append(EFormFields.LastName, (lastName ?? "").toString());
-    formDataDto.append(EFormFields.Username, (username ?? "").toString());
+    formDataDto.append(EFormFields.Username, (mobileNumber ?? "").toString());
     formDataDto.append(EFormFields.Email, (email ?? "").toString());
     formDataDto.append(
       EFormFields.MobileNumber,
       (mobileNumber ?? "").toString(),
-    );
-    formDataDto.append(EFormFields.Password, (password ?? "").toString());
-    formDataDto.append(
-      EFormFields.PasswordConfirm,
-      (passwordConfirm ?? "").toString(),
     );
     formDataDto.append(EFormFields.Description, (description ?? "").toString());
     formDataDto.append(EFormFields.Location, (location ?? "").toString());
@@ -221,38 +235,39 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     formDataDto.append(EFormFields.Gender, gender?.value.toString() ?? "");
     formDataDto.append(
       EFormFields.SearchGender,
-      searchGender?.value.toString() ?? "",
+      searchGender?.value.toString() ?? ESearchGender.All,
     );
     formDataDto.append(
       EFormFields.LookingFor,
-      lookingFor?.value.toString() ?? "",
+      lookingFor?.value.toString() ?? ELookingFor.All,
     );
     formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
     formDataDto.append(
       EFormFields.TelegramUsername,
       user?.username?.toString() ?? "ebudaev",
     );
-    formDataDto.append(
-      EFormFields.TelegramFirstName,
-      user?.first_name?.toString() ?? "Евгений",
-    );
-    formDataDto.append(
-      EFormFields.TelegramLastName,
-      user?.last_name?.toString() ?? "Будаев",
-    );
+    formDataDto.append(EFormFields.FirstName, firstName ?? "Евгений");
+    formDataDto.append(EFormFields.LastName, lastName ?? "Будаев");
     formDataDto.append(EFormFields.QueryId, queryId ?? "1");
     formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
       EFormFields.AllowsWriteToPm,
       user?.allows_write_to_pm?.toString() ?? "true",
     );
-    formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
-    formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
-    formDataDto.append("ageFrom", DEFAULT_AGE_FROM.toString());
-    formDataDto.append("ageTo", DEFAULT_AGE_TO.toString());
-    formDataDto.append("distance", DEFAULT_DISTANCE.toString());
-    formDataDto.append("page", DEFAULT_PAGE.toString());
-    formDataDto.append("size", DEFAULT_PAGE_SIZE.toString());
+    formDataDto.append("latitude", latitude);
+    formDataDto.append("longitude", longitude);
+    formDataDto.append("ageFrom", ageFrom);
+    formDataDto.append("ageTo", ageTo);
+    formDataDto.append("distance", distance);
+    formDataDto.append("page", page);
+    formDataDto.append("size", size);
+    if (!isEdit) {
+      formDataDto.append(EFormFields.Password, (password ?? "").toString());
+      formDataDto.append(
+        EFormFields.PasswordConfirm,
+        (passwordConfirm ?? "").toString(),
+      );
+    }
     if (isEdit) {
       formDataDto.append("id", profile?.id.toString() ?? "");
       if (
@@ -341,48 +356,10 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
           />
         </Field>
         <Field>
-          <Input
-            defaultValue={
-              isEdit ? profile?.firstName : user?.first_name ?? undefined
-            }
-            errors={state?.errors?.firstName}
-            isHiddenViewing={true}
-            isRequired={true}
-            label={t("common.form.field.firstName") ?? "First name"}
-            name={EFormFields.FirstName}
-            type="text"
-          />
-        </Field>
-        <Field>
-          <Input
-            defaultValue={
-              isEdit ? profile?.lastName : user?.last_name ?? undefined
-            }
-            errors={state?.errors?.lastName}
-            isHiddenViewing={true}
-            label={t("common.form.field.lastName") ?? "Last name"}
-            name={EFormFields.LastName}
-            type="text"
-          />
-        </Field>
-        <Field>
-          <Input
-            defaultValue={
-              isEdit ? profile?.userName : user?.username ?? undefined
-            }
-            errors={state?.errors?.username}
-            isHiddenViewing={true}
-            isRequired={true}
-            label={
-              t("common.form.field.username") ?? "Username for authorization"
-            }
-            name={EFormFields.Username}
-            type="text"
-          />
-        </Field>
-        <Field>
           <PhoneInputMask
+            defaultValue={isEdit ? keycloakSession?.user?.username : undefined}
             errors={state?.errors?.mobileNumber}
+            isDisabled={isEdit}
             isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.mobileNumber") ?? "Mobile phone"}
@@ -391,8 +368,9 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         </Field>
         <Field>
           <Input
-            defaultValue={isEdit ? profile?.email : undefined}
+            defaultValue={isEdit ? keycloakSession?.user.email : undefined}
             errors={state?.errors?.email}
+            isDisabled={isEdit}
             isHiddenViewing={true}
             isRequired={true}
             label={t("common.form.field.email") ?? "Email"}
@@ -400,26 +378,32 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             type="text"
           />
         </Field>
-        <Field>
-          <Input
-            errors={state?.errors?.password}
-            isHiddenViewing={true}
-            isRequired={true}
-            label={t("common.form.field.password") ?? "Password"}
-            name={EFormFields.Password}
-            type="text"
-          />
-        </Field>
-        <Field>
-          <Input
-            errors={state?.errors?.passwordConfirm}
-            isHiddenViewing={true}
-            isRequired={true}
-            label={t("common.form.field.passwordConfirm") ?? "Password confirm"}
-            name={EFormFields.PasswordConfirm}
-            type="text"
-          />
-        </Field>
+        {!isEdit && (
+          <Field>
+            <Input
+              errors={state?.errors?.password}
+              isHiddenViewing={true}
+              isRequired={true}
+              label={t("common.form.field.password") ?? "Password"}
+              name={EFormFields.Password}
+              type="text"
+            />
+          </Field>
+        )}
+        {!isEdit && (
+          <Field>
+            <Input
+              errors={state?.errors?.passwordConfirm}
+              isHiddenViewing={true}
+              isRequired={true}
+              label={
+                t("common.form.field.passwordConfirm") ?? "Password confirm"
+              }
+              name={EFormFields.PasswordConfirm}
+              type="text"
+            />
+          </Field>
+        )}
         <Field>
           <span>
             {t("common.form.field.birthday")}

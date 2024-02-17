@@ -8,6 +8,7 @@ export type TSession = {
   roles: EPermissions[];
   user: {
     email: string;
+    emailVerified: string;
     firstName: string;
     id: string;
     lastName: string;

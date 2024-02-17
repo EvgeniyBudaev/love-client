@@ -8,6 +8,7 @@ const lookingForOptionsRU = [
   { label: "Дружба", value: ELookingFor.Friendship },
   { label: "Деловые связи", value: ELookingFor.Business },
   { label: "Секс", value: ELookingFor.Sex },
+  { label: "Для всего", value: ELookingFor.All },
 ];
 
 const lookingForOptionsEN = [
@@ -17,6 +18,7 @@ const lookingForOptionsEN = [
   { label: "Friendship", value: ELookingFor.Friendship },
   { label: "Business", value: ELookingFor.Business },
   { label: "Sex", value: ELookingFor.Sex },
+  { label: "For everything", value: ELookingFor.All },
 ];
 
 export const LOOKING_FOR_MAPPING = {

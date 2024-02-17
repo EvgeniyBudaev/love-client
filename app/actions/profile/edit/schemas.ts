@@ -2,13 +2,23 @@ import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { fileSchema, imageFileSchema, MAX_FILE_SIZE } from "@/app/api/upload";
+import { fileSchema, MAX_FILE_SIZE } from "@/app/api/upload";
 import { EFormFields } from "@/app/pages/profileEditPage/enums";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
 import {
   EMPTY_FIELD_ERROR_MESSAGE,
   FILE_MAX_SIZE_MESSAGE,
+  NAME_ERROR_MESSAGE,
+  NAME_REGEXP,
 } from "@/app/shared/validation";
+import {
+  EMAIL_ERROR_MESSAGE,
+  EMAIL_NOT_CYRILLIC_ERROR_MESSAGE,
+  EMAIL_NOT_CYRILLIC_REGEXP,
+  EMAIL_REGEXP,
+  PHONE_ERROR_MESSAGE,
+  PHONE_REGEXP,
+} from "@/app/shared/validation/constants";
 
 export const editProfileFormSchema = zfd
   .formData({
@@ -17,6 +27,17 @@ export const editProfileFormSchema = zfd
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Username]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.MobileNumber]: z
+      .string()
+      .trim()
+      .min(11, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Email]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE)
+      .regex(EMAIL_NOT_CYRILLIC_REGEXP, EMAIL_NOT_CYRILLIC_ERROR_MESSAGE)
+      .regex(EMAIL_REGEXP, EMAIL_ERROR_MESSAGE),
     [EFormFields.Birthday]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.Gender]: z
       .enum([EGender.Man, EGender.Woman, ""])
@@ -34,7 +55,7 @@ export const editProfileFormSchema = zfd
     [EFormFields.SearchGender]: z
       .enum([ESearchGender.Man, ESearchGender.Woman, ESearchGender.All, ""])
       .nullish(),
-    [EFormFields.Location]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Location]: z.string().trim().nullish(),
     [EFormFields.Description]: z.string().trim().nullish(),
     [EFormFields.Height]: z.string().trim().nullish(),
     [EFormFields.Weight]: z.string().trim().nullish(),
@@ -46,11 +67,11 @@ export const editProfileFormSchema = zfd
         ELookingFor.Friendship,
         ELookingFor.Business,
         ELookingFor.Sex,
+        ELookingFor.All,
         "",
       ])
       .nullish(),
     [EFormFields.IsDefaultImage]: z.string().trim().nullish(),
-    // [EFormFields.Image]: z.union([z.literal(null), imageFileSchema]),
     [EFormFields.Image]: z.union([
       z.literal(null),
       fileSchema.or(fileSchema.array()),
@@ -59,12 +80,19 @@ export const editProfileFormSchema = zfd
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.FirstName]: z
+    [EFormFields.TelegramUsername]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.LastName]: z.string().trim(),
-    [EFormFields.Username]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.FirstName]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE)
+      .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
+    [EFormFields.LastName]: z
+      .string()
+      .trim()
+      .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
     [EFormFields.LanguageCode]: z
       .string()
       .trim()
@@ -79,6 +107,19 @@ export const editProfileFormSchema = zfd
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.AgeFrom]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.AgeTo]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Distance]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Page]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EFormFields.Size]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+  })
+  .refine(({ userName }) => PHONE_REGEXP.test(userName), {
+    path: [EFormFields.Username],
+    message: PHONE_ERROR_MESSAGE,
+  })
+  .refine(({ mobileNumber }) => PHONE_REGEXP.test(mobileNumber), {
+    path: [EFormFields.MobileNumber],
+    message: PHONE_ERROR_MESSAGE,
   })
   .superRefine(({ isDefaultImage, image }, ctx) => {
     if (

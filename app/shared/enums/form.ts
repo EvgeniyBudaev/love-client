@@ -24,4 +24,5 @@ export enum ELookingFor {
   Friendship = "friendship",
   Business = "business",
   Sex = "sex",
+  All = "all",
 }

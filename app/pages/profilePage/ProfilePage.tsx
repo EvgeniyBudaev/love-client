@@ -116,7 +116,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
               <div className="ProfilePage-Label">
                 {profile?.displayName}, {fullYear}
               </div>
-              <div>{distance}</div>
+              {!isSessionUser && <div>{distance}</div>}
             </div>
           </div>
           {profile?.description && (
@@ -155,12 +155,16 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
               </div>
             </Field>
           )}
-          {profile?.lookingFor && (
+          {profile?.filters?.lookingFor && (
             <Field>
               <div className="ProfilePage-Row">
                 <Icon className="ProfilePage-Icon" type="Watch" />
                 <span>
-                  {PROFILE_LOOKING_FOR_MAPPING[profile?.lookingFor][language]}
+                  {
+                    PROFILE_LOOKING_FOR_MAPPING[profile?.filters?.lookingFor][
+                      language
+                    ]
+                  }
                 </span>
               </div>
             </Field>

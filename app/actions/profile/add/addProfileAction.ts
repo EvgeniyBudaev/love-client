@@ -3,7 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { addProfileFormSchema } from "@/app/actions/profile/add/schemas";
 import { addProfile, type TAddProfileParams } from "@/app/api/profile/add";
+import { mapSignupToDto } from "@/app/api/auth/signup/utils/mapSignupToDto";
+import { signup } from "@/app/api/auth/signup";
 import { ERoutes } from "@/app/shared/enums";
+import { ESearchGender } from "@/app/shared/enums/form";
 import type { TCommonResponseError } from "@/app/shared/types/error";
 import {
   getResponseError,
@@ -11,9 +14,6 @@ import {
   createPath,
 } from "@/app/shared/utils";
 import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
-import { mapSignupToDto } from "@/app/api/auth/signup/utils/mapSignupToDto";
-import { signup } from "@/app/api/auth/signup";
-import { ESearchGender } from "@/app/shared/enums/form";
 
 export async function addProfileAction(prevState: any, formData: FormData) {
   const resolver = addProfileFormSchema.safeParse(
@@ -33,10 +33,10 @@ export async function addProfileAction(prevState: any, formData: FormData) {
   try {
     const formattedParams = {
       ...resolver.data,
+      userName: normalizePhoneNumber(resolver.data?.userName),
       mobileNumber: normalizePhoneNumber(resolver.data?.mobileNumber),
     };
     const mapperParams = mapSignupToDto(formattedParams);
-    console.log("[mapperParams] ", mapperParams);
     const userResponse = await signup(mapperParams.signupForm);
 
     if (userResponse.success) {
@@ -46,7 +46,10 @@ export async function addProfileAction(prevState: any, formData: FormData) {
         "displayName",
         mapperParams.profileForm.displayName,
       );
-      profileFormData.append("firstName", mapperParams.profileForm.firstName);
+      profileFormData.append(
+        "firstName",
+        mapperParams.profileForm?.firstName ?? "",
+      );
       profileFormData.append(
         "lastName",
         mapperParams.profileForm?.lastName ?? "",
@@ -80,7 +83,10 @@ export async function addProfileAction(prevState: any, formData: FormData) {
       }
       profileFormData.append("telegramId", mapperParams.profileForm.telegramId);
       profileFormData.append("username", mapperParams.profileForm.userName);
-      profileFormData.append("firstName", mapperParams.profileForm.firstName);
+      profileFormData.append(
+        "firstName",
+        mapperParams.profileForm?.firstName ?? "",
+      );
       profileFormData.append(
         "lastName",
         mapperParams.profileForm?.lastName ?? "",

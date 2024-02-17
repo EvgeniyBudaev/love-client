@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-export const signupParamsSchema = z.object({
+export const updateParamsSchema = z.object({
+  id: z.string(),
   email: z.string(),
   firstName: z.string().nullish(),
   lastName: z.string().nullish(),
   mobileNumber: z.string(),
-  password: z.string(),
   userName: z.string(),
 });
 
-export const signupSchema = z.any();
+export const updateSchema = z.any();

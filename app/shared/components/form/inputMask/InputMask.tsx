@@ -17,6 +17,8 @@ export type TInputMaskProps = TInputPropsUi & {
   beforeMaskedStateChange?: (
     state: BeforeMaskedStateChangeStates,
   ) => InputState;
+  defaultValue?: string | number | readonly string[];
+  isDisabled?: boolean;
   name: string;
   normalize?: (value: string) => string;
   mask: string | (RegExp | string)[];
@@ -31,6 +33,7 @@ const InputMaskComponent: FC<TInputMaskProps> = (props) => {
     alwaysShowMask,
     beforeMaskedStateChange,
     defaultValue = "",
+    isDisabled = false,
     normalize,
     mask,
     maskPlaceholder,
@@ -68,11 +71,18 @@ const InputMaskComponent: FC<TInputMaskProps> = (props) => {
     <ReactInputMask
       alwaysShowMask={alwaysShowMask}
       beforeMaskedStateChange={beforeMaskedStateChange}
+      defaultValue={defaultValue}
       mask={mask}
       maskPlaceholder={maskPlaceholder}
       onChange={handleChange}
     >
-      <InputUi {...rest} isFocused={!!defaultValue} ref={inputRef} />
+      <InputUi
+        {...rest}
+        defaultValue={defaultValue}
+        isDisabled={isDisabled}
+        isFocused={!!defaultValue}
+        ref={inputRef}
+      />
     </ReactInputMask>
   );
 };

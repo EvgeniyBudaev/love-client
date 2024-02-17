@@ -12,16 +12,20 @@ import {
 } from "@/app/shared/components/form/phoneInputMask/constants";
 
 type TPhoneInputMaskProps = {
+  defaultValue?: string | number | readonly string[];
   hasPlaceholder?: boolean;
   hasLabel?: boolean;
+  isDisabled?: boolean;
   mask?: string;
   placeholder?: string;
 } & Omit<TInputMaskProps, "mask">;
 
 const PhoneInputMaskComponent: FC<TPhoneInputMaskProps> = ({
   beforeMaskedStateChange,
+  defaultValue,
   hasLabel = true,
   hasPlaceholder = true,
+  isDisabled = false,
   label,
   name,
   mask = PHONE_MASK,
@@ -56,6 +60,8 @@ const PhoneInputMaskComponent: FC<TPhoneInputMaskProps> = ({
       beforeMaskedStateChange={
         beforeMaskedStateChange ?? handleBeforeMaskedStateChange
       }
+      defaultValue={defaultValue}
+      isDisabled={isDisabled}
       label={hasLabel && label ? label : undefined}
       mask={mask}
       maskPlaceholder={maskPlaceholder}

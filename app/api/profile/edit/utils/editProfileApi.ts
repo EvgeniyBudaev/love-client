@@ -9,7 +9,6 @@ export const editProfileApi: TApiFunction<
   TEditProfileParams,
   TEditProfileResponse
 > = (params) => {
-  console.log("editProfileApi url");
   return fetchApi<TEditProfileResponse>(`/api/v1/profile/edit`, {
     method: EFormMethods.Post,
     body: params,

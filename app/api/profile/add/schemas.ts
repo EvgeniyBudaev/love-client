@@ -5,6 +5,7 @@ import { navigatorSchema } from "@/app/api/profile/navigator";
 import { telegramSchema } from "@/app/api/profile/telegram";
 import { fileSchema } from "@/app/api/upload";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
+import { filterSchema } from "@/app/api/profile/filter";
 
 export const addProfileParamsSchema = zfd.formData({
   userId: zfd.text(),
@@ -19,7 +20,7 @@ export const addProfileParamsSchema = zfd.formData({
   lookingFor: zfd.text().nullish(),
   image: fileSchema.or(fileSchema.array()).nullish(),
   telegramId: zfd.text(),
-  firstName: zfd.text(),
+  firstName: zfd.text().nullish(),
   lastName: zfd.text().nullish(),
   username: zfd.text(),
   languageCode: zfd.text(),
@@ -40,23 +41,10 @@ export const profileDetailSchema = z.object({
   displayName: z.string(),
   birthday: z.string(),
   gender: z.enum([EGender.Man, EGender.Woman]),
-  searchGender: z.enum([
-    ESearchGender.Man,
-    ESearchGender.Woman,
-    ESearchGender.All,
-  ]),
   location: z.string().nullish(),
   description: z.string().nullish(),
   height: z.number().nullish(),
   weight: z.number().nullish(),
-  lookingFor: z.enum([
-    ELookingFor.Chat,
-    ELookingFor.Dates,
-    ELookingFor.Relationship,
-    ELookingFor.Friendship,
-    ELookingFor.Business,
-    ELookingFor.Sex,
-  ]),
   isDeleted: z.boolean(),
   isBlocked: z.boolean(),
   isPremium: z.boolean(),
@@ -68,6 +56,7 @@ export const profileDetailSchema = z.object({
   images: imageSchema.array().nullish(),
   telegram: telegramSchema.nullish(),
   navigator: navigatorSchema.nullish(),
+  filters: filterSchema.nullish(),
 });
 
 export const addProfileResponseSchema = z.object({

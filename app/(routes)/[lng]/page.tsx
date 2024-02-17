@@ -43,24 +43,25 @@ async function mainLoader(params: TMainLoader) {
   }
   const { searchParams } = params;
   try {
-    const profileResponse = await getProfileByKeycloakId({
-      userId: session.user.id,
-    });
-    if (profileResponse?.success && profileResponse.data) {
-      const profile = profileResponse.data;
+    if (searchParams?.profileId) {
       const profileListResponse = await getProfileList({
         page: searchParams?.page ?? DEFAULT_PAGE.toString(),
         size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
         ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
         ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
         searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
-        profileId: profile.id.toString(),
+        profileId: searchParams.profileId,
         distance: searchParams?.distance ?? DEFAULT_DISTANCE.toString(),
       });
+      const profileResponse = await getProfileByKeycloakId({
+        userId: session.user.id,
+      });
+      const profile = profileResponse.data;
 
       const profileList = profileListResponse.data;
       return { profile, profileList };
     }
+    return { profile: undefined, profileList: undefined };
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
   }

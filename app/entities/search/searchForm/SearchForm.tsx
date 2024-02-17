@@ -2,8 +2,8 @@
 
 import isNil from "lodash/isNil";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { type FC, useRef, useState } from "react";
-import type { TProfileByTelegramId } from "@/app/api/profile/byTelegramId";
+import { type FC, useMemo, useRef, useState } from "react";
+import type { TProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
@@ -22,7 +22,10 @@ import {
 } from "@/app/shared/constants/pagination";
 import { ELanguage } from "@/app/shared/enums";
 import { useTelegram } from "@/app/shared/hooks";
-import { SEARCH_GENDER_MAPPING } from "@/app/shared/mapping/searchGender";
+import {
+  SEARCH_BAR_SEARCH_GENDER_MAPPING,
+  SEARCH_GENDER_MAPPING,
+} from "@/app/shared/mapping/searchGender";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Icon } from "@/app/uikit/components/icon";
 import { RangeSlider } from "@/app/uikit/components/rangeSlider";
@@ -31,7 +34,7 @@ import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./SearchForm.scss";
 
 type TProps = {
-  profile?: TProfileByTelegramId;
+  profile?: TProfileByKeycloakId;
 };
 
 export const SearchForm: FC<TProps> = ({ profile }) => {
@@ -61,9 +64,19 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
     defaultAgeRangeFrom,
     defaultAgeRangeTo,
   ]);
-  const searchGenderDefault = SEARCH_GENDER_MAPPING[language].find(
-    (item) => item.value === profile?.searchGender,
-  );
+
+  const searchGenderDefault = useMemo(() => {
+    return SEARCH_GENDER_MAPPING[language].find(
+      (item) => item.value === profile?.filter.searchGender,
+    );
+  }, [profile?.filter.searchGender]);
+
+  const searchBarTitle = useMemo(() => {
+    return SEARCH_BAR_SEARCH_GENDER_MAPPING[language].find(
+      (item) => item.value === profile?.filter.searchGender,
+    )?.label;
+  }, [profile?.filter.searchGender]);
+
   const [searchGender, setSearchGender] = useState<TSelectOption | undefined>(
     searchGenderDefault,
   );
@@ -119,7 +132,7 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
         <DropDown>
           <DropDown.Button>
             <div className="SearchForm-HeaderInner">
-              <SearchBar title="Все люди поблизости" />
+              <SearchBar title={searchBarTitle} />
               <div className="SearchForm-WrapperIcon">
                 <Icon className="SearchForm-Icon" type="Filter" />
               </div>

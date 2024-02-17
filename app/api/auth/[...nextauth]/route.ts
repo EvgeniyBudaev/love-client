@@ -8,8 +8,8 @@ async function refreshAccessToken(token) {
   const resp = await fetch(`${process.env.REFRESH_TOKEN_URL}`, {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      client_id: process.env?.CLIENT_ID ?? "",
+      client_secret: process.env?.CLIENT_SECRET ?? "",
       grant_type: "refresh_token",
       refresh_token: token.refresh_token,
     }),
@@ -77,6 +77,8 @@ export const authOptions: any = {
         session.user.name = token.decoded.name;
         session.user.firstName = token.decoded.given_name;
         session.user.lastName = token.decoded.family_name;
+        session.user.email = token.decoded.email;
+        session.user.emailVerified = token.decoded.email_verified;
       }
       return session;
     },
