@@ -9,7 +9,6 @@ export const addProfileApi: TApiFunction<
   TAddProfileParams,
   TAddProfileResponse
 > = (params) => {
-  console.log("addProfileApi url");
   return fetchApi<TAddProfileResponse>(`/api/v1/profile/add`, {
     method: EFormMethods.Post,
     body: params,

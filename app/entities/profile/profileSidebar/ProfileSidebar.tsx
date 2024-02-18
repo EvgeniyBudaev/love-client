@@ -38,8 +38,7 @@ const ProfileSidebarComponent = forwardRef(
     };
     const buttonSubmitRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation("index");
-    const [state, formAction] = useFormState(deleteProfileAction, initialState);
-    console.log("state: ", state);
+    const [state] = useFormState(deleteProfileAction, initialState);
 
     useEffect(() => {
       if (

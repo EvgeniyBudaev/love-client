@@ -1,7 +1,7 @@
 import { useTranslation } from "@/app/i18n";
 import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 
-export default async function PermissionDenied({
+export default async function PermissionDeniedRoute({
   params: { lng },
 }: {
   params: { lng: string };

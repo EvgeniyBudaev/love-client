@@ -1,6 +1,7 @@
 export enum ERoutes {
   Root = "/",
   Login = "/login",
+  Logout = "/logout",
   Register = "/register",
   PermissionDenied = "/403",
   Profile = "/profile/:id",

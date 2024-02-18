@@ -3,6 +3,7 @@ import { ERoutes } from "@/app/shared/enums";
 type TRoutes =
   | ERoutes.Root
   | ERoutes.Login
+  | ERoutes.Logout
   | ERoutes.Register
   | ERoutes.PermissionDenied
   | ERoutes.ProfileAdd;
