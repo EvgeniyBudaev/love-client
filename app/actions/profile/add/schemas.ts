@@ -11,10 +11,10 @@ import {
   NAME_REGEXP,
 } from "@/app/shared/validation";
 import {
-  EMAIL_ERROR_MESSAGE,
-  EMAIL_NOT_CYRILLIC_ERROR_MESSAGE,
-  EMAIL_NOT_CYRILLIC_REGEXP,
-  EMAIL_REGEXP,
+  // EMAIL_ERROR_MESSAGE,
+  // EMAIL_NOT_CYRILLIC_ERROR_MESSAGE,
+  // EMAIL_NOT_CYRILLIC_REGEXP,
+  // EMAIL_REGEXP,
   PASSWORD_ERROR_MESSAGE,
   PHONE_ERROR_MESSAGE,
   PHONE_REGEXP,
@@ -34,9 +34,9 @@ export const addProfileFormSchema = zfd
     [EFormFields.Email]: z
       .string()
       .trim()
-      .min(1, EMPTY_FIELD_ERROR_MESSAGE)
-      .regex(EMAIL_NOT_CYRILLIC_REGEXP, EMAIL_NOT_CYRILLIC_ERROR_MESSAGE)
-      .regex(EMAIL_REGEXP, EMAIL_ERROR_MESSAGE),
+      // .regex(EMAIL_NOT_CYRILLIC_REGEXP, EMAIL_NOT_CYRILLIC_ERROR_MESSAGE)
+      // .regex(EMAIL_REGEXP, EMAIL_ERROR_MESSAGE)
+      .nullish(),
     [EFormFields.Birthday]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
     [EFormFields.Gender]: z
       .enum([EGender.Man, EGender.Woman, ""])

@@ -209,7 +209,6 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
-    const email = formData.get(EFormFields.Email);
     const mobileNumber = formData.get(EFormFields.MobileNumber);
     const password = formData.get(EFormFields.Password);
     const passwordConfirm = formData.get(EFormFields.PasswordConfirm);
@@ -218,7 +217,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     const weight = formData.get(EFormFields.Weight);
     formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
     formDataDto.append(EFormFields.Username, (mobileNumber ?? "").toString());
-    formDataDto.append(EFormFields.Email, (email ?? "").toString());
+    formDataDto.append(EFormFields.Email, "");
     formDataDto.append(
       EFormFields.MobileNumber,
       (mobileNumber ?? "").toString(),
@@ -359,23 +358,11 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
           <PhoneInputMask
             defaultValue={isEdit ? keycloakSession?.user?.username : undefined}
             errors={state?.errors?.mobileNumber}
-            isDisabled={isEdit}
             isHiddenViewing={true}
+            isReadOnly={isEdit}
             isRequired={true}
             label={t("common.form.field.mobileNumber") ?? "Mobile phone"}
             name={EFormFields.MobileNumber}
-          />
-        </Field>
-        <Field>
-          <Input
-            defaultValue={isEdit ? keycloakSession?.user.email : undefined}
-            errors={state?.errors?.email}
-            isDisabled={isEdit}
-            isHiddenViewing={true}
-            isRequired={true}
-            label={t("common.form.field.email") ?? "Email"}
-            name={EFormFields.Email}
-            type="text"
           />
         </Field>
         {!isEdit && (
@@ -476,8 +463,8 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
           <Input
             defaultValue={location}
             errors={state?.errors?.location}
-            isDisabled={true}
             isRequired={true}
+            isReadOnly={true}
             label={t("common.form.field.location") ?? "Location"}
             name={EFormFields.Location}
             type="text"

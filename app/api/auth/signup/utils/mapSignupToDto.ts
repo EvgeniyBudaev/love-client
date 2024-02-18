@@ -4,7 +4,7 @@ import { TFile } from "@/app/shared/types/file";
 type TProps = {
   [EFormFields.DisplayName]: string;
   [EFormFields.Username]: string;
-  [EFormFields.Email]: string;
+  [EFormFields.Email]?: string | null;
   [EFormFields.MobileNumber]: string;
   [EFormFields.Password]: string;
   [EFormFields.PasswordConfirm]: string;
@@ -34,7 +34,7 @@ type TProps = {
 };
 
 type TSignupForm = {
-  [EFormFields.Email]: string;
+  [EFormFields.Email]?: string | null;
   [EFormFields.MobileNumber]: string;
   [EFormFields.Password]: string;
   [EFormFields.Username]: string;

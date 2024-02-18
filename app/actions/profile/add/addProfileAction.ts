@@ -19,7 +19,6 @@ export async function addProfileAction(prevState: any, formData: FormData) {
   const resolver = addProfileFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
-
   if (!resolver.success) {
     const errors = getErrorsResolver(resolver);
     return {
@@ -123,12 +122,12 @@ export async function addProfileAction(prevState: any, formData: FormData) {
       };
     }
 
-    // return {
-    //   data: undefined,
-    //   errorUI: undefined,
-    //   errors: undefined,
-    //   success: false,
-    // };
+    return {
+      data: undefined,
+      errorUI: undefined,
+      errors: undefined,
+      success: false,
+    };
   } catch (error) {
     const errorResponse = error as Response;
     const responseData: TCommonResponseError = await errorResponse.json();

@@ -5,7 +5,7 @@ type TProps = {
   [EFormFields.Id]: string;
   [EFormFields.DisplayName]: string;
   [EFormFields.Username]: string;
-  [EFormFields.Email]: string;
+  [EFormFields.Email]?: string | null;
   [EFormFields.MobileNumber]: string;
   [EFormFields.Birthday]: string;
   [EFormFields.Gender]: string;
@@ -33,7 +33,7 @@ type TProps = {
 };
 
 type TUpdateForm = {
-  [EFormFields.Email]: string;
+  [EFormFields.Email]?: string | null;
   [EFormFields.MobileNumber]: string;
   [EFormFields.Username]: string;
   [EFormFields.FirstName]?: string | null;

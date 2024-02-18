@@ -40,6 +40,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
   const isSessionUser =
     profile?.id && keycloakSession?.user.id === profile?.userId;
+  console.log("profile: ", profile);
 
   const distance = useMemo(() => {
     return profile?.navigator
