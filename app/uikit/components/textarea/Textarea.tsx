@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { forwardRef, memo, useState } from "react";
 import type {
+  ChangeEvent,
   DetailedHTMLProps,
   ForwardedRef,
   HTMLAttributes,
@@ -12,12 +13,17 @@ import { Error } from "@/app/uikit/components/error";
 // import { ETypographyVariant, Typography } from "@/app/uikit/components/typography";
 import "../input/Input.scss";
 
+type TClasses = {
+  textarea?: string;
+};
+
 export interface ITextareaProps
   extends DetailedHTMLProps<
     HTMLAttributes<HTMLTextAreaElement>,
     HTMLTextAreaElement
   > {
   autoComplete?: string;
+  classes?: TClasses;
   className?: string;
   dataTestId?: string;
   errors?: string | string[];
@@ -25,8 +31,10 @@ export interface ITextareaProps
   isFocused?: boolean;
   isReadOnly?: boolean;
   isRequired?: boolean;
+  isShowMaxLength?: boolean;
   label?: string;
   name?: string;
+  maxLength?: number;
   type?: string;
   value?: string;
 }
@@ -35,6 +43,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
   (
     {
       autoComplete,
+      classes,
       className,
       dataTestId = "uikit__textarea",
       defaultValue,
@@ -43,8 +52,10 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
       isFocused: isInputFocused,
       isReadOnly,
       isRequired,
+      isShowMaxLength,
       label,
       name,
+      maxLength,
       type,
       onBlur,
       onChange,
@@ -53,6 +64,7 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
     }: ITextareaProps,
     ref: ForwardedRef<HTMLTextAreaElement>,
   ): JSX.Element => {
+    const [currentLength, setCurrentLength] = useState(0);
     const [isFocused, setIsFocused] = useState<boolean | undefined>(
       isInputFocused || !!defaultValue,
     );
@@ -77,6 +89,11 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
       if (onFocus) {
         onFocus(event);
       }
+    };
+
+    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+      setCurrentLength(event.target.value.length);
+      onChange?.(event);
     };
 
     return (
@@ -108,18 +125,24 @@ const TextareaComponent = forwardRef<HTMLTextAreaElement, ITextareaProps>(
             <textarea
               {...rest}
               autoComplete={autoComplete}
-              className={clsx(className, "Input Textarea", {
+              className={clsx(className, classes?.textarea, "Input Textarea", {
                 Input__active: isFocused,
               })}
               defaultValue={defaultValue}
               hidden={hidden}
               name={name}
+              maxLength={maxLength}
               onBlur={onBlurCallback}
-              onChange={onChange}
+              onChange={handleChange}
               onFocus={onFocusCallback}
               ref={ref}
             />
           </div>
+          {isShowMaxLength && maxLength && (
+            <div className="Textarea-MaxLength">
+              {currentLength}/{maxLength}
+            </div>
+          )}
           {errors && (
             <div className="InputField-ErrorField">
               <Error errors={errors} />

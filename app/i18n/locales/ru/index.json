@@ -25,7 +25,8 @@
       "moreDetails": "Подробнее",
       "properties": "Свойства",
       "filtersGeneral": "Общие фильтры",
-      "age": "Возраст"
+      "age": "Возраст",
+      "reviewAdd": "Добавление нового отзыва"
     },
     "actions": {
       "cancel": "Отменить",
@@ -34,6 +35,8 @@
       "deleteAccount": "Удалить аккаунт",
       "filterSetup": "Настройте фильтр",
       "edit": "Редактировать",
+      "reviews": "Отзывы",
+      "add": "Добавить",
       "profileDetail": "Перейти в профиль",
       "exit": "Выйти",
       "delete": "Удалить"
@@ -41,11 +44,7 @@
     "form": {
       "field": {
         "displayName": "Имя для отображения",
-        "firstName": "Имя",
-        "lastName": "Фамилия",
-        "username": "Уникальное название для авторизации",
         "mobileNumber": "Мобильный номер",
-        "email": "Электронная почта",
         "password": "Пароль",
         "passwordConfirm": "Подтверждение пароля",
         "birthday": "Дата рождения",
@@ -58,7 +57,9 @@
         "location": "Местоположение",
         "height": "Рост",
         "weight": "Вес",
-        "lookingFor": "Ищу для"
+        "lookingFor": "Ищу для",
+        "rating": "Оценка",
+        "message": "Текст сообщения"
       }
     },
     "reductions": {

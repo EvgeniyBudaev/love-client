@@ -10,12 +10,11 @@ import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profilePage/enums";
 import { Header } from "@/app/shared/components/header";
 import { ERoutes } from "@/app/shared/enums";
+import { useSessionNext } from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
 import { Icon } from "@/app/uikit/components/icon";
 import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./ProfileSidebar.scss";
-import { useSessionNext } from "@/app/shared/hooks";
-import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
   isSidebarOpen: boolean;

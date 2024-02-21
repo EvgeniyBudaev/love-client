@@ -25,7 +25,8 @@
       "moreDetails": "More details",
       "properties": "Properties",
       "filtersGeneral": "General filters",
-      "age": "Age"
+      "age": "Age",
+      "reviewAdd": "Adding a new review"
     },
     "actions": {
       "cancel": "Cancel",
@@ -34,6 +35,8 @@
       "deleteAccount": "Delete account",
       "filterSetup": "Set up a filter",
       "edit": "Edit",
+      "reviews": "Reviews",
+      "add": "Add",
       "profileDetail": "Go to profile",
       "exit": "Exit",
       "delete": "Delete"
@@ -41,11 +44,7 @@
     "form": {
       "field": {
         "displayName": "Display name",
-        "firstName": "First name",
-        "lastName": "Last name",
-        "username": "Username for authorization",
         "mobileNumber": "Mobile number",
-        "email": "Email",
         "password": "Password",
         "passwordConfirm": "Password confirmation",
         "birthday": "Birthday",
@@ -58,7 +57,9 @@
         "location": "Location",
         "height": "Height",
         "weight": "Weight",
-        "lookingFor": "Looking for"
+        "lookingFor": "Looking for",
+        "rating": "Rating",
+        "message": "Message text"
       }
     },
     "reductions": {

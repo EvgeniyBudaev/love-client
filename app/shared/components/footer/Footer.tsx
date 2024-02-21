@@ -112,6 +112,14 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
                         {t("common.actions.profileDetail")}
                       </Link>
                     )}
+                    <Link
+                      className="DropDown-MenuItem"
+                      href={createPath({
+                        route: ERoutes.Reviews,
+                      })}
+                    >
+                      {t("common.actions.reviews")}
+                    </Link>
                     <div className="DropDown-MenuItem" onClick={handleLogout}>
                       {t("common.actions.exit")}
                     </div>

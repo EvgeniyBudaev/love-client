@@ -110,7 +110,6 @@
       "create": "Создать",
       "update": "Update",
       "apply": "Apply",
-      "add": "Add",
       "search": "Search"
     },
     "previews": {
@@ -147,7 +146,11 @@
           "date": "Добавь сюда перевод!!!"
         },
         "filterSetup": "Set up filter",
-        "name": "First name"
+        "name": "First name",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "username": "Username for authorization",
+        "email": "Email"
       }
     }
   },

@@ -6,9 +6,14 @@ type TRoutes =
   | ERoutes.Logout
   | ERoutes.Register
   | ERoutes.PermissionDenied
+  | ERoutes.Reviews
+  | ERoutes.ReviewAdd
   | ERoutes.ProfileAdd;
 
-type TRoutesWithParams = ERoutes.Profile | ERoutes.ProfileEdit;
+type TRoutesWithParams =
+  | ERoutes.Profile
+  | ERoutes.ProfileEdit
+  | ERoutes.ReviewDetail;
 
 type TCreatePathProps =
   | { route: TRoutes; lng?: string }

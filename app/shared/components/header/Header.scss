@@ -7,4 +7,13 @@
   background-color: $bg_color;
   height: 50px;
   padding: 16px;
+
+  &-Action {
+    color: $link_color;
+
+    &:hover,
+    &:active {
+      opacity: $opacity;
+    }
+  }
 }

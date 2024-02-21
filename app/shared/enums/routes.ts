@@ -7,4 +7,7 @@ export enum ERoutes {
   Profile = "/profile/:id",
   ProfileAdd = "/profile/add",
   ProfileEdit = "/profile/:id/edit",
+  Reviews = "/reviews",
+  ReviewAdd = "/reviews/add",
+  ReviewDetail = "/reviews/:id",
 }
