@@ -1,8 +1,9 @@
 "use client";
 
 import isNil from "lodash/isNil";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addReviewAction } from "@/app/actions/review/add/addReviewAction";
 import { useTranslation } from "@/app/i18n/client";
@@ -12,11 +13,16 @@ import { Field } from "@/app/shared/components/form/field";
 import { Header } from "@/app/shared/components/header";
 import { ERoutes } from "@/app/shared/enums";
 import { createPath } from "@/app/shared/utils";
+import { Icon } from "@/app/uikit/components/icon";
 import { Rating } from "@/app/uikit/components/rating";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ReviewAddPage.scss";
 
-export const ReviewAddPage: FC = () => {
+type TProps = {
+  profileId?: number;
+};
+
+export const ReviewAddPage: FC<TProps> = ({ profileId }) => {
   const initialState = {
     data: undefined,
     error: undefined,
@@ -24,6 +30,7 @@ export const ReviewAddPage: FC = () => {
     success: false,
   };
   const [state, formAction] = useFormState(addReviewAction, initialState);
+  const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation("index");
   const [rating, setRating] = useState(0);
   console.log("ReviewAddPage state: ", state);
@@ -41,9 +48,15 @@ export const ReviewAddPage: FC = () => {
     setRating(rate);
   };
 
+  const handleSave = () => {
+    buttonSubmitRef.current && buttonSubmitRef.current.click();
+  };
+
   const handleSubmit = (formData: FormData) => {
+    if (!profileId) return;
     const formDataDto = new FormData();
     const message = formData.get(EFormFields.Message);
+    formDataDto.append(EFormFields.ProfileId, profileId.toString());
     formDataDto.append(EFormFields.Rating, rating.toString());
     formDataDto.append(EFormFields.Message, message ?? "");
     formAction(formDataDto);
@@ -54,9 +67,20 @@ export const ReviewAddPage: FC = () => {
       <Container>
         <form action={handleSubmit} className="ReviewAddPage-Form">
           <Header className="SidebarContent-Header">
-            <div />
+            <div className="Header-Action">
+              <Link
+                className="ReviewAddPage-Link"
+                href={createPath({
+                  route: ERoutes.Reviews,
+                })}
+              >
+                <Icon type="ArrowBack" />
+              </Link>
+            </div>
             <div>{t("common.titles.reviewAdd")}</div>
-            <div className="Header-Action">{t("common.actions.save")}</div>
+            <div className="Header-Action" onClick={handleSave}>
+              {t("common.actions.save")}
+            </div>
           </Header>
           <div>
             <Field>
@@ -74,6 +98,7 @@ export const ReviewAddPage: FC = () => {
               />
             </Field>
           </div>
+          <input hidden={true} ref={buttonSubmitRef} type="submit" />
         </form>
       </Container>
     </div>

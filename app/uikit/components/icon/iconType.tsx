@@ -5,6 +5,7 @@ import {
   AttentionIcon,
   CalendarIcon,
   CheckboxIcon,
+  EditIcon,
   ExitIcon,
   FilterIcon,
   ImageIcon,
@@ -25,6 +26,7 @@ export type IconType =
   | "Attention"
   | "Calendar"
   | "Checkbox"
+  | "Edit"
   | "Exit"
   | "Filter"
   | "Image"
@@ -44,6 +46,7 @@ export const iconTypes = new Map([
   ["Attention", <AttentionIcon key="AttentionIcon" />],
   ["Calendar", <CalendarIcon key="CalendarIcon" />],
   ["Checkbox", <CheckboxIcon key="CheckboxIcon" />],
+  ["Edit", <EditIcon key="EditIcon" />],
   ["Exit", <ExitIcon key="ExitIcon" />],
   ["Filter", <FilterIcon key="FilterIcon" />],
   ["Image", <ImageIcon key="ImageIcon" />],

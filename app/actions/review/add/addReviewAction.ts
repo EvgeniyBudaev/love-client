@@ -43,8 +43,6 @@ export async function addReviewAction(prevState: any, formData: FormData) {
     const responseData: TCommonResponseError = await errorResponse.json();
     const { message: formError, fieldErrors } =
       getResponseError(responseData) ?? {};
-    console.log("[formError] ", formError);
-    console.log("[fieldErrors] ", fieldErrors);
     return {
       data: undefined,
       error: formError,

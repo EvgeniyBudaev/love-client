@@ -2,8 +2,9 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 
 export const addReviewParamsSchema = zfd.formData({
-  rating: zfd.text(),
+  profileId: zfd.text(),
   message: zfd.text(),
+  rating: zfd.text(),
 });
 
 export const reviewDetailSchema = z.object({

@@ -152,6 +152,9 @@
         "username": "Username for authorization",
         "email": "Email"
       }
+    },
+    "title": {
+      "comments": "Добавь сюда перевод!!!"
     }
   },
   "form": {

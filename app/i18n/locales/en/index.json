@@ -68,6 +68,10 @@
       "km": "km",
       "m": "m"
     },
+    "title": {
+      "ratingTotal": "Overall rating",
+      "reviews": "Reviews"
+    },
     "validation": {
       "email": "Invalid email",
       "cyrillicEmail": "Only Latin characters",
@@ -81,5 +85,8 @@
         "maxAmount": "Maximum number of files 50"
       }
     }
+  },
+  "reviews": {
+    "noReviews": "Be the first to write a review"
   }
 }

@@ -21,7 +21,7 @@ async function reviewAddLoader() {
       userId: session.user.id,
     });
     const profile = profileResponse.data;
-    return { profile };
+    return { profileId: profile?.id };
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
   }
@@ -32,5 +32,5 @@ type TProps = {};
 export default async function ReviewAddRoute(props: TProps) {
   const data = await reviewAddLoader();
 
-  return <ReviewAddPage />;
+  return <ReviewAddPage profileId={data.profileId} />;
 }
