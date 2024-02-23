@@ -10,10 +10,12 @@ import {
 import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
+import { getProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
 
 type TSearchParams = {
   page?: string;
   size?: string;
+  profileId?: string;
 };
 
 type TReviewsLoader = {
@@ -31,12 +33,19 @@ async function reviewsLoader(params: TReviewsLoader) {
   }
   const { searchParams } = params;
   try {
-    const reviewListResponse = await getReviewList({
-      page: searchParams?.page ?? DEFAULT_PAGE.toString(),
-      size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
+    const profileResponse = await getProfileByKeycloakId({
+      userId: session.user.id,
     });
-    const reviewList = reviewListResponse.data;
-    return { reviewList };
+    if (profileResponse.success) {
+      const profile = profileResponse.data;
+      const reviewListResponse = await getReviewList({
+        page: searchParams?.page ?? DEFAULT_PAGE.toString(),
+        size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
+        profileId: searchParams?.profileId ?? (profile?.id ?? "").toString(),
+      });
+      const reviewList = reviewListResponse.data;
+      return { profileId: profile?.id, reviewList };
+    }
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
   }
@@ -50,5 +59,7 @@ type TProps = {
 export default async function ReviewsRoute(props: TProps) {
   const data = await reviewsLoader({ searchParams: props?.searchParams ?? {} });
 
-  return <ReviewsPage reviewList={data?.reviewList} />;
+  return (
+    <ReviewsPage profileId={data?.profileId} reviewList={data?.reviewList} />
+  );
 }

@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 import { memo, type FC } from "react";
-
 import {
   DATE_FORMAT,
   TIME_FORMAT,
@@ -13,6 +12,7 @@ import "./DateTime.scss";
 type TProps = {
   className?: string;
   classes?: { date?: string; time?: string };
+  dateFormat?: string;
   dataTestId?: string;
   isTime?: boolean;
   isUtc?: boolean;
@@ -22,6 +22,7 @@ type TProps = {
 const DateTimeComponent: FC<TProps> = ({
   className,
   classes,
+  dateFormat,
   dataTestId = "uikit__date-time",
   isTime = true,
   isUtc = true,
@@ -33,8 +34,10 @@ const DateTimeComponent: FC<TProps> = ({
     <div className={clsx("DateTime", className)} data-testid={dataTestId}>
       <div className={clsx("DateTime-Date", classes?.date)}>
         {isUtc
-          ? dayjs(value).utc().format(DATE_FORMAT)
-          : dayjs(value).format(DATE_FORMAT)}
+          ? dayjs(value)
+              .utc()
+              .format(dateFormat ?? DATE_FORMAT)
+          : dayjs(value).format(dateFormat ?? DATE_FORMAT)}
       </div>
       {isTime && (
         <div className={clsx("DateTime-Time", classes?.time)}>

@@ -8,10 +8,11 @@ import { usePagination } from "@/app/uikit/hooks";
 import "./ReviewList.scss";
 
 type TProps = {
+  profileId?: number;
   reviewList?: TReviewList;
 };
 
-export const ReviewList: FC<TProps> = ({ reviewList }) => {
+export const ReviewList: FC<TProps> = ({ profileId, reviewList }) => {
   const { t } = useTranslation("index");
   const { onChangePage, page } = usePagination();
 

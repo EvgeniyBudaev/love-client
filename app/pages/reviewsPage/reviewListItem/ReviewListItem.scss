@@ -1,7 +1,7 @@
 @import "@/app/styles";
 
 .ReviewListItem {
-  margin: 32px 0;
+  margin: 16px 0;
 
   &:last-child {
     margin-bottom: 0;
@@ -29,17 +29,20 @@
     align-items: center;
 
     & .Icon {
-      margin-left: 16px;
       width: 16px;
       cursor: pointer;
     }
 
     &-IconEdit {
-      margin-right: 32px;
+      margin-right: 16px;
     }
   }
 
-  &-Message {
+  &-Rating {
+    margin-bottom: 8px;
+  }
+
+  &-Inner {
     background-color: $secondary_bg_color;
     padding: 8px;
     border-radius: $border-radius;

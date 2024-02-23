@@ -34,10 +34,12 @@ export const DeleteReview: FC<TProps> = ({ reviewId }) => {
 
   return (
     <div className="DeleteReview">
-      <DropDown>
-        <DropDown.Button>
-          <Icon type="Trash" />
-        </DropDown.Button>
+      <DropDown classes={{ dropDown: "DeleteReview-DropDown" }}>
+        <div className="DeleteReview-DeleteButton">
+          <DropDown.Button>
+            <Icon type="Trash" />
+          </DropDown.Button>
+        </div>
         <DropDown.Panel>
           <>
             <div className="DropDown-Menu">

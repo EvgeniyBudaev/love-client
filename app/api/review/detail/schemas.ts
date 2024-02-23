@@ -1,13 +1,10 @@
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 
-export const addReviewParamsSchema = zfd.formData({
-  profileId: zfd.text(),
-  message: zfd.text(),
-  rating: zfd.text(),
+export const reviewDetailParamsSchema = z.object({
+  id: z.string(),
 });
 
-export const reviewDetailSchema = z.object({
+const reviewDetailSchema = z.object({
   id: z.number(),
   profileId: z.number(),
   message: z.string(),
@@ -16,10 +13,10 @@ export const reviewDetailSchema = z.object({
   hasEdited: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  userId: z.string().optional(),
+  userId: z.string(),
 });
 
-export const addReviewResponseSchema = z.object({
+export const reviewDetailResponseSchema = z.object({
   data: reviewDetailSchema.optional(),
   message: z.string().optional(),
   statusCode: z.number(),

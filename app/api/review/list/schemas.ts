@@ -17,10 +17,12 @@ export const reviewListItemSchema = z.object({
 export const reviewListParamsSchema = z.object({
   page: z.string(),
   size: z.string(),
+  profileId: z.string(),
 });
 
 export const reviewListSchema = paginationSchema.extend({
   ratingAverage: z.number(),
+  countItemsTodayByProfile: z.number(),
   content: reviewListItemSchema.array(),
 });
 

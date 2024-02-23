@@ -13,6 +13,7 @@ type TRoutes =
 type TRoutesWithParams =
   | ERoutes.Profile
   | ERoutes.ProfileEdit
+  | ERoutes.ReviewEdit
   | ERoutes.ReviewDetail;
 
 type TCreatePathProps =

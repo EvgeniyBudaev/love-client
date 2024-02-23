@@ -1,38 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { type FC } from "react";
+import { type FC, useMemo } from "react";
 import { TReviewList } from "@/app/api/review/list";
 import { useTranslation } from "@/app/i18n/client";
 import { DEFAULT_RATING_SIZE } from "@/app/pages/reviewsPage/constants";
 import { ReviewList } from "@/app/pages/reviewsPage/reviewList";
 import { Container } from "@/app/shared/components/container";
 import { Header } from "@/app/shared/components/header";
+import { DEFAULT_COUNT_REVIEWS_TODAY_BY_PROFILE } from "@/app/shared/constants/review";
 import { ERoutes } from "@/app/shared/enums";
 import { createPath } from "@/app/shared/utils";
 import { Rating } from "@/app/uikit/components/rating";
 import "./ReviewsPage.scss";
 
 type TProps = {
+  profileId?: number;
   reviewList?: TReviewList;
 };
 
-export const ReviewsPage: FC<TProps> = ({ reviewList }) => {
+export const ReviewsPage: FC<TProps> = ({ profileId, reviewList }) => {
   const { t } = useTranslation("index");
+
+  const isShowAddReview = useMemo(() => {
+    if (!reviewList?.countItemsTodayByProfile) return false;
+    return (
+      reviewList?.countItemsTodayByProfile <=
+      DEFAULT_COUNT_REVIEWS_TODAY_BY_PROFILE
+    );
+  }, [reviewList?.countItemsTodayByProfile]);
 
   return (
     <div className="ReviewsPage">
       <Header className="SidebarContent-Header">
         <div />
         <div>{t("common.actions.reviews")}</div>
-        <Link
-          className="Header-Action"
-          href={createPath({
-            route: ERoutes.ReviewAdd,
-          })}
-        >
-          {t("common.actions.add")}
-        </Link>
+        {isShowAddReview && (
+          <Link
+            className="Header-Action"
+            href={createPath({
+              route: ERoutes.ReviewAdd,
+            })}
+          >
+            {t("common.actions.add")}
+          </Link>
+        )}
       </Header>
       <Container>
         <div className="ReviewsPage-RatingBlock">
@@ -44,7 +56,7 @@ export const ReviewsPage: FC<TProps> = ({ reviewList }) => {
           />
         </div>
         <div className="ReviewsPage-Title">{t("common.title.reviews")}</div>
-        <ReviewList reviewList={reviewList} />
+        <ReviewList profileId={profileId} reviewList={reviewList} />
       </Container>
     </div>
   );
