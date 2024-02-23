@@ -24,10 +24,18 @@
   }
 
   &-IconList {
+    position: relative;
+    display: flex;
+    align-items: center;
+
     & .Icon {
       margin-left: 16px;
       width: 16px;
       cursor: pointer;
+    }
+
+    &-IconEdit {
+      margin-right: 32px;
     }
   }
 
