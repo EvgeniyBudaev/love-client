@@ -1,18 +1,17 @@
 "use client";
 
-import isEmpty from "lodash/isEmpty";
 import Link from "next/link";
 import { type FC } from "react";
 import { TReviewList } from "@/app/api/review/list";
 import { useTranslation } from "@/app/i18n/client";
 import { DEFAULT_RATING_SIZE } from "@/app/pages/reviewsPage/constants";
-import { ReviewListItem } from "@/app/pages/reviewsPage/ReviewListItem";
+import { ReviewList } from "@/app/pages/reviewsPage/reviewList";
+import { Container } from "@/app/shared/components/container";
 import { Header } from "@/app/shared/components/header";
 import { ERoutes } from "@/app/shared/enums";
 import { createPath } from "@/app/shared/utils";
 import { Rating } from "@/app/uikit/components/rating";
 import "./ReviewsPage.scss";
-import { Container } from "@/app/shared/components/container";
 
 type TProps = {
   reviewList?: TReviewList;
@@ -45,12 +44,7 @@ export const ReviewsPage: FC<TProps> = ({ reviewList }) => {
           />
         </div>
         <div className="ReviewsPage-Title">{t("common.title.reviews")}</div>
-        <div className="ReviewsPage-List">
-          {isEmpty(reviewList?.content) && <div>{t("reviews.noReviews")}</div>}
-          {(reviewList?.content ?? []).map((review) => (
-            <ReviewListItem key={review.id} review={review} />
-          ))}
-        </div>
+        <ReviewList reviewList={reviewList} />
       </Container>
     </div>
   );

@@ -1,5 +1,6 @@
 import { AddCircleOutlineIcon } from "./addCircleOutlineIcon";
 import { ArrowBackIcon } from "./arrowBackIcon";
+import { ArrowLeftIcon } from "./arrowLeftIcon";
 import { ArrowRightIcon } from "./arrowRightIcon";
 import { AttentionIcon } from "./attentionIcon";
 import { CalendarIcon } from "./calendarIcon";
@@ -20,6 +21,7 @@ import { WatchIcon } from "./watchIcon";
 export {
   AddCircleOutlineIcon,
   ArrowBackIcon,
+  ArrowLeftIcon,
   ArrowRightIcon,
   AttentionIcon,
   CalendarIcon,
