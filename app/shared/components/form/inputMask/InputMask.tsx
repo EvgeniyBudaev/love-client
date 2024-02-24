@@ -8,7 +8,7 @@ import ReactInputMask from "@mona-health/react-input-mask";
 import type {
   BeforeMaskedStateChangeStates,
   InputState,
-} from "@types/react-input-mask";
+} from "react-input-mask";
 import { Input as InputUi } from "@/app/uikit/components/input";
 import { IInputProps as TInputPropsUi } from "@/app/uikit/components/input/Input";
 

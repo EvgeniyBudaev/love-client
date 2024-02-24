@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { deleteProfileFormSchema } from "@/app/actions/profile/delete/schemas";
 import { deleteUser } from "@/app/api/auth/delete";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import {
   deleteProfile,
   type TDeleteProfileParams,

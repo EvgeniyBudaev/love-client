@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-import type { TProfileByTelegramId } from "@/app/api/profile/byTelegramId";
+import type { TProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
 import type { TProfileList } from "@/app/api/profile/list";
 import { SearchForm } from "@/app/entities/search/searchForm";
 import { useProxyUrl } from "@/app/shared/hooks";
@@ -12,7 +12,7 @@ import { ERoutes } from "@/app/shared/enums";
 import "./MainPage.scss";
 
 type TProps = {
-  profile?: TProfileByTelegramId;
+  profile?: TProfileByKeycloakId;
   profileList?: TProfileList;
 };
 

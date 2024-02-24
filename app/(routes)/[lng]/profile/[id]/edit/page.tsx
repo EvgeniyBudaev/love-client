@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getProfileDetail } from "@/app/api/profile/detail";
 import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
 import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";

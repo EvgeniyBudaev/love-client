@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
 import { ReviewAddPage } from "@/app/pages/reviewAddPage";
 import { ERoutes } from "@/app/shared/enums";

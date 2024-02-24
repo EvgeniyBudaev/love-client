@@ -14,7 +14,7 @@ import {
 import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
 import { update } from "@/app/api/auth/update";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import type { TSession } from "@/app/shared/types/session";
 import { redirect } from "next/navigation";
 import { ESearchGender } from "@/app/shared/enums/form";

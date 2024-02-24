@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getReviewDetail } from "@/app/api/review/detail";
 import { ReviewDeleted } from "@/app/entities/review/reviewDeleted";
 import { ReviewEditPage } from "@/app/pages/reviewEditPage";
