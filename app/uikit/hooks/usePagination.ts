@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -15,9 +15,12 @@ export const usePagination: TUsePagination = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
   const page = searchParams.get("page") ?? DEFAULT_PAGE.toString();
   const size = searchParams.get("size") ?? DEFAULT_PAGE_SIZE.toString();
+
+  const params = useMemo(() => {
+    return new URLSearchParams(searchParams);
+  }, [searchParams]);
 
   const handleChangePage = useCallback(
     ({ selected }: { selected: number }) => {
@@ -25,7 +28,7 @@ export const usePagination: TUsePagination = () => {
       params.set("size", size.toString());
       replace(`${pathname}?${params.toString()}`);
     },
-    [params],
+    [params, size, replace, pathname],
   );
 
   return {

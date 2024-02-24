@@ -49,34 +49,29 @@ export const useFiles: TUseImages = ({ fieldName, files, setValue }) => {
     [files, setValue, fieldName],
   );
 
-  useEffect(
-    () => {
-      if (
-        true
-        // fetcherFiles.data && fetcherFiles.type === "done"
-      ) {
-        // const { name, id, size } = fetcherFiles.data;
+  useEffect(() => {
+    if (
+      true
+      // fetcherFiles.data && fetcherFiles.type === "done"
+    ) {
+      // const { name, id, size } = fetcherFiles.data;
 
-        if (files) {
-          setValue(
-            fieldName,
-            files.map((image: TFile) => {
-              // if (image.name === name && image.size === size) {
-              //   image.id = id;
-              // }
+      if (files) {
+        setValue(
+          fieldName,
+          files.map((image: TFile) => {
+            // if (image.name === name && image.size === size) {
+            //   image.id = id;
+            // }
 
-              return image;
-            }),
-          );
-        }
+            return image;
+          }),
+        );
       }
-      // Нужно, чтобы поймать только момент, когда пришел ответ от сервера и записать данные в поле
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [
-      // fetcherFiles.data, fetcherFiles.type
-    ],
-  );
+    }
+    // Нужно, чтобы поймать только момент, когда пришел ответ от сервера и записать данные в поле
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fieldName, files, setValue]);
 
   return {
     onAddFiles,

@@ -78,7 +78,7 @@ export const usePopover: TUsePopover = (props) => {
         setPopoverPosition("left");
       }
     }
-  }, []);
+  }, [triggerRef]);
 
   return {
     attributes,

@@ -49,7 +49,7 @@ const ProfileSidebarComponent = forwardRef(
         });
         redirect(path);
       }
-    }, [state?.data, state?.error, state?.success]);
+    }, [isSession, state?.data, state?.error, state?.success]);
 
     const handleDeleteAccount = () => {
       buttonSubmitRef.current && buttonSubmitRef.current.click();

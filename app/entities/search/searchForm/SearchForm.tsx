@@ -69,13 +69,13 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
     return SEARCH_GENDER_MAPPING[language].find(
       (item) => item.value === profile?.filter.searchGender,
     );
-  }, [profile?.filter.searchGender]);
+  }, [language, profile?.filter.searchGender]);
 
   const searchBarTitle = useMemo(() => {
     return SEARCH_BAR_SEARCH_GENDER_MAPPING[language].find(
       (item) => item.value === profile?.filter.searchGender,
     )?.label;
-  }, [profile?.filter.searchGender]);
+  }, [language, profile?.filter.searchGender]);
 
   const [searchGender, setSearchGender] = useState<TSelectOption | undefined>(
     searchGenderDefault,

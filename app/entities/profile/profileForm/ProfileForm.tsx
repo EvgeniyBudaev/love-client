@@ -163,7 +163,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
         redirect(path);
       }
     }
-  }, [isEdit, profile, state]);
+  }, [isEdit, keycloakSession?.user.id, profile, state]);
 
   const handleDeleteFile = (file: TFile, files: TFile[]) => {
     onDeleteFile?.(file, files);

@@ -4,7 +4,7 @@ import KeycloakProvider from "next-auth/providers/keycloak";
 import { encrypt } from "@/app/shared/utils/auth";
 
 // this will refresh an expired access token, when needed
-async function refreshAccessToken(token) {
+async function refreshAccessToken(token: any) {
   const resp = await fetch(`${process.env.REFRESH_TOKEN_URL}`, {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
@@ -28,7 +28,7 @@ async function refreshAccessToken(token) {
   };
 }
 
-export const authOptions: any = {
+export const authOptions = {
   providers: [
     KeycloakProvider({
       clientId: `${process.env.CLIENT_ID}`,
@@ -38,7 +38,9 @@ export const authOptions: any = {
   ],
 
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account }: any) {
+      console.log("jwt token: ", token);
+      console.log("jwt jwt: ", account);
       const nowTimeStamp = Math.floor(Date.now() / 1000);
 
       if (account) {
@@ -65,7 +67,8 @@ export const authOptions: any = {
         }
       }
     },
-    async session({ session, token }) {
+    async session({ session, token }: any) {
+      console.log("session token: ", token.decoded.resource_access.account);
       // Send properties to the client
       session.access_token = encrypt(token.access_token); // see utils/sessionTokenAccessor.js
       session.id_token = encrypt(token.id_token); // see utils/sessionTokenAccessor.js

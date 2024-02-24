@@ -22,15 +22,15 @@ export default function RootLayout({
   params: { lng: string };
 }>) {
   return (
-    <SessionProviderWrapper>
-      <html lang={lng}>
-        <head>
-          <Script
-            src="https://telegram.org/js/telegram-web-app.js"
-            strategy="beforeInteractive"
-          />
-          <title>Love</title>
-        </head>
+    <html lang={lng}>
+      <head>
+        <Script
+          src="https://telegram.org/js/telegram-web-app.js"
+          strategy="beforeInteractive"
+        />
+        <title>Love</title>
+      </head>
+      <SessionProviderWrapper>
         <body>
           <I18nContextProvider lng={lng}>
             <InitClient />
@@ -38,7 +38,7 @@ export default function RootLayout({
             <LayoutComponent lng={lng}>{children}</LayoutComponent>
           </I18nContextProvider>
         </body>
-      </html>
-    </SessionProviderWrapper>
+      </SessionProviderWrapper>
+    </html>
   );
 }
