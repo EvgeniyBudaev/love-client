@@ -13,9 +13,17 @@ import "./Slider.scss";
 
 type TProps = {
   images?: TImage[] | null;
+  isLiked?: boolean;
+  isSessionUser: boolean;
+  onHeartClick?: () => void;
 };
 
-export const Slider: FC<TProps> = ({ images }) => {
+export const Slider: FC<TProps> = ({
+  images,
+  isLiked,
+  isSessionUser,
+  onHeartClick,
+}) => {
   const { proxyUrl } = useProxyUrl();
 
   return !isNil(images) && !isEmpty(images) ? (
@@ -38,6 +46,11 @@ export const Slider: FC<TProps> = ({ images }) => {
               src={`${proxyUrl}${item.url}`}
               quality={100}
             />
+            {!isSessionUser && (
+              <div className="Slider-Icon" onClick={onHeartClick}>
+                {isLiked ? <Icon type="Heart" /> : <Icon type="HeartEmpty" />}
+              </div>
+            )}
           </div>
         </SwiperSlide>
       ))}

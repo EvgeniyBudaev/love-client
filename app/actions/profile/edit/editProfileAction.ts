@@ -49,19 +49,17 @@ export async function editProfileAction(prevState: any, formData: FormData) {
   try {
     const formattedParams = {
       ...resolver.data,
-      userName: normalizePhoneNumber(resolver.data?.userName),
-      mobileNumber: normalizePhoneNumber(resolver.data?.mobileNumber),
     };
     const mapperParams = mapUpdateToDto(formattedParams);
-    console.log("mapperParams:", mapperParams);
 
     // Update user to keycloak (does not update username)
     // const userResponse = await update({...mapperParams.updateForm, id: session.user.id});
     // if (userResponse.success) {
     // }
-
     const profileFormData = new FormData();
+    profileFormData.append("id", mapperParams.profileForm.id);
     profileFormData.append("userId", session.user.id);
+    profileFormData.append("userName", mapperParams.profileForm.userName);
     profileFormData.append("displayName", mapperParams.profileForm.displayName);
     profileFormData.append(
       "firstName",
@@ -101,7 +99,10 @@ export async function editProfileAction(prevState: any, formData: FormData) {
       }
     }
     profileFormData.append("telegramId", mapperParams.profileForm.telegramId);
-    profileFormData.append("username", mapperParams.profileForm.userName);
+    profileFormData.append(
+      "telegramUserName",
+      mapperParams.profileForm.telegramUserName,
+    );
     profileFormData.append(
       "firstName",
       mapperParams.profileForm?.firstName ?? "",
@@ -135,18 +136,18 @@ export async function editProfileAction(prevState: any, formData: FormData) {
       params: { id: resolver.data.id },
     });
     revalidatePath(path);
-    // return {
-    //   data: response.data,
-    //   error: undefined,
-    //   errors: undefined,
-    //   success: true,
-    // };
     return {
-      data: undefined,
-      errorUI: undefined,
+      data: response.data,
+      error: undefined,
       errors: undefined,
       success: true,
     };
+    // return {
+    //   data: undefined,
+    //   errorUI: undefined,
+    //   errors: undefined,
+    //   success: true,
+    // };
   } catch (error) {
     const errorResponse = error as Response;
     const responseData: TCommonResponseError = await errorResponse.json();

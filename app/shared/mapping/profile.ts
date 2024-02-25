@@ -31,6 +31,11 @@ const SEX_MAPPING = {
   [ELanguage.En]: "Sex",
 };
 
+const ALL_MAPPING = {
+  [ELanguage.Ru]: "Для всего",
+  [ELanguage.En]: "For everything",
+};
+
 export const PROFILE_LOOKING_FOR_MAPPING = {
   [ELookingFor.Chat]: CHAT_MAPPING,
   [ELookingFor.Dates]: DATES_MAPPING,
@@ -38,4 +43,5 @@ export const PROFILE_LOOKING_FOR_MAPPING = {
   [ELookingFor.Friendship]: FRIENDSHIP_MAPPING,
   [ELookingFor.Business]: BUSINESS_MAPPING,
   [ELookingFor.Sex]: SEX_MAPPING,
+  [ELookingFor.All]: ALL_MAPPING,
 };

@@ -5,6 +5,7 @@ import { useFormState } from "react-dom";
 import { getProfileByKeycloakIdAction } from "@/app/actions/profile/getByKeycloakId/getByKeycloakIdAction";
 import { Footer } from "@/app/shared/components/footer";
 import { EFormFields } from "@/app/shared/components/layout/enums";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import { useNavigator, useSessionNext, useTelegram } from "@/app/shared/hooks";
 import type { TSession } from "@/app/shared/types/session";
 import "./Layout.scss";
@@ -18,15 +19,9 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
   const { data: session, status } = useSessionNext();
   const isSession = Boolean(session);
   const { tg } = useTelegram();
-  const initialState = {
-    data: undefined,
-    error: undefined,
-    errors: undefined,
-    success: false,
-  };
   const [state, formAction] = useFormState(
     getProfileByKeycloakIdAction,
-    initialState,
+    INITIAL_FORM_STATE,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const navigator = useNavigator({ lng });

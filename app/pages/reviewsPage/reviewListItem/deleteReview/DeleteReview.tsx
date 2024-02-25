@@ -3,6 +3,7 @@ import { useFormState } from "react-dom";
 import { deleteReviewAction } from "@/app/actions/review/delete/deleteReviewAction";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/reviewsPage/reviewListItem/deleteReview/enums";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Icon } from "@/app/uikit/components/icon";
 import "./DeleteReview.scss";
@@ -12,14 +13,11 @@ type TProps = {
 };
 
 export const DeleteReview: FC<TProps> = ({ reviewId }) => {
-  const initialState = {
-    data: undefined,
-    error: undefined,
-    errors: undefined,
-    success: false,
-  };
   const { t } = useTranslation("index");
-  const [state, formAction] = useFormState(deleteReviewAction, initialState);
+  const [state, formAction] = useFormState(
+    deleteReviewAction,
+    INITIAL_FORM_STATE,
+  );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
 
   const handleDelete = () => {

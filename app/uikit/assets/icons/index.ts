@@ -8,6 +8,8 @@ import { CheckboxIcon } from "./checkboxIcon";
 import { EditIcon } from "./editIcon";
 import { ExitIcon } from "./exitIcon";
 import { FilterIcon } from "./filterIcon";
+import { HeartEmptyIcon } from "./heartEmptyIcon";
+import { HeartIcon } from "./heartIcon";
 import { ImageIcon } from "./imageIcon";
 import { LocationIcon } from "./locationIcon";
 import { MoreHorizIcon } from "./moreHorizIcon";
@@ -29,6 +31,8 @@ export {
   EditIcon,
   ExitIcon,
   FilterIcon,
+  HeartEmptyIcon,
+  HeartIcon,
   ImageIcon,
   LocationIcon,
   MoreHorizIcon,

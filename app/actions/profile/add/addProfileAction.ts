@@ -32,8 +32,6 @@ export async function addProfileAction(prevState: any, formData: FormData) {
   try {
     const formattedParams = {
       ...resolver.data,
-      userName: normalizePhoneNumber(resolver.data?.userName),
-      mobileNumber: normalizePhoneNumber(resolver.data?.mobileNumber),
     };
     const mapperParams = mapSignupToDto(formattedParams);
     const userResponse = await signup(mapperParams.signupForm);
@@ -41,6 +39,7 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     if (userResponse.success) {
       const profileFormData = new FormData();
       profileFormData.append("userId", userResponse.data.id);
+      profileFormData.append("userName", mapperParams.profileForm.userName);
       profileFormData.append(
         "displayName",
         mapperParams.profileForm.displayName,
@@ -81,7 +80,10 @@ export async function addProfileAction(prevState: any, formData: FormData) {
         profileFormData.append("image", mapperParams.profileForm.image);
       }
       profileFormData.append("telegramId", mapperParams.profileForm.telegramId);
-      profileFormData.append("username", mapperParams.profileForm.userName);
+      profileFormData.append(
+        "telegramUserName",
+        mapperParams.profileForm.telegramUserName,
+      );
       profileFormData.append(
         "firstName",
         mapperParams.profileForm?.firstName ?? "",

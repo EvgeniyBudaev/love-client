@@ -8,7 +8,7 @@ import { useFormState } from "react-dom";
 import { addProfileAction } from "@/app/actions/profile/add/addProfileAction";
 import { editProfileAction } from "@/app/actions/profile/edit/editProfileAction";
 import { ProfileSkeletonForm } from "@/app/entities/profile/profileForm/profileSkeletonForm";
-import type { TProfileDetail } from "@/app/api/profile/add";
+import type { TProfile } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profileAddPage/enums";
 import { Container } from "@/app/shared/components/container";
@@ -24,7 +24,7 @@ import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
 } from "@/app/shared/constants/filter";
-import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -45,6 +45,7 @@ import type { TFile } from "@/app/shared/types/file";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 import { formattedDate } from "@/app/shared/utils/date";
+import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
 import { Error } from "@/app/uikit/components/error";
 import { Input } from "@/app/uikit/components/input";
 import { InputDateField } from "@/app/uikit/components/inputDateField";
@@ -55,19 +56,13 @@ import "./ProfileForm.scss";
 type TProps = {
   isEdit?: boolean;
   lng: string;
-  profile?: TProfileDetail;
+  profile?: TProfile;
 };
 
 export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
-  const initialState = {
-    data: undefined,
-    error: undefined,
-    errors: undefined,
-    success: false,
-  };
   const [state, formAction] = useFormState(
     isEdit ? editProfileAction : addProfileAction,
-    initialState,
+    INITIAL_FORM_STATE,
   );
   const { data: session } = useSessionNext();
   const keycloakSession = session as TSession;
@@ -75,7 +70,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   const navigator = useNavigator({ lng });
   const { queryId, user } = useTelegram();
   const { i18n, t } = useTranslation("index");
-  const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
+  const language = lng as ELanguage;
   const location = isEdit
     ? profile?.location ?? undefined
     : navigator?.location ?? undefined;
@@ -210,18 +205,18 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     const formDataDto = new FormData();
     const displayName = formData.get(EFormFields.DisplayName);
     const mobileNumber = formData.get(EFormFields.MobileNumber);
+    const mobileNumberNormalized = normalizePhoneNumber(
+      (mobileNumber ?? "").toString(),
+    );
     const password = formData.get(EFormFields.Password);
     const passwordConfirm = formData.get(EFormFields.PasswordConfirm);
     const description = formData.get(EFormFields.Description);
     const height = formData.get(EFormFields.Height);
     const weight = formData.get(EFormFields.Weight);
     formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
-    formDataDto.append(EFormFields.Username, (mobileNumber ?? "").toString());
+    formDataDto.append(EFormFields.Username, mobileNumberNormalized);
     formDataDto.append(EFormFields.Email, "");
-    formDataDto.append(
-      EFormFields.MobileNumber,
-      (mobileNumber ?? "").toString(),
-    );
+    formDataDto.append(EFormFields.MobileNumber, mobileNumberNormalized);
     formDataDto.append(EFormFields.Description, (description ?? "").toString());
     formDataDto.append(EFormFields.Location, (location ?? "").toString());
     formDataDto.append(EFormFields.Height, (height ?? "").toString());

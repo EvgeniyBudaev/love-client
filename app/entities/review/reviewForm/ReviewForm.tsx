@@ -6,12 +6,14 @@ import { redirect } from "next/navigation";
 import { type FC, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addReviewAction } from "@/app/actions/review/add/addReviewAction";
+import { editReviewAction } from "@/app/actions/review/edit/editReviewAction";
 import type { TReviewDetail } from "@/app/api/review/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/reviewAddPage/enums";
 import { Field } from "@/app/shared/components/form/field";
 import { Header } from "@/app/shared/components/header";
 import { Section } from "@/app/shared/components/section";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import { DEFAULT_RATING } from "@/app/shared/constants/rating";
 import { ERoutes } from "@/app/shared/enums";
 import { createPath } from "@/app/shared/utils";
@@ -19,7 +21,6 @@ import { Icon } from "@/app/uikit/components/icon";
 import { Rating } from "@/app/uikit/components/rating";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ReviewForm.scss";
-import { editReviewAction } from "@/app/actions/review/edit/editReviewAction";
 
 type TProps = {
   isEdit?: boolean;
@@ -28,15 +29,9 @@ type TProps = {
 };
 
 export const ReviewForm: FC<TProps> = ({ isEdit, profileId, review }) => {
-  const initialState = {
-    data: undefined,
-    error: undefined,
-    errors: undefined,
-    success: false,
-  };
   const [state, formAction] = useFormState(
     isEdit ? editReviewAction : addReviewAction,
-    initialState,
+    INITIAL_FORM_STATE,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation("index");

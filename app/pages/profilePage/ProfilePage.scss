@@ -49,4 +49,13 @@
   &-Icon {
     margin-right: 8px;
   }
+
+  &-Form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
 }

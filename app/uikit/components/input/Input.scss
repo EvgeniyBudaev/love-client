@@ -45,11 +45,15 @@ $transition: 150ms;
   }
 
   input,
+  textarea {
+    padding: 8px 16px;
+  }
+
+  input,
   input:hover,
   textarea,
   textarea:hover {
     background-color: $secondary_bg_color;
-    padding: 8px 16px;
   }
 
   &__active {

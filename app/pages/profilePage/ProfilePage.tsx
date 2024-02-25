@@ -3,15 +3,25 @@
 import isNil from "lodash/isNil";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useMemo, useRef, useState } from "react";
-import type { TProfileDetail } from "@/app/api/profile/add";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { useFormState } from "react-dom";
+import { addLikeAction } from "@/app/actions/like/add/addLikeAction";
+import { cancelLikeAction } from "@/app/actions/like/cancel/cancelLikeAction";
+import { updateLikeAction } from "@/app/actions/like/update/updateLikeAction";
+import type { TProfileDetail } from "@/app/api/profile/detail";
 import { ProfileSidebar } from "@/app/entities/profile/profileSidebar";
 import { useTranslation } from "@/app/i18n/client";
+import {
+  EAddLikeFormFields,
+  ECancelLikeFormFields,
+  EUpdateLikeFormFields,
+} from "@/app/pages/profilePage/enums";
+import { getDistance } from "@/app/pages/profilePage/utils";
 import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
-import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
-import { useProxyUrl, useSessionNext, useTelegram } from "@/app/shared/hooks";
+import { useProxyUrl, useSessionNext } from "@/app/shared/hooks";
 import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
@@ -21,26 +31,49 @@ import { Icon } from "@/app/uikit/components/icon";
 import { Slider } from "@/app/uikit/components/slider";
 import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
-import { getDistance } from "@/app/pages/profilePage/utils";
 
 type TProps = {
-  lng: string;
+  lng?: ELanguage;
   profile?: TProfileDetail;
 };
 
 export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   const { data: session } = useSessionNext();
+  const isSession = Boolean(session);
   const keycloakSession = session as TSession;
   const { proxyUrl } = useProxyUrl();
-  const { user } = useTelegram();
   const { t } = useTranslation("index");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const fullYear = getFullYear(profile?.birthday);
-  const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
-  const isSessionUser =
-    profile?.id && keycloakSession?.user.id === profile?.userId;
+  const isSessionUser = Boolean(
+    profile?.id && keycloakSession?.user.id === profile?.userId,
+  );
+  const isLiked = !isSessionUser && profile?.like?.isLiked;
+  const buttonSubmitRef = useRef<HTMLInputElement>(null);
+
+  const canAddLike = useMemo(() => {
+    return !isSessionUser && isNil(profile?.like?.id);
+  }, [isSessionUser, profile?.like?.id]);
+
+  const canUpdateLike = useMemo(() => {
+    return (
+      !isSessionUser && !isNil(profile?.like?.id) && !profile?.like?.isLiked
+    );
+  }, [isSessionUser, profile?.like?.id, profile?.like?.isLiked]);
+
+  const canCancelLike = useMemo(() => {
+    return (
+      !isSessionUser && !isNil(profile?.like?.id) && profile?.like?.isLiked
+    );
+  }, [isSessionUser, profile?.like?.id, profile?.like?.isLiked]);
+
   console.log("profile: ", profile);
+
+  const [state, formAction] = useFormState(
+    canAddLike ? addLikeAction : updateLikeAction,
+    INITIAL_FORM_STATE,
+  );
 
   const distance = useMemo(() => {
     return profile?.navigator
@@ -56,9 +89,49 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
     setIsSidebarOpen(false);
   };
 
+  const handleHeartClick = () => {
+    buttonSubmitRef.current && buttonSubmitRef.current.click();
+  };
+
+  const handleSubmit = (formData: FormData) => {
+    if (isSession && profile) {
+      const formDataDto = new FormData();
+      const keycloakSession = session as TSession;
+      if (canAddLike) {
+        formDataDto.append(EAddLikeFormFields.UserId, keycloakSession?.user.id);
+        formDataDto.append(EAddLikeFormFields.HumanId, profile.id.toString());
+        formAction(formDataDto);
+      }
+      if (canCancelLike) {
+        formDataDto.append(
+          ECancelLikeFormFields.Id,
+          (profile.like?.id ?? "").toString(),
+        );
+        formDataDto.append(ECancelLikeFormFields.IsCancel, "true");
+        formDataDto.append(
+          ECancelLikeFormFields.HumanId,
+          profile.id.toString(),
+        );
+        formAction(formDataDto);
+      }
+      if (canUpdateLike) {
+        formDataDto.append(
+          EUpdateLikeFormFields.Id,
+          (profile.like?.id ?? "").toString(),
+        );
+        formDataDto.append(EUpdateLikeFormFields.IsCancel, "false");
+        formDataDto.append(
+          EUpdateLikeFormFields.HumanId,
+          profile.id.toString(),
+        );
+        formAction(formDataDto);
+      }
+    }
+  };
+
   return (
     <>
-      {isSessionUser && (
+      {isSessionUser && profile?.id && (
         <DropDown>
           <DropDown.Button>
             <Hamburger />
@@ -94,7 +167,12 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
       />
       <div className="ProfilePage">
         <div className="ProfilePage-Slider">
-          <Slider images={profile?.images} />
+          <Slider
+            images={profile?.images}
+            isLiked={isLiked}
+            isSessionUser={isSessionUser}
+            onHeartClick={handleHeartClick}
+          />
         </div>
         <Container>
           <div className="ProfilePage-User">
@@ -156,14 +234,14 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
               </div>
             </Field>
           )}
-          {profile?.filters?.lookingFor && (
+          {profile?.filters?.lookingFor && lng && (
             <Field>
               <div className="ProfilePage-Row">
                 <Icon className="ProfilePage-Icon" type="Watch" />
                 <span>
                   {
                     PROFILE_LOOKING_FOR_MAPPING[profile?.filters?.lookingFor][
-                      language
+                      lng
                     ]
                   }
                 </span>
@@ -172,6 +250,9 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
           )}
         </Container>
       </div>
+      <form action={handleSubmit} className="ProfilePage-Form">
+        <input hidden={true} ref={buttonSubmitRef} type="submit" />
+      </form>
     </>
   );
 };

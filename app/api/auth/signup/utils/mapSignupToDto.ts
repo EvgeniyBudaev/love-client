@@ -2,8 +2,8 @@ import { EFormFields } from "@/app/pages/profileAddPage/enums";
 import { TFile } from "@/app/shared/types/file";
 
 type TProps = {
-  [EFormFields.DisplayName]: string;
   [EFormFields.Username]: string;
+  [EFormFields.DisplayName]: string;
   [EFormFields.Email]?: string | null;
   [EFormFields.MobileNumber]: string;
   [EFormFields.Password]: string;
@@ -43,6 +43,7 @@ type TSignupForm = {
 };
 
 type TProfileForm = {
+  [EFormFields.Username]: string;
   [EFormFields.DisplayName]: string;
   [EFormFields.Birthday]: string;
   [EFormFields.Gender]: string;
@@ -54,7 +55,7 @@ type TProfileForm = {
   [EFormFields.LookingFor]?: string | null;
   [EFormFields.Image]: TFile | TFile[];
   [EFormFields.TelegramID]: string;
-  [EFormFields.Username]: string;
+  [EFormFields.TelegramUsername]: string;
   [EFormFields.FirstName]?: string | null;
   [EFormFields.LastName]?: string | null;
   [EFormFields.LanguageCode]: string;
@@ -79,6 +80,7 @@ type TMapSignupToDto = (props: TProps) => TResponse;
 export const mapSignupToDto: TMapSignupToDto = (props: TProps) => {
   return {
     profileForm: {
+      [EFormFields.Username]: props.userName,
       [EFormFields.DisplayName]: props.displayName,
       [EFormFields.Birthday]: props.birthday,
       [EFormFields.Gender]: props.gender,
@@ -90,7 +92,7 @@ export const mapSignupToDto: TMapSignupToDto = (props: TProps) => {
       [EFormFields.LookingFor]: props.lookingFor,
       [EFormFields.Image]: props.image,
       [EFormFields.TelegramID]: props.telegramId,
-      [EFormFields.Username]: props.telegramUserName,
+      [EFormFields.TelegramUsername]: props.telegramUserName,
       [EFormFields.FirstName]: props.firstName,
       [EFormFields.LastName]: props.lastName,
       [EFormFields.LanguageCode]: props.languageCode,

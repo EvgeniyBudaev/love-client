@@ -8,13 +8,14 @@ import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
 import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
+  DEFAULT_LOOKING_FOR,
   DEFAULT_SEARCH_GENDER,
 } from "@/app/shared/constants/filter";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
 } from "@/app/shared/constants/pagination";
-import { ERoutes } from "@/app/shared/enums";
+import { ELanguage, ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 
@@ -24,6 +25,7 @@ type TSearchParams = {
   ageFrom?: string;
   ageTo?: string;
   searchGender?: string;
+  lookingFor?: string;
   profileId?: string;
   distance?: string;
 };
@@ -50,6 +52,7 @@ async function mainLoader(params: TMainLoader) {
         ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
         ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
         searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
+        lookingFor: searchParams?.lookingFor ?? DEFAULT_LOOKING_FOR,
         profileId: searchParams.profileId,
         distance: searchParams?.distance ?? DEFAULT_DISTANCE.toString(),
       });
@@ -73,11 +76,18 @@ type TProps = {
 };
 
 export default async function MainRoute(props: TProps) {
+  const { params } = props;
+  const { lng } = params;
+  const language = lng as ELanguage;
   const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
 
   return (
     <main>
-      <MainPage profile={data?.profile} profileList={data?.profileList} />
+      <MainPage
+        lng={language}
+        profile={data?.profile}
+        profileList={data?.profileList}
+      />
     </main>
   );
 }

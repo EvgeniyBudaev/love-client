@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { filterSchema } from "@/app/api/profile/filter";
 import { imageSchema } from "@/app/api/profile/image";
 import { navigatorSchema } from "@/app/api/profile/navigator";
 import { telegramSchema } from "@/app/api/profile/telegram";
 import { fileSchema } from "@/app/api/upload";
-import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
-import { filterSchema } from "@/app/api/profile/filter";
+import { EGender } from "@/app/shared/enums/form";
 
 export const addProfileParamsSchema = zfd.formData({
   userId: zfd.text(),
@@ -35,7 +35,7 @@ export const addProfileParamsSchema = zfd.formData({
   size: zfd.text(),
 });
 
-export const profileDetailSchema = z.object({
+export const profileSchema = z.object({
   id: z.number(),
   userId: z.string(),
   displayName: z.string(),
@@ -60,7 +60,7 @@ export const profileDetailSchema = z.object({
 });
 
 export const addProfileResponseSchema = z.object({
-  data: profileDetailSchema.optional(),
+  data: profileSchema.optional(),
   message: z.string().optional(),
   statusCode: z.number(),
   success: z.boolean(),

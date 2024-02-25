@@ -4,8 +4,6 @@ export enum EFormFields {
   Username = "userName",
   Email = "email",
   MobileNumber = "mobileNumber",
-  Password = "password",
-  PasswordConfirm = "passwordConfirm",
   Birthday = "birthday",
   Gender = "gender",
   SearchGender = "searchGender",

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { profileDetailSchema } from "@/app/api/profile/add";
+import { profileSchema } from "@/app/api/profile/add";
 import { fileSchema } from "@/app/api/upload";
 
 export const editProfileParamsSchema = zfd.formData({
@@ -27,7 +27,7 @@ export const editProfileParamsSchema = zfd.formData({
 });
 
 export const editProfileResponseSchema = z.object({
-  data: profileDetailSchema.optional(),
+  data: profileSchema.optional(),
   message: z.string().optional(),
   statusCode: z.number(),
   success: z.boolean(),

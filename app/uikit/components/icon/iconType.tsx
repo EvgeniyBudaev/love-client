@@ -9,6 +9,8 @@ import {
   EditIcon,
   ExitIcon,
   FilterIcon,
+  HeartEmptyIcon,
+  HeartIcon,
   ImageIcon,
   LocationIcon,
   MoreHorizIcon,
@@ -31,6 +33,8 @@ export type IconType =
   | "Edit"
   | "Exit"
   | "Filter"
+  | "HeartEmpty"
+  | "Heart"
   | "Image"
   | "Location"
   | "MoreHoriz"
@@ -51,7 +55,9 @@ export const iconTypes = new Map([
   ["Checkbox", <CheckboxIcon key="CheckboxIcon" />],
   ["Edit", <EditIcon key="EditIcon" />],
   ["Exit", <ExitIcon key="ExitIcon" />],
-  ["Filter", <FilterIcon key="FilterIcon" />],
+  ["Filter", <FilterIcon key="HeartIcon" />],
+  ["HeartEmpty", <HeartEmptyIcon key="HeartEmptyIcon" />],
+  ["Heart", <HeartIcon key="HeartIcon" />],
   ["Image", <ImageIcon key="ImageIcon" />],
   ["Location", <LocationIcon key="LocationIcon" />],
   ["MoreHoriz", <MoreHorizIcon key="MoreHorizIcon" />],

@@ -5,7 +5,7 @@ import { getProfileDetail } from "@/app/api/profile/detail";
 import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";
 import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
 import { ProfilePage } from "@/app/pages/profilePage";
-import { ERoutes } from "@/app/shared/enums";
+import { ELanguage, ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 
@@ -42,6 +42,7 @@ type TProps = {
 export default async function ProfileDetailRoute(props: TProps) {
   const { params } = props;
   const { lng, id } = params;
+  const language = lng as ELanguage;
   const data = await loader({ id });
 
   if (data?.profile?.isBlocked) {
@@ -52,5 +53,5 @@ export default async function ProfileDetailRoute(props: TProps) {
     return <ProfileDeleted />;
   }
 
-  return <ProfilePage lng={lng} profile={data?.profile} />;
+  return <ProfilePage lng={language} profile={data?.profile} />;
 }

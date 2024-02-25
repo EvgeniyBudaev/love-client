@@ -5,10 +5,11 @@ import { redirect } from "next/navigation";
 import { type ForwardedRef, forwardRef, memo, useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 import { deleteProfileAction } from "@/app/actions/profile/delete/deleteProfileAction";
-import type { TProfileDetail } from "@/app/api/profile/add";
+import type { TProfile } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
 import { EFormFields } from "@/app/pages/profilePage/enums";
 import { Header } from "@/app/shared/components/header";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import { ERoutes } from "@/app/shared/enums";
 import { useSessionNext } from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
@@ -19,7 +20,7 @@ import "./ProfileSidebar.scss";
 type TProps = {
   isSidebarOpen: boolean;
   onCloseSidebar?: () => void;
-  profile?: TProfileDetail;
+  profile?: TProfile;
 };
 
 const ProfileSidebarComponent = forwardRef(
@@ -29,15 +30,9 @@ const ProfileSidebarComponent = forwardRef(
   ): JSX.Element => {
     const { data: session } = useSessionNext();
     const isSession = Boolean(session);
-    const initialState = {
-      data: undefined,
-      error: undefined,
-      errors: undefined,
-      success: false,
-    };
     const buttonSubmitRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation("index");
-    const [state] = useFormState(deleteProfileAction, initialState);
+    const [state] = useFormState(deleteProfileAction, INITIAL_FORM_STATE);
 
     useEffect(() => {
       if (

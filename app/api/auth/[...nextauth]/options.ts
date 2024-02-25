@@ -39,8 +39,6 @@ export const authOptions = {
 
   callbacks: {
     async jwt({ token, account }: any) {
-      console.log("jwt token: ", token);
-      console.log("jwt jwt: ", account);
       const nowTimeStamp = Math.floor(Date.now() / 1000);
 
       if (account) {
@@ -68,7 +66,6 @@ export const authOptions = {
       }
     },
     async session({ session, token }: any) {
-      console.log("session token: ", token.decoded.resource_access.account);
       // Send properties to the client
       session.access_token = encrypt(token.access_token); // see utils/sessionTokenAccessor.js
       session.id_token = encrypt(token.id_token); // see utils/sessionTokenAccessor.js

@@ -7,6 +7,7 @@ import { useFormState } from "react-dom";
 import { getProfileByKeycloakIdAction } from "@/app/actions/profile/getByKeycloakId/getByKeycloakIdAction";
 import { EFormFields } from "@/app/entities/login/loginForm/enums";
 import { useTranslation } from "@/app/i18n/client";
+import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
 import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
@@ -23,15 +24,9 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
   const isLoading = status === "loading";
   const isSession = Boolean(session);
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
-  const initialState = {
-    data: undefined,
-    error: undefined,
-    errors: undefined,
-    success: false,
-  };
   const [state, formAction] = useFormState(
     getProfileByKeycloakIdAction,
-    initialState,
+    INITIAL_FORM_STATE,
   );
 
   useEffect(() => {

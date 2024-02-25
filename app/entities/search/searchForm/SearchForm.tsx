@@ -15,7 +15,6 @@ import {
   DEFAULT_AGE_TO,
   DEFAULT_SEARCH_GENDER,
 } from "@/app/shared/constants/filter";
-import { DEFAULT_LANGUAGE } from "@/app/shared/constants/language";
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -34,17 +33,17 @@ import { Sidebar } from "@/app/uikit/components/sidebar";
 import "./SearchForm.scss";
 
 type TProps = {
+  lng: ELanguage;
   profile?: TProfileByKeycloakId;
 };
 
-export const SearchForm: FC<TProps> = ({ profile }) => {
+export const SearchForm: FC<TProps> = ({ lng, profile }) => {
   const AGE_FROM = "ageFrom";
   const AGE_TO = "ageTo";
   const SEARCH_GENDER = "searchGender";
   const PAGE = "page";
   const SIZE = "size";
   const { user } = useTelegram();
-  const language = (user?.language_code as ELanguage) ?? DEFAULT_LANGUAGE;
   const { t } = useTranslation("index");
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -66,16 +65,16 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
   ]);
 
   const searchGenderDefault = useMemo(() => {
-    return SEARCH_GENDER_MAPPING[language].find(
+    return SEARCH_GENDER_MAPPING[lng].find(
       (item) => item.value === profile?.filter.searchGender,
     );
-  }, [language, profile?.filter.searchGender]);
+  }, [lng, profile?.filter.searchGender]);
 
   const searchBarTitle = useMemo(() => {
-    return SEARCH_BAR_SEARCH_GENDER_MAPPING[language].find(
+    return SEARCH_BAR_SEARCH_GENDER_MAPPING[lng].find(
       (item) => item.value === profile?.filter.searchGender,
     )?.label;
-  }, [language, profile?.filter.searchGender]);
+  }, [lng, profile?.filter.searchGender]);
 
   const [searchGender, setSearchGender] = useState<TSelectOption | undefined>(
     searchGenderDefault,
@@ -195,7 +194,7 @@ export const SearchForm: FC<TProps> = ({ profile }) => {
               <SidebarContent
                 classes={{ item: "SearchForm-SidebarContent-Item" }}
                 onSave={handleChangeSearchGender}
-                options={SEARCH_GENDER_MAPPING[language]}
+                options={SEARCH_GENDER_MAPPING[lng]}
                 onCloseSidebar={handleCloseSidebar}
                 selectedItem={searchGender}
                 title={t("common.form.field.searchGender")}

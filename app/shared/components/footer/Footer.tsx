@@ -9,6 +9,7 @@ import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
 import {
   DEFAULT_AGE_FROM,
   DEFAULT_AGE_TO,
+  DEFAULT_LOOKING_FOR,
   DEFAULT_SEARCH_GENDER,
 } from "@/app/shared/constants/filter";
 import {
@@ -50,6 +51,7 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
   const ageTo = searchParams.get("ageTo") ?? DEFAULT_AGE_TO.toString();
   const searchGender =
     searchParams.get("searchGender") ?? DEFAULT_SEARCH_GENDER;
+  const lookingFor = searchParams.get("lookingFor") ?? DEFAULT_LOOKING_FOR;
   const distance = searchParams.get("distance") ?? DEFAULT_DISTANCE.toString();
 
   const isProfileDetailPage = useMemo(() => {
@@ -62,8 +64,18 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
   }, [lng, pathname, profile?.id]);
 
   const rootURL = useMemo(() => {
-    return `/${lng}?page=${page}&size=${size}&ageFrom=${ageFrom}&ageTo=${ageTo}&searchGender=${searchGender}&profileId=${profile?.id.toString()}&distance=${distance}`;
-  }, [ageFrom, ageTo, distance, lng, page, profile?.id, searchGender, size]);
+    return `/${lng}?page=${page}&size=${size}&ageFrom=${ageFrom}&ageTo=${ageTo}&searchGender=${searchGender}&lookingFor=${lookingFor}&profileId=${profile?.id.toString()}&distance=${distance}`;
+  }, [
+    ageFrom,
+    ageTo,
+    distance,
+    lng,
+    page,
+    profile?.id,
+    searchGender,
+    lookingFor,
+    size,
+  ]);
 
   useEffect(() => {
     if (
