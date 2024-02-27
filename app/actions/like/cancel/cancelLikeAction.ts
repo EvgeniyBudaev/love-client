@@ -12,7 +12,6 @@ import {
 } from "@/app/shared/utils";
 
 export async function cancelLikeAction(prevState: any, formData: FormData) {
-  console.log("cancelLikeAction");
   const resolver = cancelLikeFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
@@ -30,7 +29,7 @@ export async function cancelLikeAction(prevState: any, formData: FormData) {
   const formattedParams = {
     ...resolver.data,
   };
-  console.log("formattedParams: ", formattedParams);
+
   try {
     const response = await cancelLike(formattedParams);
     const path = createPath({

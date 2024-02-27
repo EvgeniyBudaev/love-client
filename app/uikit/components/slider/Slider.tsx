@@ -1,3 +1,5 @@
+"use client";
+
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import Image from "next/image";
@@ -9,12 +11,14 @@ import "swiper/css/pagination";
 import type { TImage } from "@/app/api/profile/image";
 import { useProxyUrl } from "@/app/shared/hooks";
 import { Icon } from "@/app/uikit/components/icon";
+import { Tooltip } from "@/app/uikit/components/tooltip";
 import "./Slider.scss";
 
 type TProps = {
   images?: TImage[] | null;
   isLiked?: boolean;
   isSessionUser: boolean;
+  isShowTooltipHeart?: boolean;
   onHeartClick?: () => void;
 };
 
@@ -22,6 +26,7 @@ export const Slider: FC<TProps> = ({
   images,
   isLiked,
   isSessionUser,
+  isShowTooltipHeart,
   onHeartClick,
 }) => {
   const { proxyUrl } = useProxyUrl();
@@ -48,7 +53,18 @@ export const Slider: FC<TProps> = ({
             />
             {!isSessionUser && (
               <div className="Slider-Icon" onClick={onHeartClick}>
-                {isLiked ? <Icon type="Heart" /> : <Icon type="HeartEmpty" />}
+                {isLiked ? (
+                  <>
+                    <Tooltip id="heart-tooltip" isOpen={true}>
+                      <span>TEXT</span>
+                    </Tooltip>
+                    <span id="heart-tooltip">
+                      <Icon type="Heart" />
+                    </span>
+                  </>
+                ) : (
+                  <Icon type="HeartEmpty" />
+                )}
               </div>
             )}
           </div>

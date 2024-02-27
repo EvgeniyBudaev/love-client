@@ -3,10 +3,9 @@
 import isNil from "lodash/isNil";
 import Image from "next/image";
 import Link from "next/link";
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { addLikeAction } from "@/app/actions/like/add/addLikeAction";
-import { cancelLikeAction } from "@/app/actions/like/cancel/cancelLikeAction";
 import { updateLikeAction } from "@/app/actions/like/update/updateLikeAction";
 import type { TProfileDetail } from "@/app/api/profile/detail";
 import { ProfileSidebar } from "@/app/entities/profile/profileSidebar";
@@ -25,6 +24,8 @@ import { useProxyUrl, useSessionNext } from "@/app/shared/hooks";
 import { PROFILE_LOOKING_FOR_MAPPING } from "@/app/shared/mapping/profile";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
+import { DATE_FORMAT } from "@/app/uikit/components/dateTime/constants";
+import { useDayjs } from "@/app/uikit/components/dateTime/hooks";
 import { DropDown } from "@/app/uikit/components/dropDown";
 import { Hamburger } from "@/app/uikit/components/hamburger";
 import { Icon } from "@/app/uikit/components/icon";
@@ -38,6 +39,7 @@ type TProps = {
 };
 
 export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
+  const { dayjs } = useDayjs();
   const { data: session } = useSessionNext();
   const isSession = Boolean(session);
   const keycloakSession = session as TSession;
@@ -51,6 +53,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   );
   const isLiked = !isSessionUser && profile?.like?.isLiked;
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
+  const [isShowTooltipHeart, setIsShowTooltipHeart] = useState(false);
 
   const canAddLike = useMemo(() => {
     return !isSessionUser && isNil(profile?.like?.id);
@@ -68,7 +71,20 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
     );
   }, [isSessionUser, profile?.like?.id, profile?.like?.isLiked]);
 
+  const isCanClickHeart = useMemo(() => {
+    if (isNil(profile?.like?.updatedAt)) {
+      return true;
+    }
+    const lastClickDate = dayjs(profile?.like?.updatedAt)
+      .utc()
+      .format(DATE_FORMAT);
+    const today = dayjs().utc().format(DATE_FORMAT);
+    return canCancelLike || lastClickDate !== today;
+  }, [canCancelLike, dayjs, profile?.like?.updatedAt]);
+
   console.log("profile: ", profile);
+  console.log("isCanClickHeart: ", isCanClickHeart);
+  console.log("isShowTooltipHeart: ", isShowTooltipHeart);
 
   const [state, formAction] = useFormState(
     canAddLike ? addLikeAction : updateLikeAction,
@@ -90,7 +106,11 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   };
 
   const handleHeartClick = () => {
-    buttonSubmitRef.current && buttonSubmitRef.current.click();
+    if (isCanClickHeart) {
+      buttonSubmitRef.current && buttonSubmitRef.current.click();
+    } else {
+      setIsShowTooltipHeart(true);
+    }
   };
 
   const handleSubmit = (formData: FormData) => {
@@ -100,7 +120,6 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
       if (canAddLike) {
         formDataDto.append(EAddLikeFormFields.UserId, keycloakSession?.user.id);
         formDataDto.append(EAddLikeFormFields.HumanId, profile.id.toString());
-        formAction(formDataDto);
       }
       if (canCancelLike) {
         formDataDto.append(
@@ -112,7 +131,6 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
           ECancelLikeFormFields.HumanId,
           profile.id.toString(),
         );
-        formAction(formDataDto);
       }
       if (canUpdateLike) {
         formDataDto.append(
@@ -124,8 +142,8 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
           EUpdateLikeFormFields.HumanId,
           profile.id.toString(),
         );
-        formAction(formDataDto);
       }
+      formAction(formDataDto);
     }
   };
 
@@ -171,6 +189,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
             images={profile?.images}
             isLiked={isLiked}
             isSessionUser={isSessionUser}
+            isShowTooltipHeart={isShowTooltipHeart}
             onHeartClick={handleHeartClick}
           />
         </div>

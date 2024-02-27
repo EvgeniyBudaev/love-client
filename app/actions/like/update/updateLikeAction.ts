@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { updateLikeFormSchema } from "@/app/actions/like/update/schemas";
+import { cancelLike } from "@/app/api/like/cancel";
 import { updateLike } from "@/app/api/like/update";
 import { ERoutes } from "@/app/shared/enums";
 import type { TCommonResponseError } from "@/app/shared/types/error";
@@ -10,7 +11,6 @@ import {
   getErrorsResolver,
   createPath,
 } from "@/app/shared/utils";
-import { cancelLike } from "@/app/api/like/cancel";
 
 export async function updateLikeAction(prevState: any, formData: FormData) {
   const resolver = updateLikeFormSchema.safeParse(
