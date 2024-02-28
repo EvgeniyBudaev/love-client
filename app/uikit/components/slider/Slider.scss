@@ -18,7 +18,7 @@
     object-position: center;
   }
 
-  &-Icon {
+  &-HeartBlock {
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -27,6 +27,23 @@
     margin-bottom: 24px;
     z-index: 10;
     cursor: pointer;
+  }
+
+  &-HeartInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-HeartMessage {
+    color: $text_color;
+    background-color: $secondary_bg_color;
+    padding: 4px;
+    border-radius: $border-radius;
+  }
+
+  &-Icon {
+    margin-top: 8px;
 
     &:hover,
     &:active {

@@ -18,6 +18,7 @@ export type TTooltipProps = {
   classes?: TClasses;
   dataTestId?: string;
   isOpen?: boolean;
+  isVisible?: boolean;
   message: ReactNode;
   modifiers?: TModifiers;
   placement?: TPlacement;

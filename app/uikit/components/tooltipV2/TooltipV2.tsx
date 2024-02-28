@@ -16,11 +16,12 @@ export const TooltipV2: React.FC<TTooltipProps> = ({
   classes,
   dataTestId = DATA_TEST_ID,
   isOpen,
+  isVisible = false,
   message,
   modifiers,
   placement = "right",
-  timerDelay = 200,
-  showTimerDelay = 2000,
+  timerDelay = 2000,
+  showTimerDelay = 0,
 }) => {
   const [referenceElement, setReferenceElement] =
     React.useState<HTMLDivElement | null>(null);
@@ -29,7 +30,7 @@ export const TooltipV2: React.FC<TTooltipProps> = ({
   const [arrowElement, setArrowElement] = React.useState<HTMLDivElement | null>(
     null,
   );
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(isVisible);
   const isManualVisibility = typeof isOpen !== "undefined";
   const [timer, setTimer] = React.useState<NodeJS.Timeout | undefined>();
   const [showTimer, setShowTimer] = React.useState<
@@ -109,6 +110,9 @@ export const TooltipV2: React.FC<TTooltipProps> = ({
   };
 
   const isHydrated = useHydrated();
+  console.log("isHydrated: ", isHydrated);
+  console.log("isManualVisibility: ", isManualVisibility);
+  console.log("visible: ", visible);
 
   return (
     <div
@@ -125,38 +129,43 @@ export const TooltipV2: React.FC<TTooltipProps> = ({
         {children}
       </div>
 
-      {isHydrated &&
+      {
+        // isHydrated &&
         visible &&
-        message &&
-        ReactDOM.createPortal(
-          <div
-            className={clsx("TooltipV2-Element", classes?.popperElement)}
-            data-testid={`${DATA_TEST_ID}__popper-element`}
-            onClick={handleInnerClick}
-            onMouseOver={handleMouseOver}
-            onMouseLeave={handleMouseLeave}
-            ref={setPopperElement}
-            style={{
-              ...styles.popper,
-            }}
-            {...attributes.popper}
-          >
+          message &&
+          ReactDOM.createPortal(
             <div
-              className={clsx("TooltipV2-ElementInner", classes?.popperContent)}
-              data-testid={`${DATA_TEST_ID}__popper-content`}
+              className={clsx("TooltipV2-Element", classes?.popperElement)}
+              data-testid={`${DATA_TEST_ID}__popper-element`}
+              onClick={handleInnerClick}
+              onMouseOver={handleMouseOver}
+              onMouseLeave={handleMouseLeave}
+              ref={setPopperElement}
+              style={{
+                ...styles.popper,
+              }}
+              {...attributes.popper}
             >
-              {message}
-
               <div
-                className={clsx("TooltipV2-Arrow", classes?.arrow)}
-                ref={setArrowElement}
-                style={styles.arrow}
-                data-testid={`${DATA_TEST_ID}__arrow`}
-              />
-            </div>
-          </div>,
-          document.body,
-        )}
+                className={clsx(
+                  "TooltipV2-ElementInner",
+                  classes?.popperContent,
+                )}
+                data-testid={`${DATA_TEST_ID}__popper-content`}
+              >
+                {message}
+
+                <div
+                  className={clsx("TooltipV2-Arrow", classes?.arrow)}
+                  ref={setArrowElement}
+                  style={styles.arrow}
+                  data-testid={`${DATA_TEST_ID}__arrow`}
+                />
+              </div>
+            </div>,
+            document.body,
+          )
+      }
     </div>
   );
 };

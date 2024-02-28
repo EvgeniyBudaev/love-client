@@ -13,6 +13,9 @@
       "description": "Welcome to the official Love assistant app.",
       "noAccount": "no account?",
       "goToSignup": "Sign up"
+    },
+    "profile": {
+      "doubleLike": "Re-like will be available tomorrow"
     }
   },
   "common": {
@@ -24,9 +27,10 @@
       "publicPhotos": "Public photos",
       "moreDetails": "More details",
       "properties": "Properties",
+      "reviewDeleted": "Review deleted",
+      "reviewAdd": "New review",
       "filtersGeneral": "General filters",
-      "age": "Age",
-      "reviewAdd": "New review"
+      "age": "Age"
     },
     "actions": {
       "cancel": "Cancel",
@@ -35,11 +39,11 @@
       "deleteAccount": "Delete account",
       "filterSetup": "Set up a filter",
       "edit": "Edit",
+      "delete": "Delete",
       "reviews": "Reviews",
       "add": "Add",
       "profileDetail": "Go to profile",
-      "exit": "Exit",
-      "delete": "Delete"
+      "exit": "Exit"
     },
     "form": {
       "field": {

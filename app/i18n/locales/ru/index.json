@@ -13,6 +13,9 @@
       "description": "Добро пожаловать в официальное приложение Love ассистент",
       "noAccount": "нет аккаунта?",
       "goToSignup": "Зарегистрироваться"
+    },
+    "profile": {
+      "doubleLike": "Повторный лайк будет доступен завтра"
     }
   },
   "common": {
@@ -24,9 +27,10 @@
       "publicPhotos": "Публичные фото",
       "moreDetails": "Подробнее",
       "properties": "Свойства",
+      "reviewDeleted": "Удалить отзыв",
+      "reviewAdd": "Новый отзыв",
       "filtersGeneral": "Общие фильтры",
-      "age": "Возраст",
-      "reviewAdd": "Новый отзыв"
+      "age": "Возраст"
     },
     "actions": {
       "cancel": "Отменить",
@@ -35,11 +39,11 @@
       "deleteAccount": "Удалить аккаунт",
       "filterSetup": "Настройте фильтр",
       "edit": "Редактировать",
+      "delete": "Удалить",
       "reviews": "Отзывы",
       "add": "Добавить",
       "profileDetail": "Перейти в профиль",
-      "exit": "Выйти",
-      "delete": "Удалить"
+      "exit": "Выйти"
     },
     "form": {
       "field": {

@@ -83,8 +83,6 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   }, [canCancelLike, dayjs, profile?.like?.updatedAt]);
 
   console.log("profile: ", profile);
-  console.log("isCanClickHeart: ", isCanClickHeart);
-  console.log("isShowTooltipHeart: ", isShowTooltipHeart);
 
   const [state, formAction] = useFormState(
     canAddLike ? addLikeAction : updateLikeAction,
@@ -108,9 +106,9 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   const handleHeartClick = () => {
     if (isCanClickHeart) {
       buttonSubmitRef.current && buttonSubmitRef.current.click();
-    } else {
-      setIsShowTooltipHeart(true);
+      return;
     }
+    setIsShowTooltipHeart(true);
   };
 
   const handleSubmit = (formData: FormData) => {
@@ -149,25 +147,32 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
 
   return (
     <>
-      {isSessionUser && profile?.id && (
+      {profile?.id && (
         <DropDown>
           <DropDown.Button>
             <Hamburger />
           </DropDown.Button>
           <DropDown.Panel>
             <div className="DropDown-Menu">
-              <Link
-                className="DropDown-MenuItem"
-                href={createPath({
-                  route: ERoutes.ProfileEdit,
-                  params: { id: profile.id },
-                })}
-              >
-                {t("common.actions.edit")}
-              </Link>
-              <div className="DropDown-MenuItem" onClick={handleOpenSidebar}>
-                {t("common.actions.settings")}
-              </div>
+              {isSessionUser && (
+                <>
+                  <Link
+                    className="DropDown-MenuItem"
+                    href={createPath({
+                      route: ERoutes.ProfileEdit,
+                      params: { id: profile.id },
+                    })}
+                  >
+                    {t("common.actions.edit")}
+                  </Link>
+                  <div
+                    className="DropDown-MenuItem"
+                    onClick={handleOpenSidebar}
+                  >
+                    {t("common.actions.settings")}
+                  </div>
+                </>
+              )}
             </div>
             <div className="DropDown-Menu">
               <div className="DropDown-MenuItem DropDown-MenuItem-Cancel">
@@ -189,7 +194,9 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
             images={profile?.images}
             isLiked={isLiked}
             isSessionUser={isSessionUser}
-            isShowTooltipHeart={isShowTooltipHeart}
+            messageHeart={
+              isShowTooltipHeart ? t("pages.profile.doubleLike") : undefined
+            }
             onHeartClick={handleHeartClick}
           />
         </div>

@@ -11,14 +11,13 @@ import "swiper/css/pagination";
 import type { TImage } from "@/app/api/profile/image";
 import { useProxyUrl } from "@/app/shared/hooks";
 import { Icon } from "@/app/uikit/components/icon";
-import { Tooltip } from "@/app/uikit/components/tooltip";
 import "./Slider.scss";
 
 type TProps = {
   images?: TImage[] | null;
   isLiked?: boolean;
   isSessionUser: boolean;
-  isShowTooltipHeart?: boolean;
+  messageHeart?: string;
   onHeartClick?: () => void;
 };
 
@@ -26,7 +25,7 @@ export const Slider: FC<TProps> = ({
   images,
   isLiked,
   isSessionUser,
-  isShowTooltipHeart,
+  messageHeart,
   onHeartClick,
 }) => {
   const { proxyUrl } = useProxyUrl();
@@ -52,18 +51,25 @@ export const Slider: FC<TProps> = ({
               quality={100}
             />
             {!isSessionUser && (
-              <div className="Slider-Icon" onClick={onHeartClick}>
+              <div className="Slider-HeartBlock" onClick={onHeartClick}>
                 {isLiked ? (
-                  <>
-                    <Tooltip id="heart-tooltip" isOpen={true}>
-                      <span>TEXT</span>
-                    </Tooltip>
-                    <span id="heart-tooltip">
-                      <Icon type="Heart" />
-                    </span>
-                  </>
+                  <div className="Slider-HeartInfo">
+                    {messageHeart && (
+                      <div className="Slider-HeartMessage">{messageHeart}</div>
+                    )}
+                    <div>
+                      <Icon className="Slider-Icon" type="Heart" />
+                    </div>
+                  </div>
                 ) : (
-                  <Icon type="HeartEmpty" />
+                  <div className="Slider-HeartInfo">
+                    {messageHeart && (
+                      <div className="Slider-HeartMessage">{messageHeart}</div>
+                    )}
+                    <div>
+                      <Icon className="Slider-Icon" type="HeartEmpty" />
+                    </div>
+                  </div>
                 )}
               </div>
             )}
