@@ -9,22 +9,22 @@ const telegramSchema = z.object({
   telegramId: z.number(),
 });
 
-export const profileByKeycloakIdSchema = z.object({
+export const profileBySessionIdSchema = z.object({
   id: z.number(),
-  userId: z.string(),
+  sessionId: z.string(),
   image: imageListItemSchema,
   filter: filterSchema,
   telegram: telegramSchema,
 });
 
-export const profileByKeycloakIdParamsSchema = z.object({
-  userId: z.string(),
+export const profileBySessionIdParamsSchema = z.object({
+  sessionId: z.string(),
   latitude: z.string().nullish(),
   longitude: z.string().nullish(),
 });
 
-export const profileByKeycloakIdResponseSchema = z.object({
-  data: profileByKeycloakIdSchema.optional(),
+export const profileBySessionIdResponseSchema = z.object({
+  data: profileBySessionIdSchema.optional(),
   message: z.string().optional(),
   statusCode: z.number(),
   success: z.boolean(),

@@ -32,6 +32,7 @@ import { Icon } from "@/app/uikit/components/icon";
 import { Slider } from "@/app/uikit/components/slider";
 import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
+import { Block } from "@/app/pages/profilePage/block";
 
 type TProps = {
   lng?: ELanguage;
@@ -49,7 +50,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
   const sidebarRef = useRef(null);
   const fullYear = getFullYear(profile?.birthday);
   const isSessionUser = Boolean(
-    profile?.id && keycloakSession?.user.id === profile?.userId,
+    profile?.id && keycloakSession?.user.id === profile?.sessionId,
   );
   const isLiked = !isSessionUser && profile?.like?.isLiked;
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
@@ -116,7 +117,10 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
       const formDataDto = new FormData();
       const keycloakSession = session as TSession;
       if (canAddLike) {
-        formDataDto.append(EAddLikeFormFields.UserId, keycloakSession?.user.id);
+        formDataDto.append(
+          EAddLikeFormFields.SessionId,
+          keycloakSession?.user.id,
+        );
         formDataDto.append(EAddLikeFormFields.HumanId, profile.id.toString());
       }
       if (canCancelLike) {
@@ -154,6 +158,7 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
           </DropDown.Button>
           <DropDown.Panel>
             <div className="DropDown-Menu">
+              {!isSessionUser && <Block blockedUserId={profile.id} lng={lng} />}
               {isSessionUser && (
                 <>
                   <Link

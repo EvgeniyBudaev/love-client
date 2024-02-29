@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const addLikeParamsSchema = z.object({
-  userId: z.string(),
+  sessionId: z.string(),
   humanId: z.string(),
 });
 

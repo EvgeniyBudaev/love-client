@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
-import type { TProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
+import type { TProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import type { TProfileList } from "@/app/api/profile/list";
 import { SearchForm } from "@/app/entities/search/searchForm";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
@@ -13,7 +13,7 @@ import "./MainPage.scss";
 
 type TProps = {
   lng: ELanguage;
-  profile?: TProfileByKeycloakId;
+  profile?: TProfileBySessionId;
   profileList?: TProfileList;
 };
 

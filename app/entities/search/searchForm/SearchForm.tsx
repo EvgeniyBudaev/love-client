@@ -3,7 +3,7 @@
 import isNil from "lodash/isNil";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type FC, useMemo, useRef, useState } from "react";
-import type { TProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
+import type { TProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import { useTranslation } from "@/app/i18n/client";
 import { Container } from "@/app/shared/components/container";
 import { Field } from "@/app/shared/components/form/field";
@@ -34,7 +34,7 @@ import "./SearchForm.scss";
 
 type TProps = {
   lng: ELanguage;
-  profile?: TProfileByKeycloakId;
+  profile?: TProfileBySessionId;
 };
 
 export const SearchForm: FC<TProps> = ({ lng, profile }) => {

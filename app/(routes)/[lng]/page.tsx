@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import { getProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
+import { getProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import { getProfileList } from "@/app/api/profile/list";
 import { MainPage } from "@/app/pages/mainPage";
 import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
@@ -26,7 +26,7 @@ type TSearchParams = {
   ageTo?: string;
   searchGender?: string;
   lookingFor?: string;
-  profileId?: string;
+  sessionId?: string;
   distance?: string;
 };
 
@@ -45,19 +45,20 @@ async function mainLoader(params: TMainLoader) {
   }
   const { searchParams } = params;
   try {
-    if (searchParams?.profileId) {
-      const profileListResponse = await getProfileList({
+    if (searchParams?.sessionId) {
+      const query = {
         page: searchParams?.page ?? DEFAULT_PAGE.toString(),
         size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
         ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
         ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
         searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
         lookingFor: searchParams?.lookingFor ?? DEFAULT_LOOKING_FOR,
-        profileId: searchParams.profileId,
+        sessionId: session?.user.id,
         distance: searchParams?.distance ?? DEFAULT_DISTANCE.toString(),
-      });
-      const profileResponse = await getProfileByKeycloakId({
-        userId: session.user.id,
+      };
+      const profileListResponse = await getProfileList(query);
+      const profileResponse = await getProfileBySessionId({
+        sessionId: session?.user.id,
       });
       const profile = profileResponse.data;
 

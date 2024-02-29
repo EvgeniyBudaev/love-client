@@ -6,6 +6,7 @@ import { Rating as RatingUI, RatingProps } from "react-simple-star-rating";
 import { Error } from "@/app/uikit/components/error";
 
 type TProps = {
+  allowFraction?: boolean;
   dataTestId?: string;
   errors?: string | string[];
   initialValue?: number;
@@ -20,6 +21,7 @@ type TProps = {
 } & RatingProps;
 
 const RatingComponent: FC<TProps> = ({
+  allowFraction = false,
   dataTestId = "uikit__rating",
   errors,
   initialValue,
@@ -31,6 +33,7 @@ const RatingComponent: FC<TProps> = ({
     <>
       <RatingUI
         {...props}
+        allowFraction={allowFraction}
         data-testid={dataTestId}
         initialValue={initialValue}
         onClick={onChange}

@@ -18,7 +18,7 @@ const likeSchema = z.object({
 
 export const profileDetailSchema = z.object({
   id: z.number(),
-  userId: z.string(),
+  sessionId: z.string(),
   displayName: z.string(),
   birthday: z.string(),
   gender: z.enum([EGender.Man, EGender.Woman]),

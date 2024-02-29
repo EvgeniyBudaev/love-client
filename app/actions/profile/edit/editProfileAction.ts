@@ -1,23 +1,23 @@
 "use server";
 
+import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { editProfileFormSchema } from "@/app/actions/profile/edit/schemas";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { editProfile, type TEditProfileParams } from "@/app/api/profile/edit";
 import { mapUpdateToDto } from "@/app/api/profile/edit/utils";
+import { EProfileEditFormFields } from "@/app/pages/profileEditPage/enums";
 import { ERoutes } from "@/app/shared/enums";
+import { ESearchGender } from "@/app/shared/enums/form";
 import type { TCommonResponseError } from "@/app/shared/types/error";
+import type { TSession } from "@/app/shared/types/session";
 import {
   getResponseError,
   getErrorsResolver,
   createPath,
 } from "@/app/shared/utils";
-import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
-import { update } from "@/app/api/auth/update";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import type { TSession } from "@/app/shared/types/session";
-import { redirect } from "next/navigation";
-import { ESearchGender } from "@/app/shared/enums/form";
+import { EProfileAddFormFields } from "@/app/pages/profileAddPage/enums";
 
 export async function editProfileAction(prevState: any, formData: FormData) {
   const session = (await getServerSession(authOptions)) as TSession;
@@ -28,10 +28,7 @@ export async function editProfileAction(prevState: any, formData: FormData) {
       }),
     );
   }
-  // console.log(
-  //   "editProfileAction resolver: ",
-  //   Object.fromEntries(formData.entries()),
-  // );
+
   const resolver = editProfileFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
@@ -57,76 +54,120 @@ export async function editProfileAction(prevState: any, formData: FormData) {
     // if (userResponse.success) {
     // }
     const profileFormData = new FormData();
-    profileFormData.append("id", mapperParams.profileForm.id);
-    profileFormData.append("userId", session.user.id);
-    profileFormData.append("userName", mapperParams.profileForm.userName);
-    profileFormData.append("displayName", mapperParams.profileForm.displayName);
     profileFormData.append(
-      "firstName",
+      EProfileEditFormFields.Id,
+      mapperParams.profileForm.id,
+    );
+    profileFormData.append("session", session?.user.id);
+    profileFormData.append(
+      EProfileEditFormFields.Username,
+      mapperParams.profileForm.userName,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.DisplayName,
+      mapperParams.profileForm.displayName,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.FirstName,
       mapperParams.profileForm?.firstName ?? "",
     );
     profileFormData.append(
-      "lastName",
+      EProfileEditFormFields.LastName,
       mapperParams.profileForm?.lastName ?? "",
     );
-    profileFormData.append("birthday", mapperParams.profileForm.birthday);
-    profileFormData.append("gender", mapperParams.profileForm.gender);
     profileFormData.append(
-      "searchGender",
+      EProfileEditFormFields.Birthday,
+      mapperParams.profileForm.birthday,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Gender,
+      mapperParams.profileForm.gender,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.SearchGender,
       mapperParams.profileForm?.searchGender ?? ESearchGender.All,
     );
     profileFormData.append(
-      "location",
+      EProfileEditFormFields.Location,
       mapperParams.profileForm?.location ?? "",
     );
     profileFormData.append(
-      "description",
+      EProfileEditFormFields.Description,
       mapperParams.profileForm?.description ?? "",
     );
-    profileFormData.append("height", mapperParams.profileForm?.height ?? "");
-    profileFormData.append("weight", mapperParams.profileForm?.weight ?? "");
     profileFormData.append(
-      "lookingFor",
+      EProfileEditFormFields.Height,
+      mapperParams.profileForm?.height ?? "",
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Weight,
+      mapperParams.profileForm?.weight ?? "",
+    );
+    profileFormData.append(
+      EProfileEditFormFields.LookingFor,
       mapperParams.profileForm?.lookingFor ?? "",
     );
-    if (Array.isArray(mapperParams.profileForm.image)) {
-      mapperParams.profileForm.image.forEach((item) => {
-        profileFormData.append("image", item);
+    if (formData.getAll("image")?.length) {
+      (formData.getAll("image") ?? []).forEach((item) => {
+        profileFormData.append(EProfileAddFormFields.Image, item);
       });
-    } else {
-      if (mapperParams.profileForm?.image) {
-        profileFormData.append("image", mapperParams.profileForm.image);
-      }
     }
-    profileFormData.append("telegramId", mapperParams.profileForm.telegramId);
     profileFormData.append(
-      "telegramUserName",
+      EProfileEditFormFields.TelegramID,
+      mapperParams.profileForm.telegramId,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.TelegramUsername,
       mapperParams.profileForm.telegramUserName,
     );
     profileFormData.append(
-      "firstName",
+      EProfileEditFormFields.FirstName,
       mapperParams.profileForm?.firstName ?? "",
     );
     profileFormData.append(
-      "lastName",
+      EProfileEditFormFields.LastName,
       mapperParams.profileForm?.lastName ?? "",
     );
     profileFormData.append(
-      "languageCode",
+      EProfileEditFormFields.LanguageCode,
       mapperParams.profileForm.languageCode,
     );
     profileFormData.append(
-      "allowsWriteToPm",
+      EProfileEditFormFields.AllowsWriteToPm,
       mapperParams.profileForm.allowsWriteToPm,
     );
-    profileFormData.append("queryId", mapperParams.profileForm.queryId);
-    profileFormData.append("latitude", mapperParams.profileForm.latitude);
-    profileFormData.append("longitude", mapperParams.profileForm.longitude);
-    profileFormData.append("ageFrom", mapperParams.profileForm.ageFrom);
-    profileFormData.append("ageTo", mapperParams.profileForm.ageTo);
-    profileFormData.append("distance", mapperParams.profileForm.distance);
-    profileFormData.append("page", mapperParams.profileForm.page);
-    profileFormData.append("size", mapperParams.profileForm.size);
+    profileFormData.append(
+      EProfileEditFormFields.QueryId,
+      mapperParams.profileForm.queryId,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Latitude,
+      mapperParams.profileForm.latitude,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Longitude,
+      mapperParams.profileForm.longitude,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.AgeFrom,
+      mapperParams.profileForm.ageFrom,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.AgeTo,
+      mapperParams.profileForm.ageTo,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Distance,
+      mapperParams.profileForm.distance,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Page,
+      mapperParams.profileForm.page,
+    );
+    profileFormData.append(
+      EProfileEditFormFields.Size,
+      mapperParams.profileForm.size,
+    );
 
     const response = await editProfile(
       formData as unknown as TEditProfileParams,
@@ -136,25 +177,19 @@ export async function editProfileAction(prevState: any, formData: FormData) {
       params: { id: resolver.data.id },
     });
     revalidatePath(path);
+
     return {
       data: response.data,
       error: undefined,
       errors: undefined,
       success: true,
     };
-    // return {
-    //   data: undefined,
-    //   errorUI: undefined,
-    //   errors: undefined,
-    //   success: true,
-    // };
   } catch (error) {
     const errorResponse = error as Response;
     const responseData: TCommonResponseError = await errorResponse.json();
     const { message: formError, fieldErrors } =
       getResponseError(responseData) ?? {};
-    console.log("[formError] ", formError);
-    console.log("[fieldErrors] ", fieldErrors);
+
     return {
       data: undefined,
       error: formError,

@@ -19,7 +19,7 @@ type TProps = {
 export const ReviewListItem: FC<TProps> = ({ review }) => {
   const { data: session } = useSessionNext();
   const keycloakSession = session as TSession;
-  const isPermissions = review.userId == keycloakSession?.user.id;
+  const isPermissions = review.sessionId == keycloakSession?.user.id;
 
   return (
     <div className="ReviewListItem">

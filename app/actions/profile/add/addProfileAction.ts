@@ -5,6 +5,7 @@ import { addProfileFormSchema } from "@/app/actions/profile/add/schemas";
 import { addProfile, type TAddProfileParams } from "@/app/api/profile/add";
 import { mapSignupToDto } from "@/app/api/auth/signup/utils/mapSignupToDto";
 import { signup } from "@/app/api/auth/signup";
+import { EProfileAddFormFields } from "@/app/pages/profileAddPage/enums";
 import { ERoutes } from "@/app/shared/enums";
 import { ESearchGender } from "@/app/shared/enums/form";
 import type { TCommonResponseError } from "@/app/shared/types/error";
@@ -13,12 +14,12 @@ import {
   getErrorsResolver,
   createPath,
 } from "@/app/shared/utils";
-import { normalizePhoneNumber } from "@/app/shared/utils/form/normalizePhoneNumber";
 
 export async function addProfileAction(prevState: any, formData: FormData) {
   const resolver = addProfileFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
+
   if (!resolver.success) {
     const errors = getErrorsResolver(resolver);
     return {
@@ -33,85 +34,127 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
+    // console.log("formattedParams: ", formattedParams);
     const mapperParams = mapSignupToDto(formattedParams);
     const userResponse = await signup(mapperParams.signupForm);
 
     if (userResponse.success) {
       const profileFormData = new FormData();
-      profileFormData.append("userId", userResponse.data.id);
-      profileFormData.append("userName", mapperParams.profileForm.userName);
+      profileFormData.append("sessionId", userResponse.data.id);
       profileFormData.append(
-        "displayName",
+        EProfileAddFormFields.Username,
+        mapperParams.profileForm.userName,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.DisplayName,
         mapperParams.profileForm.displayName,
       );
       profileFormData.append(
-        "firstName",
+        EProfileAddFormFields.FirstName,
         mapperParams.profileForm?.firstName ?? "",
       );
       profileFormData.append(
-        "lastName",
+        EProfileAddFormFields.LastName,
         mapperParams.profileForm?.lastName ?? "",
       );
-      profileFormData.append("birthday", mapperParams.profileForm.birthday);
-      profileFormData.append("gender", mapperParams.profileForm.gender);
       profileFormData.append(
-        "searchGender",
+        EProfileAddFormFields.Birthday,
+        mapperParams.profileForm.birthday,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Gender,
+        mapperParams.profileForm.gender,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.SearchGender,
         mapperParams.profileForm?.searchGender ?? ESearchGender.All,
       );
       profileFormData.append(
-        "location",
+        EProfileAddFormFields.Location,
         mapperParams.profileForm?.location ?? "",
       );
       profileFormData.append(
-        "description",
+        EProfileAddFormFields.Description,
         mapperParams.profileForm?.description ?? "",
       );
-      profileFormData.append("height", mapperParams.profileForm?.height ?? "");
-      profileFormData.append("weight", mapperParams.profileForm?.weight ?? "");
       profileFormData.append(
-        "lookingFor",
+        EProfileAddFormFields.Height,
+        mapperParams.profileForm?.height ?? "",
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Weight,
+        mapperParams.profileForm?.weight ?? "",
+      );
+      profileFormData.append(
+        EProfileAddFormFields.LookingFor,
         mapperParams.profileForm?.lookingFor ?? "",
       );
-      if (Array.isArray(mapperParams.profileForm.image)) {
-        mapperParams.profileForm.image.forEach((item) => {
-          profileFormData.append("image", item);
+      if (formData.getAll("image")?.length) {
+        (formData.getAll("image") ?? []).forEach((item) => {
+          profileFormData.append(EProfileAddFormFields.Image, item);
         });
-      } else {
-        profileFormData.append("image", mapperParams.profileForm.image);
       }
-      profileFormData.append("telegramId", mapperParams.profileForm.telegramId);
       profileFormData.append(
-        "telegramUserName",
+        EProfileAddFormFields.TelegramID,
+        mapperParams.profileForm.telegramId,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.TelegramUsername,
         mapperParams.profileForm.telegramUserName,
       );
       profileFormData.append(
-        "firstName",
+        EProfileAddFormFields.FirstName,
         mapperParams.profileForm?.firstName ?? "",
       );
       profileFormData.append(
-        "lastName",
+        EProfileAddFormFields.LastName,
         mapperParams.profileForm?.lastName ?? "",
       );
       profileFormData.append(
-        "languageCode",
+        EProfileAddFormFields.LanguageCode,
         mapperParams.profileForm.languageCode,
       );
       profileFormData.append(
-        "allowsWriteToPm",
+        EProfileAddFormFields.AllowsWriteToPm,
         mapperParams.profileForm.allowsWriteToPm,
       );
-      profileFormData.append("queryId", mapperParams.profileForm.queryId);
-      profileFormData.append("latitude", mapperParams.profileForm.latitude);
-      profileFormData.append("longitude", mapperParams.profileForm.longitude);
-      profileFormData.append("ageFrom", mapperParams.profileForm.ageFrom);
-      profileFormData.append("ageTo", mapperParams.profileForm.ageTo);
-      profileFormData.append("distance", mapperParams.profileForm.distance);
-      profileFormData.append("page", mapperParams.profileForm.page);
-      profileFormData.append("size", mapperParams.profileForm.size);
+      profileFormData.append(
+        EProfileAddFormFields.QueryId,
+        mapperParams.profileForm.queryId,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Latitude,
+        mapperParams.profileForm.latitude,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Longitude,
+        mapperParams.profileForm.longitude,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.AgeFrom,
+        mapperParams.profileForm.ageFrom,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.AgeTo,
+        mapperParams.profileForm.ageTo,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Distance,
+        mapperParams.profileForm.distance,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Page,
+        mapperParams.profileForm.page,
+      );
+      profileFormData.append(
+        EProfileAddFormFields.Size,
+        mapperParams.profileForm.size,
+      );
 
       const response = await addProfile(
         profileFormData as unknown as TAddProfileParams,
       );
+
       const path = createPath({
         route: ERoutes.ProfileAdd,
       });
@@ -135,8 +178,7 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     const responseData: TCommonResponseError = await errorResponse.json();
     const { message: formError, fieldErrors } =
       getResponseError(responseData) ?? {};
-    console.log("[formError] ", formError);
-    console.log("[fieldErrors] ", fieldErrors);
+
     return {
       data: undefined,
       error: formError,

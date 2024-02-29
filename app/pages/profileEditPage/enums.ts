@@ -1,4 +1,4 @@
-export enum EFormFields {
+export enum EProfileEditFormFields {
   Id = "id",
   DisplayName = "displayName",
   Username = "userName",

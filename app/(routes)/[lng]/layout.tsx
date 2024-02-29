@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { I18nContextProvider } from "@/app/i18n/context";
 import { InitClient } from "@/app/shared/components/init";
 import { Layout as LayoutComponent } from "@/app/shared/components/layout";
+import { ELanguage } from "@/app/shared/enums";
 import { SessionProviderWrapper } from "@/app/shared/utils/auth";
 import { ToastContainer } from "@/app/uikit/components/toast/toastContainer";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,7 +20,7 @@ export default function RootLayout({
   params: { lng },
 }: Readonly<{
   children: ReactNode;
-  params: { lng: string };
+  params: { lng: ELanguage };
 }>) {
   return (
     <html lang={lng}>

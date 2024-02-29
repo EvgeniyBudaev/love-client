@@ -3,7 +3,7 @@ export enum EFormFields {
 }
 
 export enum EAddLikeFormFields {
-  UserId = "userId",
+  SessionId = "sessionId",
   HumanId = "humanId",
 }
 

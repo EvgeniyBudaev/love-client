@@ -8,7 +8,7 @@ import { fileSchema } from "@/app/api/upload";
 import { EGender } from "@/app/shared/enums/form";
 
 export const addProfileParamsSchema = zfd.formData({
-  userId: zfd.text(),
+  sessionId: zfd.text(),
   displayName: zfd.text(),
   birthday: zfd.text(),
   gender: zfd.text(),
@@ -37,7 +37,7 @@ export const addProfileParamsSchema = zfd.formData({
 
 export const profileSchema = z.object({
   id: z.number(),
-  userId: z.string(),
+  sessionId: z.string(),
   displayName: z.string(),
   birthday: z.string(),
   gender: z.enum([EGender.Man, EGender.Woman]),

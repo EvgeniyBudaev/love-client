@@ -1,72 +1,72 @@
-import { EFormFields } from "@/app/pages/profileEditPage/enums";
+import { EProfileEditFormFields } from "@/app/pages/profileEditPage/enums";
 import { TFile } from "@/app/shared/types/file";
 
 type TProps = {
-  [EFormFields.Id]: string;
-  [EFormFields.Username]: string;
-  [EFormFields.DisplayName]: string;
-  [EFormFields.Email]?: string | null;
-  [EFormFields.MobileNumber]: string;
-  [EFormFields.Birthday]: string;
-  [EFormFields.Gender]: string;
-  [EFormFields.SearchGender]?: string | null;
-  [EFormFields.Location]?: string | null;
-  [EFormFields.Description]?: string | null;
-  [EFormFields.Height]?: string | null;
-  [EFormFields.Weight]?: string | null;
-  [EFormFields.LookingFor]?: string | null;
-  [EFormFields.Image]?: TFile | TFile[] | null;
-  [EFormFields.TelegramID]: string;
-  [EFormFields.TelegramUsername]: string;
-  [EFormFields.FirstName]?: string | null;
-  [EFormFields.LastName]?: string | null;
-  [EFormFields.LanguageCode]: string;
-  [EFormFields.AllowsWriteToPm]: string;
-  [EFormFields.QueryId]: string;
-  [EFormFields.Latitude]: string;
-  [EFormFields.Longitude]: string;
-  [EFormFields.AgeFrom]: string;
-  [EFormFields.AgeTo]: string;
-  [EFormFields.Distance]: string;
-  [EFormFields.Page]: string;
-  [EFormFields.Size]: string;
+  [EProfileEditFormFields.Id]: string;
+  [EProfileEditFormFields.Username]: string;
+  [EProfileEditFormFields.DisplayName]: string;
+  [EProfileEditFormFields.Email]?: string | null;
+  [EProfileEditFormFields.MobileNumber]: string;
+  [EProfileEditFormFields.Birthday]: string;
+  [EProfileEditFormFields.Gender]: string;
+  [EProfileEditFormFields.SearchGender]?: string | null;
+  [EProfileEditFormFields.Location]?: string | null;
+  [EProfileEditFormFields.Description]?: string | null;
+  [EProfileEditFormFields.Height]?: string | null;
+  [EProfileEditFormFields.Weight]?: string | null;
+  [EProfileEditFormFields.LookingFor]?: string | null;
+  [EProfileEditFormFields.Image]?: TFile | TFile[] | null;
+  [EProfileEditFormFields.TelegramID]: string;
+  [EProfileEditFormFields.TelegramUsername]: string;
+  [EProfileEditFormFields.FirstName]?: string | null;
+  [EProfileEditFormFields.LastName]?: string | null;
+  [EProfileEditFormFields.LanguageCode]: string;
+  [EProfileEditFormFields.AllowsWriteToPm]: string;
+  [EProfileEditFormFields.QueryId]: string;
+  [EProfileEditFormFields.Latitude]: string;
+  [EProfileEditFormFields.Longitude]: string;
+  [EProfileEditFormFields.AgeFrom]: string;
+  [EProfileEditFormFields.AgeTo]: string;
+  [EProfileEditFormFields.Distance]: string;
+  [EProfileEditFormFields.Page]: string;
+  [EProfileEditFormFields.Size]: string;
 };
 
 type TUpdateForm = {
-  [EFormFields.Email]?: string | null;
-  [EFormFields.MobileNumber]: string;
-  [EFormFields.Username]: string;
-  [EFormFields.FirstName]?: string | null;
-  [EFormFields.LastName]?: string | null;
+  [EProfileEditFormFields.Email]?: string | null;
+  [EProfileEditFormFields.MobileNumber]: string;
+  [EProfileEditFormFields.Username]: string;
+  [EProfileEditFormFields.FirstName]?: string | null;
+  [EProfileEditFormFields.LastName]?: string | null;
 };
 
 type TProfileForm = {
-  [EFormFields.Id]: string;
-  [EFormFields.Username]: string;
-  [EFormFields.DisplayName]: string;
-  [EFormFields.Birthday]: string;
-  [EFormFields.Gender]: string;
-  [EFormFields.SearchGender]?: string | null;
-  [EFormFields.Location]?: string | null;
-  [EFormFields.Description]?: string | null;
-  [EFormFields.Height]?: string | null;
-  [EFormFields.Weight]?: string | null;
-  [EFormFields.LookingFor]?: string | null;
-  [EFormFields.Image]?: TFile | TFile[] | null;
-  [EFormFields.TelegramID]: string;
-  [EFormFields.TelegramUsername]: string;
-  [EFormFields.FirstName]?: string | null;
-  [EFormFields.LastName]?: string | null;
-  [EFormFields.LanguageCode]: string;
-  [EFormFields.AllowsWriteToPm]: string;
-  [EFormFields.QueryId]: string;
-  [EFormFields.Latitude]: string;
-  [EFormFields.Longitude]: string;
-  [EFormFields.AgeFrom]: string;
-  [EFormFields.AgeTo]: string;
-  [EFormFields.Distance]: string;
-  [EFormFields.Page]: string;
-  [EFormFields.Size]: string;
+  [EProfileEditFormFields.Id]: string;
+  [EProfileEditFormFields.Username]: string;
+  [EProfileEditFormFields.DisplayName]: string;
+  [EProfileEditFormFields.Birthday]: string;
+  [EProfileEditFormFields.Gender]: string;
+  [EProfileEditFormFields.SearchGender]?: string | null;
+  [EProfileEditFormFields.Location]?: string | null;
+  [EProfileEditFormFields.Description]?: string | null;
+  [EProfileEditFormFields.Height]?: string | null;
+  [EProfileEditFormFields.Weight]?: string | null;
+  [EProfileEditFormFields.LookingFor]?: string | null;
+  [EProfileEditFormFields.Image]?: TFile | TFile[] | null;
+  [EProfileEditFormFields.TelegramID]: string;
+  [EProfileEditFormFields.TelegramUsername]: string;
+  [EProfileEditFormFields.FirstName]?: string | null;
+  [EProfileEditFormFields.LastName]?: string | null;
+  [EProfileEditFormFields.LanguageCode]: string;
+  [EProfileEditFormFields.AllowsWriteToPm]: string;
+  [EProfileEditFormFields.QueryId]: string;
+  [EProfileEditFormFields.Latitude]: string;
+  [EProfileEditFormFields.Longitude]: string;
+  [EProfileEditFormFields.AgeFrom]: string;
+  [EProfileEditFormFields.AgeTo]: string;
+  [EProfileEditFormFields.Distance]: string;
+  [EProfileEditFormFields.Page]: string;
+  [EProfileEditFormFields.Size]: string;
 };
 
 type TResponse = {
@@ -79,39 +79,39 @@ type TMapUpdateToDto = (props: TProps) => TResponse;
 export const mapUpdateToDto: TMapUpdateToDto = (props: TProps) => {
   return {
     profileForm: {
-      [EFormFields.Id]: props.id,
-      [EFormFields.Username]: props.userName,
-      [EFormFields.DisplayName]: props.displayName,
-      [EFormFields.Birthday]: props.birthday,
-      [EFormFields.Gender]: props.gender,
-      [EFormFields.SearchGender]: props.searchGender,
-      [EFormFields.Location]: props.location,
-      [EFormFields.Description]: props.description,
-      [EFormFields.Height]: props.height,
-      [EFormFields.Weight]: props.weight,
-      [EFormFields.LookingFor]: props.lookingFor,
-      [EFormFields.Image]: props.image,
-      [EFormFields.TelegramID]: props.telegramId,
-      [EFormFields.TelegramUsername]: props.telegramUserName,
-      [EFormFields.FirstName]: props.firstName,
-      [EFormFields.LastName]: props.lastName,
-      [EFormFields.LanguageCode]: props.languageCode,
-      [EFormFields.AllowsWriteToPm]: props.allowsWriteToPm,
-      [EFormFields.QueryId]: props.queryId,
-      [EFormFields.Latitude]: props.latitude,
-      [EFormFields.Longitude]: props.longitude,
-      [EFormFields.AgeFrom]: props.ageFrom,
-      [EFormFields.AgeTo]: props.ageTo,
-      [EFormFields.Distance]: props.distance,
-      [EFormFields.Page]: props.page,
-      [EFormFields.Size]: props.size,
+      [EProfileEditFormFields.Id]: props.id,
+      [EProfileEditFormFields.Username]: props.userName,
+      [EProfileEditFormFields.DisplayName]: props.displayName,
+      [EProfileEditFormFields.Birthday]: props.birthday,
+      [EProfileEditFormFields.Gender]: props.gender,
+      [EProfileEditFormFields.SearchGender]: props.searchGender,
+      [EProfileEditFormFields.Location]: props.location,
+      [EProfileEditFormFields.Description]: props.description,
+      [EProfileEditFormFields.Height]: props.height,
+      [EProfileEditFormFields.Weight]: props.weight,
+      [EProfileEditFormFields.LookingFor]: props.lookingFor,
+      [EProfileEditFormFields.Image]: props.image,
+      [EProfileEditFormFields.TelegramID]: props.telegramId,
+      [EProfileEditFormFields.TelegramUsername]: props.telegramUserName,
+      [EProfileEditFormFields.FirstName]: props.firstName,
+      [EProfileEditFormFields.LastName]: props.lastName,
+      [EProfileEditFormFields.LanguageCode]: props.languageCode,
+      [EProfileEditFormFields.AllowsWriteToPm]: props.allowsWriteToPm,
+      [EProfileEditFormFields.QueryId]: props.queryId,
+      [EProfileEditFormFields.Latitude]: props.latitude,
+      [EProfileEditFormFields.Longitude]: props.longitude,
+      [EProfileEditFormFields.AgeFrom]: props.ageFrom,
+      [EProfileEditFormFields.AgeTo]: props.ageTo,
+      [EProfileEditFormFields.Distance]: props.distance,
+      [EProfileEditFormFields.Page]: props.page,
+      [EProfileEditFormFields.Size]: props.size,
     },
     updateForm: {
-      [EFormFields.Email]: props.email,
-      [EFormFields.MobileNumber]: props.mobileNumber,
-      [EFormFields.Username]: props.userName,
-      [EFormFields.FirstName]: props.firstName,
-      [EFormFields.LastName]: props.lastName,
+      [EProfileEditFormFields.Email]: props.email,
+      [EProfileEditFormFields.MobileNumber]: props.mobileNumber,
+      [EProfileEditFormFields.Username]: props.userName,
+      [EProfileEditFormFields.FirstName]: props.firstName,
+      [EProfileEditFormFields.LastName]: props.lastName,
     },
   };
 };

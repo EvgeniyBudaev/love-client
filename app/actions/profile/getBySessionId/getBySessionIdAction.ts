@@ -1,8 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getProfileByKeycloakIdFormSchema } from "@/app/actions/profile/getByKeycloakId/schemas";
-import { getProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
+import { getProfileBySessionIdFormSchema } from "@/app/actions/profile/getBySessionId/schemas";
+import { getProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import type { TCommonResponseError } from "@/app/shared/types/error";
 import {
   getResponseError,
@@ -10,11 +10,11 @@ import {
   createPath,
 } from "@/app/shared/utils";
 
-export async function getProfileByKeycloakIdAction(
+export async function getProfileBySessionIdAction(
   prevState: any,
   formData: FormData,
 ) {
-  const resolver = getProfileByKeycloakIdFormSchema.safeParse(
+  const resolver = getProfileBySessionIdFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
 
@@ -33,7 +33,7 @@ export async function getProfileByKeycloakIdAction(
       ...resolver.data,
     };
 
-    const response = await getProfileByKeycloakId(formattedParams);
+    const response = await getProfileBySessionId(formattedParams);
     // const path = createPath({
     //   route: ERoutes.ProfileEdit,
     //   params: { id: resolver.data.id },

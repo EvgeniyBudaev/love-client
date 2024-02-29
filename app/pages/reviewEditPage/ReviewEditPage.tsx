@@ -18,7 +18,7 @@ type TProps = {
 export const ReviewEditPage: FC<TProps> = ({ lng, review }) => {
   const { data: session } = useSessionNext();
   const keycloakSession = session as TSession;
-  const isPermissions = review?.userId == keycloakSession?.user.id;
+  const isPermissions = review?.sessionId == keycloakSession?.user.id;
 
   if (!isPermissions) {
     return redirect(

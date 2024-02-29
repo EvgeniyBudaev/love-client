@@ -1,5 +1,5 @@
 export enum EFormFields {
-  UserId = "userId",
+  SessionId = "sessionId",
   Latitude = "latitude",
   Longitude = "longitude",
 }

@@ -10,7 +10,7 @@ import { editProfileAction } from "@/app/actions/profile/edit/editProfileAction"
 import { ProfileSkeletonForm } from "@/app/entities/profile/profileForm/profileSkeletonForm";
 import type { TProfile } from "@/app/api/profile/add";
 import { useTranslation } from "@/app/i18n/client";
-import { EFormFields } from "@/app/pages/profileAddPage/enums";
+import { EProfileAddFormFields } from "@/app/pages/profileAddPage/enums";
 import { Container } from "@/app/shared/components/container";
 import { ErrorBoundary } from "@/app/shared/components/errorBoundary";
 import { Field } from "@/app/shared/components/form/field";
@@ -52,6 +52,7 @@ import { InputDateField } from "@/app/uikit/components/inputDateField";
 import { Select, type TSelectOption } from "@/app/uikit/components/select";
 import { Textarea } from "@/app/uikit/components/textarea";
 import "./ProfileForm.scss";
+import { EProfileEditFormFields } from "@/app/pages/profileEditPage/enums";
 
 type TProps = {
   isEdit?: boolean;
@@ -130,13 +131,13 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
   const longitude = navigator?.longitude?.toString() ?? "";
 
   const { onAddFiles, onDeleteFile } = useFiles({
-    fieldName: EFormFields.Image,
+    fieldName: EProfileAddFormFields.Image,
     files: files ?? [],
     setValue: (_fieldName: string, files: TFile[]) => setFiles(files),
   });
 
   useEffect(() => {
-    if (isEdit && keycloakSession?.user.id !== profile?.userId) {
+    if (isEdit && keycloakSession?.user.id !== profile?.sessionId) {
       const path = createPath({
         route: ERoutes.Login,
       });
@@ -203,73 +204,100 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
 
   const handleSubmit = (formData: FormData) => {
     const formDataDto = new FormData();
-    const displayName = formData.get(EFormFields.DisplayName);
-    const mobileNumber = formData.get(EFormFields.MobileNumber);
+    const displayName = formData.get(EProfileAddFormFields.DisplayName);
+    const mobileNumber = formData.get(EProfileAddFormFields.MobileNumber);
     const mobileNumberNormalized = normalizePhoneNumber(
       (mobileNumber ?? "").toString(),
     );
-    const password = formData.get(EFormFields.Password);
-    const passwordConfirm = formData.get(EFormFields.PasswordConfirm);
-    const description = formData.get(EFormFields.Description);
-    const height = formData.get(EFormFields.Height);
-    const weight = formData.get(EFormFields.Weight);
-    formDataDto.append(EFormFields.DisplayName, (displayName ?? "").toString());
-    formDataDto.append(EFormFields.Username, mobileNumberNormalized);
-    formDataDto.append(EFormFields.Email, "");
-    formDataDto.append(EFormFields.MobileNumber, mobileNumberNormalized);
-    formDataDto.append(EFormFields.Description, (description ?? "").toString());
-    formDataDto.append(EFormFields.Location, (location ?? "").toString());
-    formDataDto.append(EFormFields.Height, (height ?? "").toString());
-    formDataDto.append(EFormFields.Weight, (weight ?? "").toString());
+    const password = formData.get(EProfileAddFormFields.Password);
+    const passwordConfirm = formData.get(EProfileAddFormFields.PasswordConfirm);
+    const description = formData.get(EProfileAddFormFields.Description);
+    const height = formData.get(EProfileAddFormFields.Height);
+    const weight = formData.get(EProfileAddFormFields.Weight);
+    formDataDto.append(
+      EProfileAddFormFields.DisplayName,
+      (displayName ?? "").toString(),
+    );
+    formDataDto.append(EProfileAddFormFields.Username, mobileNumberNormalized);
+    formDataDto.append(EProfileAddFormFields.Email, "");
+    formDataDto.append(
+      EProfileAddFormFields.MobileNumber,
+      mobileNumberNormalized,
+    );
+    formDataDto.append(
+      EProfileAddFormFields.Description,
+      (description ?? "").toString(),
+    );
+    formDataDto.append(
+      EProfileAddFormFields.Location,
+      (location ?? "").toString(),
+    );
+    formDataDto.append(EProfileAddFormFields.Height, (height ?? "").toString());
+    formDataDto.append(EProfileAddFormFields.Weight, (weight ?? "").toString());
     (files ?? []).forEach((file) => {
-      formDataDto.append(EFormFields.Image, file);
+      formDataDto.append(EProfileAddFormFields.Image, file);
     });
     const utcDate = formattedDate(valueInputDateField);
-    formDataDto.append(EFormFields.Birthday, utcDate ?? "");
-    formDataDto.append(EFormFields.Gender, gender?.value.toString() ?? "");
+    formDataDto.append(EProfileAddFormFields.Birthday, utcDate ?? "");
     formDataDto.append(
-      EFormFields.SearchGender,
+      EProfileAddFormFields.Gender,
+      gender?.value.toString() ?? "",
+    );
+    formDataDto.append(
+      EProfileAddFormFields.SearchGender,
       searchGender?.value.toString() ?? ESearchGender.All,
     );
     formDataDto.append(
-      EFormFields.LookingFor,
+      EProfileAddFormFields.LookingFor,
       lookingFor?.value.toString() ?? ELookingFor.All,
     );
-    formDataDto.append(EFormFields.TelegramID, user?.id.toString() ?? "1");
     formDataDto.append(
-      EFormFields.TelegramUsername,
-      user?.username?.toString() ?? "ebudaev",
+      EProfileAddFormFields.TelegramID,
+      user?.id.toString() ?? "3",
     );
-    formDataDto.append(EFormFields.FirstName, firstName ?? "Евгений");
-    formDataDto.append(EFormFields.LastName, lastName ?? "Будаев");
-    formDataDto.append(EFormFields.QueryId, queryId ?? "1");
-    formDataDto.append(EFormFields.LanguageCode, user?.language_code ?? "ru");
     formDataDto.append(
-      EFormFields.AllowsWriteToPm,
+      EProfileAddFormFields.TelegramUsername,
+      user?.username?.toString() ?? "mironov",
+    );
+    formDataDto.append(EProfileAddFormFields.FirstName, firstName ?? "Андрей");
+    formDataDto.append(EProfileAddFormFields.LastName, lastName ?? "Миронов");
+    formDataDto.append(EProfileAddFormFields.QueryId, queryId ?? "3");
+    formDataDto.append(
+      EProfileAddFormFields.LanguageCode,
+      user?.language_code ?? "ru",
+    );
+    formDataDto.append(
+      EProfileAddFormFields.AllowsWriteToPm,
       user?.allows_write_to_pm?.toString() ?? "true",
     );
-    formDataDto.append("latitude", latitude);
-    formDataDto.append("longitude", longitude);
-    formDataDto.append("ageFrom", ageFrom);
-    formDataDto.append("ageTo", ageTo);
-    formDataDto.append("distance", distance);
-    formDataDto.append("page", page);
-    formDataDto.append("size", size);
+    formDataDto.append(EProfileAddFormFields.Latitude, latitude);
+    formDataDto.append(EProfileAddFormFields.Longitude, longitude);
+    formDataDto.append(EProfileAddFormFields.AgeFrom, ageFrom);
+    formDataDto.append(EProfileAddFormFields.AgeTo, ageTo);
+    formDataDto.append(EProfileAddFormFields.Distance, distance);
+    formDataDto.append(EProfileAddFormFields.Page, page);
+    formDataDto.append(EProfileAddFormFields.Size, size);
     if (!isEdit) {
-      formDataDto.append(EFormFields.Password, (password ?? "").toString());
       formDataDto.append(
-        EFormFields.PasswordConfirm,
+        EProfileAddFormFields.Password,
+        (password ?? "").toString(),
+      );
+      formDataDto.append(
+        EProfileAddFormFields.PasswordConfirm,
         (passwordConfirm ?? "").toString(),
       );
     }
     if (isEdit) {
-      formDataDto.append("id", profile?.id.toString() ?? "");
+      formDataDto.append(
+        EProfileEditFormFields.Id,
+        profile?.id.toString() ?? "",
+      );
       if (
         !isNil(profile?.images) &&
         !isEmpty(profile?.images) &&
         isEmpty(files)
       ) {
-        formDataDto.append("isDefaultImage", "true");
+        formDataDto.append(EProfileEditFormFields.IsDefaultImage, "true");
       }
     }
     formAction(formDataDto);
@@ -324,7 +352,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             // maxFiles={4}
             // maxSize={1280 * 1280}
             multiple={true}
-            name={EFormFields.Image}
+            name="Files"
             onAddFiles={onAddFiles}
             onDeleteFile={handleDeleteFile}
             type="file"
@@ -345,7 +373,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             errors={state?.errors?.displayName}
             isRequired={true}
             label={t("common.form.field.displayName") ?? "Display name"}
-            name={EFormFields.DisplayName}
+            name={EProfileAddFormFields.DisplayName}
             type="text"
           />
         </Field>
@@ -357,7 +385,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             isReadOnly={isEdit}
             isRequired={true}
             label={t("common.form.field.mobileNumber") ?? "Mobile phone"}
-            name={EFormFields.MobileNumber}
+            name={EProfileAddFormFields.MobileNumber}
           />
         </Field>
         {!isEdit && (
@@ -367,7 +395,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
               isHiddenViewing={true}
               isRequired={true}
               label={t("common.form.field.password") ?? "Password"}
-              name={EFormFields.Password}
+              name={EProfileAddFormFields.Password}
               type="text"
             />
           </Field>
@@ -381,7 +409,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
               label={
                 t("common.form.field.passwordConfirm") ?? "Password confirm"
               }
-              name={EFormFields.PasswordConfirm}
+              name={EProfileAddFormFields.PasswordConfirm}
               type="text"
             />
           </Field>
@@ -407,7 +435,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             }
             errors={state?.errors?.description}
             label={t("common.form.field.description") ?? "Description"}
-            name={EFormFields.Description}
+            name={EProfileAddFormFields.Description}
             type="text"
           />
         </Field>
@@ -461,7 +489,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             isRequired={true}
             isReadOnly={true}
             label={t("common.form.field.location") ?? "Location"}
-            name={EFormFields.Location}
+            name={EProfileAddFormFields.Location}
             type="text"
           />
         </Field>
@@ -474,7 +502,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             }
             errors={state?.errors?.height}
             label={t("common.form.field.height") ?? "Height"}
-            name={EFormFields.Height}
+            name={EProfileAddFormFields.Height}
             type="text"
           />
         </Field>
@@ -487,7 +515,7 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
             }
             errors={state?.errors?.weight}
             label={t("common.form.field.weight") ?? "Weight"}
-            name={EFormFields.Weight}
+            name={EProfileAddFormFields.Weight}
             type="text"
           />
         </Field>

@@ -4,33 +4,35 @@ import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, type FC, useRef } from "react";
 import { useFormState } from "react-dom";
-import { getProfileByKeycloakIdAction } from "@/app/actions/profile/getByKeycloakId/getByKeycloakIdAction";
+import { getProfileBySessionIdAction } from "@/app/actions/profile/getBySessionId/getBySessionIdAction";
 import { EFormFields } from "@/app/entities/login/loginForm/enums";
 import { useTranslation } from "@/app/i18n/client";
 import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
-import { ERoutes } from "@/app/shared/enums";
+import { ELanguage, ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 import { Button } from "@/app/uikit/components/button";
 import "./LoginForm.scss";
 
 type TProps = {
-  lng: string;
+  lng: ELanguage;
 };
 
 export const LoginForm: FC<TProps> = ({ lng }) => {
   const { data: session, status } = useSession();
+  const keycloakSession = session as TSession;
   const { t } = useTranslation("index");
   const isLoading = status === "loading";
   const isSession = Boolean(session);
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const [state, formAction] = useFormState(
-    getProfileByKeycloakIdAction,
+    getProfileBySessionIdAction,
     INITIAL_FORM_STATE,
   );
+  console.log("state:", state);
 
   useEffect(() => {
-    if (isSession && state.data?.userId) {
+    if (isSession && state.data?.sessionId) {
       redirect(
         createPath(
           {
@@ -43,13 +45,15 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
             ageFrom: state.data?.filter.ageFrom.toString(),
             ageTo: state.data?.filter.ageTo.toString(),
             searchGender: state.data?.filter.searchGender,
-            profileId: state.data?.id.toString(),
+            lookingFor: state.data?.filter.lookingFor,
+            sessionId: keycloakSession.user.id,
             distance: state.data?.filter.distance.toString(),
           },
         ),
       );
     }
   }, [
+    keycloakSession,
     isSession,
     lng,
     session,
@@ -59,8 +63,8 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
     state.data?.filter.page,
     state.data?.filter.searchGender,
     state.data?.filter.size,
-    state.data?.id,
-    state.data?.userId,
+    state.data?.sessionId,
+    state.data?.filter.lookingFor,
   ]);
 
   useEffect(() => {
@@ -73,7 +77,7 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
     if (isSession) {
       const formDataDto = new FormData();
       const keycloakSession = session as TSession;
-      formDataDto.append(EFormFields.UserId, keycloakSession?.user.id);
+      formDataDto.append(EFormFields.SessionId, keycloakSession?.user.id);
       formAction(formDataDto);
     }
   };

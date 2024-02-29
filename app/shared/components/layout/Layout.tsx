@@ -2,17 +2,18 @@
 
 import { type FC, type ReactNode, useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
-import { getProfileByKeycloakIdAction } from "@/app/actions/profile/getByKeycloakId/getByKeycloakIdAction";
+import { getProfileBySessionIdAction } from "@/app/actions/profile/getBySessionId/getBySessionIdAction";
 import { Footer } from "@/app/shared/components/footer";
 import { EFormFields } from "@/app/shared/components/layout/enums";
 import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
+import { ELanguage } from "@/app/shared/enums";
 import { useNavigator, useSessionNext, useTelegram } from "@/app/shared/hooks";
 import type { TSession } from "@/app/shared/types/session";
 import "./Layout.scss";
 
 type TProps = {
   children?: ReactNode;
-  lng: string;
+  lng: ELanguage;
 };
 
 export const Layout: FC<TProps> = ({ children, lng }) => {
@@ -20,7 +21,7 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
   const isSession = Boolean(session);
   const { tg } = useTelegram();
   const [state, formAction] = useFormState(
-    getProfileByKeycloakIdAction,
+    getProfileBySessionIdAction,
     INITIAL_FORM_STATE,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
@@ -40,7 +41,7 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
     if (isSession) {
       const keycloakSession = session as TSession;
       const formDataDto = new FormData();
-      formDataDto.append(EFormFields.UserId, keycloakSession.user.id);
+      formDataDto.append(EFormFields.SessionId, keycloakSession.user.id);
       formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
       formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
       formAction(formDataDto);

@@ -16,7 +16,7 @@ export const reviewDetailSchema = z.object({
   hasEdited: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  userId: z.string().optional(),
+  sessionId: z.string().optional(),
 });
 
 export const addReviewResponseSchema = z.object({

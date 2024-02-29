@@ -11,7 +11,7 @@ export const reviewListItemSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   displayName: z.string(),
-  userId: z.string(),
+  sessionId: z.string(),
 });
 
 export const reviewListParamsSchema = z.object({

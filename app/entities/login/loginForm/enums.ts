@@ -1,3 +1,3 @@
 export enum EFormFields {
-  UserId = "userId",
+  SessionId = "sessionId",
 }

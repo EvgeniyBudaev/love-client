@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { type FC } from "react";
 import { LoginForm } from "@/app/entities/login/loginForm";
-import { ERoutes } from "@/app/shared/enums";
+import { ELanguage, ERoutes } from "@/app/shared/enums";
 import { createPath } from "@/app/shared/utils";
 import "./LoginPage.scss";
 
 type TProps = {
   i18n: any;
-  lng: string;
+  lng: ELanguage;
 };
 
 export const LoginPage: FC<TProps> = ({ i18n, lng }) => {

@@ -3,7 +3,7 @@ import isNil from "lodash/isNil";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { imageFileSchema } from "@/app/api/upload";
-import { EFormFields } from "@/app/pages/profileAddPage/enums";
+import { EProfileAddFormFields } from "@/app/pages/profileAddPage/enums";
 import { EGender, ELookingFor, ESearchGender } from "@/app/shared/enums/form";
 import {
   EMPTY_FIELD_ERROR_MESSAGE,
@@ -22,23 +22,29 @@ import {
 
 export const addProfileFormSchema = zfd
   .formData({
-    [EFormFields.DisplayName]: z
+    [EProfileAddFormFields.DisplayName]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Username]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.MobileNumber]: z
+    [EProfileAddFormFields.Username]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.MobileNumber]: z
       .string()
       .trim()
       .min(11, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Email]: z
+    [EProfileAddFormFields.Email]: z
       .string()
       .trim()
       // .regex(EMAIL_NOT_CYRILLIC_REGEXP, EMAIL_NOT_CYRILLIC_ERROR_MESSAGE)
       // .regex(EMAIL_REGEXP, EMAIL_ERROR_MESSAGE)
       .nullish(),
-    [EFormFields.Birthday]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Gender]: z
+    [EProfileAddFormFields.Birthday]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.Gender]: z
       .enum([EGender.Man, EGender.Woman, ""])
       .transform((value) => {
         return isEmpty(value) || isNil(value) ? "" : value;
@@ -51,14 +57,14 @@ export const addProfileFormSchema = zfd
           message: EMPTY_FIELD_ERROR_MESSAGE,
         },
       ),
-    [EFormFields.SearchGender]: z
+    [EProfileAddFormFields.SearchGender]: z
       .enum([ESearchGender.Man, ESearchGender.Woman, ESearchGender.All, ""])
       .nullish(),
-    [EFormFields.Location]: z.string().trim().nullish(),
-    [EFormFields.Description]: z.string().trim().nullish(),
-    [EFormFields.Height]: z.string().trim().nullish(),
-    [EFormFields.Weight]: z.string().trim().nullish(),
-    [EFormFields.LookingFor]: z
+    [EProfileAddFormFields.Location]: z.string().trim().nullish(),
+    [EProfileAddFormFields.Description]: z.string().trim().nullish(),
+    [EProfileAddFormFields.Height]: z.string().trim().nullish(),
+    [EProfileAddFormFields.Weight]: z.string().trim().nullish(),
+    [EProfileAddFormFields.LookingFor]: z
       .enum([
         ELookingFor.Chat,
         ELookingFor.Dates,
@@ -70,58 +76,82 @@ export const addProfileFormSchema = zfd
         "",
       ])
       .nullish(),
-    [EFormFields.Image]: imageFileSchema,
-    [EFormFields.TelegramID]: z
+    [EProfileAddFormFields.Image]: imageFileSchema,
+    [EProfileAddFormFields.TelegramID]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.TelegramUsername]: z
+    [EProfileAddFormFields.TelegramUsername]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.FirstName]: z
+    [EProfileAddFormFields.FirstName]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE)
       .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
-    [EFormFields.LastName]: z
+    [EProfileAddFormFields.LastName]: z
       .string()
       .trim()
       .regex(NAME_REGEXP, NAME_ERROR_MESSAGE),
-    [EFormFields.LanguageCode]: z
+    [EProfileAddFormFields.LanguageCode]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.AllowsWriteToPm]: z
+    [EProfileAddFormFields.AllowsWriteToPm]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.QueryId]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Latitude]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Longitude]: z
+    [EProfileAddFormFields.QueryId]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.AgeFrom]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.AgeTo]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Distance]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Page]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Size]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.Password]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
-    [EFormFields.PasswordConfirm]: z
+    [EProfileAddFormFields.Latitude]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.Longitude]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.AgeFrom]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.AgeTo]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.Distance]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.Page]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.Size]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.Password]: z
+      .string()
+      .trim()
+      .min(1, EMPTY_FIELD_ERROR_MESSAGE),
+    [EProfileAddFormFields.PasswordConfirm]: z
       .string()
       .trim()
       .min(1, EMPTY_FIELD_ERROR_MESSAGE),
   })
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
-    path: [EFormFields.PasswordConfirm],
+    path: [EProfileAddFormFields.PasswordConfirm],
     message: PASSWORD_ERROR_MESSAGE,
   })
   .refine(({ userName }) => PHONE_REGEXP.test(userName), {
-    path: [EFormFields.Username],
+    path: [EProfileAddFormFields.Username],
     message: PHONE_ERROR_MESSAGE,
   })
   .refine(({ mobileNumber }) => PHONE_REGEXP.test(mobileNumber), {
-    path: [EFormFields.MobileNumber],
+    path: [EProfileAddFormFields.MobileNumber],
     message: PHONE_ERROR_MESSAGE,
   });

@@ -82,6 +82,10 @@ $transition: 0.3s;
       font-weight: bold;
     }
 
+    &-Warning {
+      color: $color-red;
+    }
+
     &:hover,
     &:active {
       opacity: $opacity;

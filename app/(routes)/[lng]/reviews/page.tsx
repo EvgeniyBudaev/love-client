@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import { getProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import { getReviewList } from "@/app/api/review/list";
 import { ReviewsPage } from "@/app/pages/reviewsPage";
 import {
@@ -10,7 +11,6 @@ import {
 import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
-import { getProfileByKeycloakId } from "@/app/api/profile/byKeycloakId";
 
 type TSearchParams = {
   page?: string;
@@ -33,8 +33,8 @@ async function reviewsLoader(params: TReviewsLoader) {
   }
   const { searchParams } = params;
   try {
-    const profileResponse = await getProfileByKeycloakId({
-      userId: session.user.id,
+    const profileResponse = await getProfileBySessionId({
+      sessionId: session.user.id,
     });
     if (profileResponse.success) {
       const profile = profileResponse.data;

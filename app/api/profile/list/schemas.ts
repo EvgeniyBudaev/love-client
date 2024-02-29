@@ -18,7 +18,7 @@ export const profileListParamsSchema = z.object({
   ageTo: z.string(),
   searchGender: z.string(),
   lookingFor: z.string(),
-  profileId: z.string(),
+  sessionId: z.string(),
   distance: z.string(),
 });
 

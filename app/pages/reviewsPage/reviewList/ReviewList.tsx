@@ -26,11 +26,13 @@ export const ReviewList: FC<TProps> = ({ profileId, reviewList }) => {
           ))}
         </div>
         <div className="ReviewList-Footer">
-          <NavigationPanel
-            currentPage={page}
-            pagesCount={reviewList?.countPages ?? 0}
-            onChangePage={onChangePage}
-          />
+          {!isEmpty(reviewList?.content) && (
+            <NavigationPanel
+              currentPage={page}
+              pagesCount={reviewList?.countPages ?? 0}
+              onChangePage={onChangePage}
+            />
+          )}
         </div>
       </div>
     </div>

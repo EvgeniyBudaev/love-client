@@ -4,6 +4,7 @@ import { useInitDayjs } from "./useInitDayjs";
 import { useProxyUrl } from "./useProxyUrl";
 import { useSessionNext } from "./useSessionNext";
 import { useTelegram } from "./useTelegram";
+import { useQueryURL } from "./useQueryURL";
 
 export {
   useFiles,
@@ -12,4 +13,5 @@ export {
   useProxyUrl,
   useSessionNext,
   useTelegram,
+  useQueryURL,
 };

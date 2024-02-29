@@ -13,6 +13,7 @@ import { ERoutes } from "@/app/shared/enums";
 import { createPath } from "@/app/shared/utils";
 import { Rating } from "@/app/uikit/components/rating";
 import "./ReviewsPage.scss";
+import isEmpty from "lodash/isEmpty";
 
 type TProps = {
   profileId?: number;
@@ -21,14 +22,16 @@ type TProps = {
 
 export const ReviewsPage: FC<TProps> = ({ profileId, reviewList }) => {
   const { t } = useTranslation("index");
+  console.log("reviewList: ", reviewList);
 
   const isShowAddReview = useMemo(() => {
-    if (!reviewList?.countItemsTodayByProfile) return false;
+    if (isEmpty(reviewList?.content) || !reviewList) return true;
     return (
-      reviewList?.countItemsTodayByProfile <=
-      DEFAULT_COUNT_REVIEWS_TODAY_BY_PROFILE
+      !isEmpty(reviewList?.content) &&
+      reviewList.countItemsTodayByProfile <
+        DEFAULT_COUNT_REVIEWS_TODAY_BY_PROFILE
     );
-  }, [reviewList?.countItemsTodayByProfile]);
+  }, [reviewList]);
 
   return (
     <div className="ReviewsPage">
@@ -50,6 +53,7 @@ export const ReviewsPage: FC<TProps> = ({ profileId, reviewList }) => {
         <div className="ReviewsPage-RatingBlock">
           <div>{t("common.title.ratingTotal")}</div>
           <Rating
+            allowFraction={true}
             initialValue={reviewList?.ratingAverage}
             readonly={true}
             size={DEFAULT_RATING_SIZE}
