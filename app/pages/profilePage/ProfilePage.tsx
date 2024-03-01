@@ -33,6 +33,7 @@ import { Slider } from "@/app/uikit/components/slider";
 import { getFullYear } from "@/app/uikit/utils/date";
 import "./ProfilePage.scss";
 import { Block } from "@/app/pages/profilePage/block";
+import { Complaint } from "@/app/pages/profilePage/complaint";
 
 type TProps = {
   lng?: ELanguage;
@@ -159,6 +160,9 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
           <DropDown.Panel>
             <div className="DropDown-Menu">
               {!isSessionUser && <Block blockedUserId={profile.id} lng={lng} />}
+              {!isSessionUser && (
+                <Complaint complaintUserId={profile.id} lng={lng} />
+              )}
               {isSessionUser && (
                 <>
                   <Link

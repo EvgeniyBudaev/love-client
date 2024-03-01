@@ -35,6 +35,9 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
   const isSession = Boolean(session);
   const { queryURL } = useQueryURL();
   const rootUrl = `/${lng}${queryURL}`;
+  const isPermissions = profile
+    ? !profile?.isBlocked && !profile.isDeleted
+    : false;
 
   const isProfileDetailPage = useMemo(() => {
     if (!profile?.id) return false;
@@ -81,7 +84,7 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
               <DropDown.Panel>
                 <>
                   <div className="DropDown-Menu">
-                    {!isProfileDetailPage && (
+                    {!isProfileDetailPage && isPermissions && (
                       <Link
                         className="DropDown-MenuItem"
                         href={createPath({
@@ -92,14 +95,16 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
                         {t("common.actions.profileDetail")}
                       </Link>
                     )}
-                    <Link
-                      className="DropDown-MenuItem"
-                      href={createPath({
-                        route: ERoutes.Reviews,
-                      })}
-                    >
-                      {t("common.actions.reviews")}
-                    </Link>
+                    {isPermissions && (
+                      <Link
+                        className="DropDown-MenuItem"
+                        href={createPath({
+                          route: ERoutes.Reviews,
+                        })}
+                      >
+                        {t("common.actions.reviews")}
+                      </Link>
+                    )}
                     <div className="DropDown-MenuItem" onClick={handleLogout}>
                       {t("common.actions.exit")}
                     </div>

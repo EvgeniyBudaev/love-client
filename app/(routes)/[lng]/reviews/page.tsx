@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import { getReviewList } from "@/app/api/review/list";
+import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
+import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";
 import { ReviewsPage } from "@/app/pages/reviewsPage";
 import {
   DEFAULT_PAGE,
@@ -44,7 +46,7 @@ async function reviewsLoader(params: TReviewsLoader) {
         profileId: searchParams?.profileId ?? (profile?.id ?? "").toString(),
       });
       const reviewList = reviewListResponse.data;
-      return { profileId: profile?.id, reviewList };
+      return { profile, profileId: profile?.id, reviewList };
     }
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
@@ -58,6 +60,14 @@ type TProps = {
 
 export default async function ReviewsRoute(props: TProps) {
   const data = await reviewsLoader({ searchParams: props?.searchParams ?? {} });
+
+  if (data?.profile?.isBlocked) {
+    return <ProfileBlocked />;
+  }
+
+  if (data?.profile?.isDeleted) {
+    return <ProfileDeleted />;
+  }
 
   return (
     <ReviewsPage profileId={data?.profileId} reviewList={data?.reviewList} />

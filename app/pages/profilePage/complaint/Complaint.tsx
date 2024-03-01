@@ -4,24 +4,27 @@ import isNil from "lodash/isNil";
 import { redirect } from "next/navigation";
 import { type FC, useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
-import { addBlockAction } from "@/app/actions/block/add/addBlockAction";
+import { addComplaintAction } from "@/app/actions/complaint/add/addComplaintAction";
 import { useTranslation } from "@/app/i18n/client";
 import { INITIAL_FORM_STATE } from "@/app/shared/constants/form";
-import { EBlockFormFields } from "@/app/pages/profilePage/block/enums";
+import { EComplaintFormFields } from "@/app/pages/profilePage/complaint/enums";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
 import { useQueryURL, useSessionNext } from "@/app/shared/hooks";
 import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
-  blockedUserId: number;
+  complaintUserId: number;
   lng?: ELanguage;
 };
 
-export const Block: FC<TProps> = ({ blockedUserId, lng }) => {
+export const Complaint: FC<TProps> = ({ complaintUserId, lng }) => {
   const { data: session } = useSessionNext();
   const isSession = Boolean(session);
   const { t } = useTranslation("index");
-  const [state, formAction] = useFormState(addBlockAction, INITIAL_FORM_STATE);
+  const [state, formAction] = useFormState(
+    addComplaintAction,
+    INITIAL_FORM_STATE,
+  );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
   const { queryURL } = useQueryURL();
 
@@ -37,14 +40,18 @@ export const Block: FC<TProps> = ({ blockedUserId, lng }) => {
   };
 
   const handleSubmit = (formData: FormData) => {
-    if (isSession && blockedUserId) {
+    if (isSession && complaintUserId) {
       const formDataDto = new FormData();
       const keycloakSession = session as TSession;
-      formDataDto.append(EBlockFormFields.SessionId, keycloakSession?.user.id);
       formDataDto.append(
-        EBlockFormFields.BlockedUserId,
-        blockedUserId.toString(),
+        EComplaintFormFields.SessionId,
+        keycloakSession?.user.id,
       );
+      formDataDto.append(
+        EComplaintFormFields.ComplaintUserId,
+        complaintUserId.toString(),
+      );
+      formDataDto.append(EComplaintFormFields.Reason, "");
       formAction(formDataDto);
     }
   };
@@ -55,9 +62,9 @@ export const Block: FC<TProps> = ({ blockedUserId, lng }) => {
         className="DropDown-MenuItem DropDown-MenuItem-Warning"
         onClick={handleBlock}
       >
-        {t("common.actions.block")}
+        {t("common.actions.complaint")}
       </div>
-      <form action={handleSubmit} className="Block-Form">
+      <form action={handleSubmit} className="Complaint-Form">
         <input hidden={true} ref={buttonSubmitRef} type="submit" />
       </form>
     </>

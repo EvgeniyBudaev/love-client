@@ -1,3 +1,5 @@
+"use client";
+
 import { type FC } from "react";
 import { useTranslation } from "@/app/i18n/client";
 import "./ProfileDeleted.scss";

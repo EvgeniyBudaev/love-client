@@ -12,6 +12,8 @@ const telegramSchema = z.object({
 export const profileBySessionIdSchema = z.object({
   id: z.number(),
   sessionId: z.string(),
+  isDeleted: z.boolean(),
+  isBlocked: z.boolean(),
   image: imageListItemSchema,
   filter: filterSchema,
   telegram: telegramSchema,

@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getProfileBySessionId } from "@/app/api/profile/getBySessionId";
+import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
+import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";
 import { ReviewAddPage } from "@/app/pages/reviewAddPage";
 import { ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
@@ -21,7 +23,7 @@ async function reviewAddLoader() {
       sessionId: session.user.id,
     });
     const profile = profileResponse.data;
-    return { profileId: profile?.id };
+    return { profile };
   } catch (error) {
     throw new Error("errorBoundary.common.unexpectedError");
   }
@@ -32,5 +34,13 @@ type TProps = {};
 export default async function ReviewAddRoute(props: TProps) {
   const data = await reviewAddLoader();
 
-  return <ReviewAddPage profileId={data.profileId} />;
+  if (data?.profile?.isBlocked) {
+    return <ProfileBlocked />;
+  }
+
+  if (data?.profile?.isDeleted) {
+    return <ProfileDeleted />;
+  }
+
+  return <ReviewAddPage profileId={data.profile?.id} />;
 }

@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { getProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import { getProfileList } from "@/app/api/profile/list";
+import { ProfileBlocked } from "@/app/entities/profile/profileBlocked";
+import { ProfileDeleted } from "@/app/entities/profile/profileDeleted";
 import { MainPage } from "@/app/pages/mainPage";
 import { DEFAULT_DISTANCE } from "@/app/shared/constants/distance";
 import {
@@ -81,6 +83,14 @@ export default async function MainRoute(props: TProps) {
   const { lng } = params;
   const language = lng as ELanguage;
   const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
+
+  if (data?.profile?.isBlocked) {
+    return <ProfileBlocked />;
+  }
+
+  if (data?.profile?.isDeleted) {
+    return <ProfileDeleted />;
+  }
 
   return (
     <main>
