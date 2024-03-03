@@ -36,7 +36,7 @@ import { Block } from "@/app/pages/profilePage/block";
 import { Complaint } from "@/app/pages/profilePage/complaint";
 
 type TProps = {
-  lng?: ELanguage;
+  lng: ELanguage;
   profile?: TProfileDetail;
 };
 
@@ -83,8 +83,6 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
     const today = dayjs().utc().format(DATE_FORMAT);
     return canCancelLike || lastClickDate !== today;
   }, [canCancelLike, dayjs, profile?.like?.updatedAt]);
-
-  console.log("profile: ", profile);
 
   const [state, formAction] = useFormState(
     canAddLike ? addLikeAction : updateLikeAction,
@@ -202,9 +200,13 @@ export const ProfilePage: FC<TProps> = ({ lng, profile }) => {
           <Slider
             images={profile?.images}
             isLiked={isLiked}
+            isOnline={profile?.isOnline}
             isSessionUser={isSessionUser}
             messageHeart={
               isShowTooltipHeart ? t("pages.profile.doubleLike") : undefined
+            }
+            messageOnline={
+              profile?.isOnline ? t("common.titles.online") : undefined
             }
             onHeartClick={handleHeartClick}
           />

@@ -34,7 +34,7 @@ export async function addProfileAction(prevState: any, formData: FormData) {
     const formattedParams = {
       ...resolver.data,
     };
-    // console.log("formattedParams: ", formattedParams);
+
     const mapperParams = mapSignupToDto(formattedParams);
     const userResponse = await signup(mapperParams.signupForm);
 

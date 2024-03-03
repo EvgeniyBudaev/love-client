@@ -31,16 +31,15 @@ export default function RootLayout({
         />
         <title>Love</title>
       </head>
-      {/*<SessionProviderWrapper>*/}
-      <body>
-        <I18nContextProvider lng={lng}>
-          <InitClient />
-          <ToastContainer />
-          {children}
-          {/*<LayoutComponent lng={lng}>{children}</LayoutComponent>*/}
-        </I18nContextProvider>
-      </body>
-      {/*</SessionProviderWrapper>*/}
+      <SessionProviderWrapper>
+        <body>
+          <I18nContextProvider lng={lng}>
+            <InitClient />
+            <ToastContainer />
+            <LayoutComponent lng={lng}>{children}</LayoutComponent>
+          </I18nContextProvider>
+        </body>
+      </SessionProviderWrapper>
     </html>
   );
 }

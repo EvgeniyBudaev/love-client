@@ -12,6 +12,8 @@ export const getProfileDetailApi: TApiFunction<
   const { id } = params;
   const queryParams = {
     ...(params?.viewerId && { viewerId: params?.viewerId }),
+    ...(params?.latitude && { latitude: params?.latitude }),
+    ...(params?.longitude && { longitude: params?.longitude }),
   };
   const url = `/api/v1/profile/detail/${id}?${new URLSearchParams(queryParams)}`;
   return fetchApi<TProfileDetailResponse>(url, {

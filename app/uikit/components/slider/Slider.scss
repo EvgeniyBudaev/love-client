@@ -51,6 +51,11 @@
     }
   }
 
+  &-Online.Online {
+    bottom: 24px;
+    left: 8px;
+  }
+
   .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
     background: $text_color;
   }

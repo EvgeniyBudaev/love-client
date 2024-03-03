@@ -9,7 +9,6 @@ export const deleteImageApi: TApiFunction<
   TDeleteImageParams,
   TDeleteImageResponse
 > = (params) => {
-  console.log("deleteImageApi url");
   return fetchApi<TDeleteImageResponse>(`/api/v1/profile/image/delete`, {
     method: EFormMethods.Post,
     body: params,

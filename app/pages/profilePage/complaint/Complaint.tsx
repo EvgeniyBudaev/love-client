@@ -14,7 +14,7 @@ import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
   complaintUserId: number;
-  lng?: ELanguage;
+  lng: ELanguage;
 };
 
 export const Complaint: FC<TProps> = ({ complaintUserId, lng }) => {
@@ -26,7 +26,7 @@ export const Complaint: FC<TProps> = ({ complaintUserId, lng }) => {
     INITIAL_FORM_STATE,
   );
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
-  const { queryURL } = useQueryURL();
+  const { queryURL } = useQueryURL({ lng });
 
   useEffect(() => {
     if (!isNil(state?.data) && state.success && !state?.error) {

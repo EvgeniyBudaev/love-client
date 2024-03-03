@@ -30,7 +30,8 @@
       "reviewDeleted": "Удалить отзыв",
       "reviewAdd": "Новый отзыв",
       "filtersGeneral": "Общие фильтры",
-      "age": "Возраст"
+      "age": "Возраст",
+      "online": "Онлайн"
     },
     "actions": {
       "cancel": "Отменить",

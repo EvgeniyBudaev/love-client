@@ -8,6 +8,8 @@ import { filterSchema } from "@/app/api/profile/filter";
 export const profileDetailParamsSchema = z.object({
   id: z.string(),
   viewerId: z.string(),
+  latitude: z.string().nullish(),
+  longitude: z.string().nullish(),
 });
 
 const likeSchema = z.object({
@@ -31,6 +33,7 @@ export const profileDetailSchema = z.object({
   isPremium: z.boolean(),
   isShowDistance: z.boolean(),
   isInvisible: z.boolean(),
+  isOnline: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
   lastOnline: z.string(),

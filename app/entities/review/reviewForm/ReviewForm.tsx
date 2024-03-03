@@ -38,7 +38,6 @@ export const ReviewForm: FC<TProps> = ({ isEdit, profileId, review }) => {
   const [rating, setRating] = useState(
     isEdit ? review?.rating ?? DEFAULT_RATING : DEFAULT_RATING,
   );
-  console.log("ReviewForm state: ", state);
 
   useEffect(() => {
     if (!isNil(state?.data) && state.success && !state?.error) {

@@ -9,7 +9,6 @@ export const deleteProfileApi: TApiFunction<
   TDeleteProfileParams,
   TDeleteProfileResponse
 > = (params) => {
-  console.log("deleteProfileApi url");
   return fetchApi<TDeleteProfileResponse>(`/api/v1/profile/delete`, {
     method: EFormMethods.Post,
     body: params,

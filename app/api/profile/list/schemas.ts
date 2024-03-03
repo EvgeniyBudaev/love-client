@@ -7,6 +7,7 @@ const imageListItemSchema = z.object({
 
 const profileListItemSchema = z.object({
   id: z.number(),
+  isOnline: z.boolean(),
   lastOnline: z.string(),
   image: imageListItemSchema,
 });
@@ -20,6 +21,8 @@ export const profileListParamsSchema = z.object({
   lookingFor: z.string(),
   sessionId: z.string(),
   distance: z.string(),
+  latitude: z.string().nullish(),
+  longitude: z.string().nullish(),
 });
 
 export const profileListSchema = paginationSchema.extend({

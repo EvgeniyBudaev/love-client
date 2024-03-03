@@ -31,48 +31,54 @@ type TSearchParams = {
   lookingFor?: string;
   sessionId?: string;
   distance?: string;
+  latitude?: string;
+  longitude?: string;
 };
 
 type TMainLoader = {
   searchParams: TSearchParams;
 };
 
-// async function mainLoader(params: TMainLoader) {
-//   const session = (await getServerSession(authOptions)) as TSession;
-//   if (!session) {
-//     return redirect(
-//       createPath({
-//         route: ERoutes.Login,
-//       }),
-//     );
-//   }
-//   const { searchParams } = params;
-//   try {
-//     if (searchParams?.sessionId) {
-//       const query = {
-//         page: searchParams?.page ?? DEFAULT_PAGE.toString(),
-//         size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
-//         ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
-//         ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
-//         searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
-//         lookingFor: searchParams?.lookingFor ?? DEFAULT_LOOKING_FOR,
-//         sessionId: session?.user.id,
-//         distance: searchParams?.distance ?? DEFAULT_DISTANCE.toString(),
-//       };
-//       const profileListResponse = await getProfileList(query);
-//       const profileResponse = await getProfileBySessionId({
-//         sessionId: session?.user.id,
-//       });
-//       const profile = profileResponse.data;
-//
-//       const profileList = profileListResponse.data;
-//       return { profile, profileList };
-//     }
-//     return { profile: undefined, profileList: undefined };
-//   } catch (error) {
-//     throw new Error("errorBoundary.common.unexpectedError");
-//   }
-// }
+async function mainLoader(params: TMainLoader) {
+  const session = (await getServerSession(authOptions)) as TSession;
+  if (!session) {
+    return redirect(
+      createPath({
+        route: ERoutes.Login,
+      }),
+    );
+  }
+  const { searchParams } = params;
+  try {
+    if (searchParams?.sessionId) {
+      const query = {
+        page: searchParams?.page ?? DEFAULT_PAGE.toString(),
+        size: searchParams?.size ?? DEFAULT_PAGE_SIZE.toString(),
+        ageFrom: searchParams?.ageFrom ?? DEFAULT_AGE_FROM.toString(),
+        ageTo: searchParams?.ageTo ?? DEFAULT_AGE_TO.toString(),
+        searchGender: searchParams?.searchGender ?? DEFAULT_SEARCH_GENDER,
+        lookingFor: searchParams?.lookingFor ?? DEFAULT_LOOKING_FOR,
+        sessionId: session?.user.id,
+        distance: searchParams?.distance ?? DEFAULT_DISTANCE.toString(),
+        latitude: searchParams?.latitude ?? "",
+        longitude: searchParams?.longitude ?? "",
+      };
+      const profileListResponse = await getProfileList(query);
+      const profileResponse = await getProfileBySessionId({
+        sessionId: session?.user.id,
+        latitude: searchParams?.latitude ?? "",
+        longitude: searchParams?.longitude ?? "",
+      });
+      const profile = profileResponse.data;
+
+      const profileList = profileListResponse.data;
+      return { profile, profileList };
+    }
+    return { profile: undefined, profileList: undefined };
+  } catch (error) {
+    throw new Error("errorBoundary.common.unexpectedError");
+  }
+}
 
 type TProps = {
   params: { lng: string };
@@ -83,29 +89,29 @@ export default async function MainRoute(props: TProps) {
   const { params } = props;
   const { lng } = params;
   const language = lng as ELanguage;
-  // const data = await mainLoader({searchParams: props?.searchParams ?? {}});
-  //
-  // if (data?.profile?.isBlocked) {
-  //   return <ProfileBlocked/>;
-  // }
-  //
-  // if (data?.profile?.isDeleted) {
-  //   return <ProfileDeleted/>;
-  // }
+  const data = await mainLoader({ searchParams: props?.searchParams ?? {} });
 
-  // return (
-  //   <main>
-  //     <MainPage
-  //       lng={language}
-  //       profile={data?.profile}
-  //       profileList={data?.profileList}
-  //     />
-  //   </main>
-  // );
+  if (data?.profile?.isBlocked) {
+    return <ProfileBlocked />;
+  }
+
+  if (data?.profile?.isDeleted) {
+    return <ProfileDeleted />;
+  }
 
   return (
     <main>
-      <Todo />
+      <MainPage
+        lng={language}
+        profile={data?.profile}
+        profileList={data?.profileList}
+      />
     </main>
   );
+
+  // return (
+  //   <main>
+  //     <Todo />
+  //   </main>
+  // );
 }

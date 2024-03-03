@@ -22,7 +22,6 @@ type TProps = {
 
 export const ReviewsPage: FC<TProps> = ({ profileId, reviewList }) => {
   const { t } = useTranslation("index");
-  console.log("reviewList: ", reviewList);
 
   const isShowAddReview = useMemo(() => {
     if (isEmpty(reviewList?.content) || !reviewList) return true;

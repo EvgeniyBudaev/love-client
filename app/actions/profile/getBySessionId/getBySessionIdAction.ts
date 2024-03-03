@@ -56,8 +56,7 @@ export async function getProfileBySessionIdAction(
     const responseData: TCommonResponseError = await errorResponse.json();
     const { message: formError, fieldErrors } =
       getResponseError(responseData) ?? {};
-    console.log("[formError] ", formError);
-    console.log("[fieldErrors] ", fieldErrors);
+
     return {
       data: undefined,
       error: formError,

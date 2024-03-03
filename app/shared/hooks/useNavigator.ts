@@ -1,12 +1,30 @@
 import isNil from "lodash/isNil";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-export type TUseNavigatorResponse = {
+type TPositionIP = {
+  isCoords: boolean;
+  location?: string;
+  latitude?: number;
+  longitude?: number;
+};
+
+type TPositionGPS = {
   errorPosition?: GeolocationPositionError;
   isCoords: boolean;
   location?: string;
   latitude?: number;
   longitude?: number;
+};
+
+export type TUseNavigatorResponse = {
+  errorPosition?: GeolocationPositionError;
+  isCoords: boolean;
+  isCoordsGPS: boolean;
+  location?: string;
+  latitude?: number;
+  latitudeGPS?: number;
+  longitude?: number;
+  longitudeGPS?: number;
 };
 
 type TProps = {
@@ -16,15 +34,16 @@ type TProps = {
 type TUseNavigator = (props: TProps) => TUseNavigatorResponse;
 
 export const useNavigator: TUseNavigator = ({ lng }) => {
-  const [positionGPS, setPositionGPS] = useState<TUseNavigatorResponse>({
+  const [positionGPS, setPositionGPS] = useState<TPositionGPS>({
     errorPosition: undefined,
     isCoords: false,
     location: undefined,
     longitude: undefined,
     latitude: undefined,
   });
-  const [positionIP, setPositionIP] = useState<TUseNavigatorResponse>({
+  const [positionIP, setPositionIP] = useState<TPositionIP>({
     isCoords: false,
+    location: undefined,
     longitude: undefined,
     latitude: undefined,
   });
@@ -108,13 +127,16 @@ export const useNavigator: TUseNavigator = ({ lng }) => {
       isCoords: positionGPS?.isCoords
         ? positionGPS.isCoords
         : positionIP.isCoords,
+      isCoordsGPS: !!positionGPS?.isCoords,
       location: positionIP?.location,
       latitude: positionGPS?.isCoords
         ? positionGPS?.latitude
         : positionIP?.latitude,
+      latitudeGPS: positionGPS?.latitude,
       longitude: positionGPS?.isCoords
         ? positionGPS?.longitude
         : positionIP?.longitude,
+      longitudeGPS: positionGPS?.longitude,
     };
   }, [
     positionGPS?.errorPosition,

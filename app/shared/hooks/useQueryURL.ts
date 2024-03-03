@@ -12,15 +12,22 @@ import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
 } from "@/app/shared/constants/pagination";
+import { ELanguage } from "@/app/shared/enums";
+import { useNavigator } from "@/app/shared/hooks/useNavigator";
 import type { TSession } from "@/app/shared/types/session";
+
+type TProps = {
+  lng: ELanguage;
+};
 
 type TResponse = {
   queryURL: string;
 };
 
-type TUseQueryURL = () => TResponse;
+type TUseQueryURL = (props: TProps) => TResponse;
 
-export const useQueryURL: TUseQueryURL = () => {
+export const useQueryURL: TUseQueryURL = ({ lng }) => {
+  const navigator = useNavigator({ lng });
   const { data: session } = useSession();
   const keycloakSession = session as TSession;
   const sessionId = keycloakSession?.user.id;
@@ -33,18 +40,22 @@ export const useQueryURL: TUseQueryURL = () => {
     searchParams.get("searchGender") ?? DEFAULT_SEARCH_GENDER;
   const lookingFor = searchParams.get("lookingFor") ?? DEFAULT_LOOKING_FOR;
   const distance = searchParams.get("distance") ?? DEFAULT_DISTANCE.toString();
+  const latitudeGPS = (navigator?.latitudeGPS ?? "").toString();
+  const longitudeGPS = (navigator?.longitudeGPS ?? "").toString();
 
   const queryURL = useMemo(() => {
-    return `?page=${page}&size=${size}&ageFrom=${ageFrom}&ageTo=${ageTo}&searchGender=${searchGender}&lookingFor=${lookingFor}&sessionId=${sessionId}&distance=${distance}`;
+    return `?page=${page}&size=${size}&ageFrom=${ageFrom}&ageTo=${ageTo}&searchGender=${searchGender}&lookingFor=${lookingFor}&sessionId=${sessionId}&distance=${distance}&latitude=${latitudeGPS}&longitude=${longitudeGPS}`;
   }, [
+    page,
+    size,
     ageFrom,
     ageTo,
-    distance,
-    page,
-    sessionId,
     searchGender,
     lookingFor,
-    size,
+    sessionId,
+    distance,
+    latitudeGPS,
+    longitudeGPS,
   ]);
 
   return {

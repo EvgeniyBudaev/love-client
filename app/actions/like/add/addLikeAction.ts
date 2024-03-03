@@ -29,7 +29,7 @@ export async function addLikeAction(prevState: any, formData: FormData) {
   const formattedParams = {
     ...resolver.data,
   };
-  console.log("formattedParams: ", formattedParams);
+
   try {
     const response = await addLike(formattedParams);
     const path = createPath({

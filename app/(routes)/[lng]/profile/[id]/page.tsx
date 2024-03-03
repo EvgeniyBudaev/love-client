@@ -9,8 +9,14 @@ import { ELanguage, ERoutes } from "@/app/shared/enums";
 import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 
+type TSearchParams = {
+  latitude?: string;
+  longitude?: string;
+};
+
 type TLoader = {
   id: string;
+  searchParams: TSearchParams;
 };
 
 async function loader(params: TLoader) {
@@ -22,11 +28,13 @@ async function loader(params: TLoader) {
       }),
     );
   }
-  const { id } = params;
+  const { id, searchParams } = params;
   try {
     const profileDetailResponse = await getProfileDetail({
       id: id,
       viewerId: session.user.id,
+      latitude: searchParams?.latitude ?? "",
+      longitude: searchParams?.longitude ?? "",
     });
     const profile = profileDetailResponse.data;
     return { profile };
@@ -37,13 +45,14 @@ async function loader(params: TLoader) {
 
 type TProps = {
   params: { lng: string; id: string };
+  searchParams?: TSearchParams;
 };
 
 export default async function ProfileDetailRoute(props: TProps) {
   const { params } = props;
   const { lng, id } = params;
   const language = lng as ELanguage;
-  const data = await loader({ id });
+  const data = await loader({ id, searchParams: props?.searchParams ?? {} });
 
   if (data?.profile?.isBlocked) {
     return <ProfileBlocked />;

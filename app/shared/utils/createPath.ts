@@ -26,7 +26,7 @@ type TCreatePathProps =
 
 type TCreatePathPropsWithParams = Extract<
   TCreatePathProps,
-  { route: any; params: any }
+  { route: any; params: any; lng?: string }
 >;
 
 export function createPath(
@@ -41,10 +41,13 @@ export function createPath(
         previousValue.replace(`:${param}`, String(value)),
       path,
     );
+    if (props?.lng) {
+      path = `/${props.lng}${path}`;
+    }
   }
 
   if (query && Object.keys(query).length) {
-    path = `${path}${props?.lng ?? ""}${path.includes("?") ? "&" : "?"}${new URLSearchParams(query)}`;
+    path = `/${props?.lng ?? ""}${path}${path.includes("?") ? "&" : "?"}${new URLSearchParams(query)}`;
   }
 
   return path;

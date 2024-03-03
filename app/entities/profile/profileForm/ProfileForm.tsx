@@ -253,15 +253,15 @@ export const ProfileForm: FC<TProps> = ({ isEdit, lng, profile }) => {
     );
     formDataDto.append(
       EProfileAddFormFields.TelegramID,
-      user?.id.toString() ?? "3",
+      user?.id.toString() ?? "2",
     );
     formDataDto.append(
       EProfileAddFormFields.TelegramUsername,
-      user?.username?.toString() ?? "m",
+      user?.username?.toString() ?? "b",
     );
-    formDataDto.append(EProfileAddFormFields.FirstName, firstName ?? "m");
-    formDataDto.append(EProfileAddFormFields.LastName, lastName ?? "m");
-    formDataDto.append(EProfileAddFormFields.QueryId, queryId ?? "3");
+    formDataDto.append(EProfileAddFormFields.FirstName, firstName ?? "b");
+    formDataDto.append(EProfileAddFormFields.LastName, lastName ?? "b");
+    formDataDto.append(EProfileAddFormFields.QueryId, queryId ?? "2");
     formDataDto.append(
       EProfileAddFormFields.LanguageCode,
       user?.language_code ?? "ru",

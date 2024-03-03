@@ -6,7 +6,12 @@ import type { TProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import { useTranslation } from "@/app/i18n/client";
 import { NavLink } from "@/app/shared/components/navLink";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
-import { useProxyUrl, useQueryURL, useSessionNext } from "@/app/shared/hooks";
+import {
+  useNavigator,
+  useProxyUrl,
+  useQueryURL,
+  useSessionNext,
+} from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
 import { Avatar } from "@/app/uikit/components/avatar";
 import { DropDown } from "@/app/uikit/components/dropDown";
@@ -28,12 +33,13 @@ async function keycloakSessionLogOut() {
 }
 
 export const Footer: FC<TProps> = ({ lng, profile }) => {
+  const navigator = useNavigator({ lng });
   const pathname = usePathname();
   const { proxyUrl } = useProxyUrl();
   const { t } = useTranslation("index");
   const { data: session, status } = useSessionNext();
   const isSession = Boolean(session);
-  const { queryURL } = useQueryURL();
+  const { queryURL } = useQueryURL({ lng });
   const rootUrl = `/${lng}${queryURL}`;
   const isPermissions = profile
     ? !profile?.isBlocked && !profile.isDeleted
@@ -87,10 +93,19 @@ export const Footer: FC<TProps> = ({ lng, profile }) => {
                     {!isProfileDetailPage && isPermissions && (
                       <Link
                         className="DropDown-MenuItem"
-                        href={createPath({
-                          route: ERoutes.Profile,
-                          params: { id: profile?.id },
-                        })}
+                        href={{
+                          pathname: createPath({
+                            route: ERoutes.Profile,
+                            params: { id: profile?.id },
+                            lng: lng,
+                          }),
+                          query: {
+                            latitude: (navigator?.latitudeGPS ?? "").toString(),
+                            longitude: (
+                              navigator?.longitudeGPS ?? ""
+                            ).toString(),
+                          },
+                        }}
                       >
                         {t("common.actions.profileDetail")}
                       </Link>

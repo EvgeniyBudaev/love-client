@@ -14,7 +14,7 @@ import type { TSession } from "@/app/shared/types/session";
 
 type TProps = {
   blockedUserId: number;
-  lng?: ELanguage;
+  lng: ELanguage;
 };
 
 export const Block: FC<TProps> = ({ blockedUserId, lng }) => {
@@ -23,7 +23,7 @@ export const Block: FC<TProps> = ({ blockedUserId, lng }) => {
   const { t } = useTranslation("index");
   const [state, formAction] = useFormState(addBlockAction, INITIAL_FORM_STATE);
   const buttonSubmitRef = useRef<HTMLInputElement>(null);
-  const { queryURL } = useQueryURL();
+  const { queryURL } = useQueryURL({ lng });
 
   useEffect(() => {
     if (!isNil(state?.data) && state.success && !state?.error) {

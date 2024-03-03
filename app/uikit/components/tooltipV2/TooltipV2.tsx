@@ -110,9 +110,6 @@ export const TooltipV2: React.FC<TTooltipProps> = ({
   };
 
   const isHydrated = useHydrated();
-  console.log("isHydrated: ", isHydrated);
-  console.log("isManualVisibility: ", isManualVisibility);
-  console.log("visible: ", visible);
 
   return (
     <div

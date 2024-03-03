@@ -13,12 +13,14 @@ import type { TSession } from "@/app/shared/types/session";
 import { createPath } from "@/app/shared/utils";
 import { Button } from "@/app/uikit/components/button";
 import "./LoginForm.scss";
+import { useNavigator } from "@/app/shared/hooks";
 
 type TProps = {
   lng: ELanguage;
 };
 
 export const LoginForm: FC<TProps> = ({ lng }) => {
+  const navigator = useNavigator({ lng });
   const { data: session, status } = useSession();
   const keycloakSession = session as TSession;
   const { t } = useTranslation("index");
@@ -29,7 +31,6 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
     getProfileBySessionIdAction,
     INITIAL_FORM_STATE,
   );
-  console.log("state:", state);
 
   useEffect(() => {
     if (isSession && state.data?.sessionId) {
@@ -48,6 +49,8 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
             lookingFor: state.data?.filter.lookingFor,
             sessionId: keycloakSession.user.id,
             distance: state.data?.filter.distance.toString(),
+            latitude: (navigator?.latitudeGPS ?? "").toString(),
+            longitude: (navigator?.longitudeGPS ?? "").toString(),
           },
         ),
       );
@@ -65,6 +68,8 @@ export const LoginForm: FC<TProps> = ({ lng }) => {
     state.data?.filter.size,
     state.data?.sessionId,
     state.data?.filter.lookingFor,
+    navigator?.latitudeGPS,
+    navigator?.longitudeGPS,
   ]);
 
   useEffect(() => {

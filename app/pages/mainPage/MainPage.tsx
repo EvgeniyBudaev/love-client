@@ -7,8 +7,9 @@ import type { TProfileBySessionId } from "@/app/api/profile/getBySessionId";
 import type { TProfileList } from "@/app/api/profile/list";
 import { SearchForm } from "@/app/entities/search/searchForm";
 import { ELanguage, ERoutes } from "@/app/shared/enums";
-import { useProxyUrl } from "@/app/shared/hooks";
+import { useNavigator, useProxyUrl } from "@/app/shared/hooks";
 import { createPath } from "@/app/shared/utils";
+import { Online } from "@/app/uikit/components/online";
 import "./MainPage.scss";
 
 type TProps = {
@@ -18,6 +19,7 @@ type TProps = {
 };
 
 export const MainPage: FC<TProps> = ({ lng, profile, profileList }) => {
+  const navigator = useNavigator({ lng });
   const { proxyUrl } = useProxyUrl();
 
   return (
@@ -26,13 +28,24 @@ export const MainPage: FC<TProps> = ({ lng, profile, profileList }) => {
       <div className="MainPage-List">
         {(profileList?.content ?? []).map((item) => (
           <Link
-            href={createPath({
-              route: ERoutes.Profile,
-              params: { id: item.id },
-            })}
+            href={{
+              pathname: createPath({
+                route: ERoutes.Profile,
+                params: { id: item.id },
+                lng: lng,
+              }),
+              query: {
+                latitude: (navigator?.latitudeGPS ?? "").toString(),
+                longitude: (navigator?.longitudeGPS ?? "").toString(),
+              },
+            }}
             key={item.id}
           >
             <div className="MainPage-WrapperImage" key={item.id}>
+              <Online
+                classes={{ root: "MainPage-Online" }}
+                isOnline={item.isOnline}
+              />
               <Image
                 alt=""
                 className="MainPage-Image"

@@ -30,7 +30,8 @@
       "reviewDeleted": "Review deleted",
       "reviewAdd": "New review",
       "filtersGeneral": "General filters",
-      "age": "Age"
+      "age": "Age",
+      "online": "Online"
     },
     "actions": {
       "cancel": "Cancel",

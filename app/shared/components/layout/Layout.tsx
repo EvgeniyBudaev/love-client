@@ -35,15 +35,18 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
     if (isSession) {
       buttonSubmitRef.current && buttonSubmitRef.current.click();
     }
-  }, [isSession, navigator.isCoords, tg]);
+  }, [isSession, navigator.isCoordsGPS, tg]);
 
   const handleSubmit = (formData: FormData) => {
     if (isSession) {
       const keycloakSession = session as TSession;
       const formDataDto = new FormData();
       formDataDto.append(EFormFields.SessionId, keycloakSession.user.id);
-      formDataDto.append("latitude", navigator?.latitude?.toString() ?? "");
-      formDataDto.append("longitude", navigator?.longitude?.toString() ?? "");
+      formDataDto.append("latitude", navigator?.latitudeGPS?.toString() ?? "");
+      formDataDto.append(
+        "longitude",
+        navigator?.longitudeGPS?.toString() ?? "",
+      );
       formAction(formDataDto);
     }
   };

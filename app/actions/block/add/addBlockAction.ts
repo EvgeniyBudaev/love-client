@@ -29,7 +29,7 @@ export async function addBlockAction(prevState: any, formData: FormData) {
   const formattedParams = {
     ...resolver.data,
   };
-  console.log("formattedParams: ", formattedParams);
+
   try {
     const response = await addBlock(formattedParams);
     const path = createPath({

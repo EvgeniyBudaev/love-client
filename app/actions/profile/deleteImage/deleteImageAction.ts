@@ -12,7 +12,6 @@ import {
 } from "@/app/shared/utils";
 
 export async function deleteImageAction(prevState: any, formData: FormData) {
-  console.log("resolver: ", Object.fromEntries(formData.entries()));
   const resolver = deleteImageFormSchema.safeParse(
     Object.fromEntries(formData.entries()),
   );
@@ -55,8 +54,7 @@ export async function deleteImageAction(prevState: any, formData: FormData) {
     const responseData: TCommonResponseError = await errorResponse.json();
     const { message: formError, fieldErrors } =
       getResponseError(responseData) ?? {};
-    console.log("[formError] ", formError);
-    console.log("[fieldErrors] ", fieldErrors);
+
     return {
       data: undefined,
       error: formError,
