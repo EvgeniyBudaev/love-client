@@ -5,4 +5,7 @@ import { EMPTY_FIELD_ERROR_MESSAGE } from "@/app/shared/validation";
 
 export const getProfileBySessionIdFormSchema = zfd.formData({
   [EFormFields.SessionId]: z.string().trim().min(1, EMPTY_FIELD_ERROR_MESSAGE),
+  [EFormFields.Longitude]: z.string().trim().nullish(),
+  [EFormFields.Latitude]: z.string().trim().nullish(),
+  [EFormFields.CsrfToken]: z.string().trim().nullish(),
 });

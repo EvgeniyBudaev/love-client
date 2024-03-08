@@ -13,10 +13,11 @@ import "./Layout.scss";
 
 type TProps = {
   children?: ReactNode;
+  csrfToken: string;
   lng: ELanguage;
 };
 
-export const Layout: FC<TProps> = ({ children, lng }) => {
+export const Layout: FC<TProps> = ({ children, csrfToken, lng }) => {
   const { data: session, status } = useSessionNext();
   const isSession = Boolean(session);
   const { tg } = useTelegram();
@@ -47,6 +48,7 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
         "longitude",
         navigator?.longitudeGPS?.toString() ?? "",
       );
+      formDataDto.append(EFormFields.CsrfToken, csrfToken);
       formAction(formDataDto);
     }
   };
@@ -56,6 +58,7 @@ export const Layout: FC<TProps> = ({ children, lng }) => {
       <div className="Layout-Content">{children}</div>
       <Footer lng={lng} profile={state.data} />
       <form action={handleSubmit} className="Layout-Form">
+        <input name={EFormFields.CsrfToken} type="hidden" value={csrfToken} />
         <input hidden={true} ref={buttonSubmitRef} type="submit" />
       </form>
     </div>

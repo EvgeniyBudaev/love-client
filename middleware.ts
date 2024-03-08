@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
 import acceptLanguage from "accept-language";
+import csrf from "edge-csrf";
 import helmet from "helmet";
-import { fallbackLng, languages, cookieName } from "./app/i18n/settings";
 import { IncomingMessage, ServerResponse } from "http";
+import { NextRequest, NextResponse } from "next/server";
+import { fallbackLng, languages, cookieName } from "./app/i18n/settings";
 
 acceptLanguage.languages(languages);
 
@@ -12,6 +13,15 @@ export const config = {
     "/((?!api|_next/static|static|_next/image|assets|favicon.ico|sw.js).*)",
   ],
 };
+
+// initialize protection function
+const csrfProtect = csrf({
+  cookie: {
+    secure: process.env.NODE_ENV === "development",
+    httpOnly: true,
+    sameSite: "strict",
+  },
+});
 
 const makeHelmetAdapter = (response: NextResponse) => {
   const req: Partial<IncomingMessage> = {};
@@ -143,6 +153,16 @@ export async function middleware(request: NextRequest) {
 
   const helmetAdapter = makeHelmetAdapter(response);
   policies.forEach((policy) => policy(...helmetAdapter));
+
+  // csrf protection
+  const csrfError = await csrfProtect(request, response);
+  console.log("csrfError: ", csrfError);
+  console.log("request: ", request);
+  console.log("response: ", response);
+  // check result
+  // if (csrfError) {
+  //   return new NextResponse('invalid csrf token', { status: 403 });
+  // }
 
   return response;
 }

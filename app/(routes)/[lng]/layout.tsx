@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { I18nContextProvider } from "@/app/i18n/context";
@@ -22,6 +23,9 @@ export default function RootLayout({
   children: ReactNode;
   params: { lng: ELanguage };
 }>) {
+  const csrfToken = headers().get("X-CSRF-Token") || "missing";
+  console.log("RootLayout csrfToken: ", csrfToken);
+
   return (
     <html lang={lng}>
       <head>
@@ -36,7 +40,9 @@ export default function RootLayout({
           <I18nContextProvider lng={lng}>
             <InitClient />
             <ToastContainer />
-            <LayoutComponent lng={lng}>{children}</LayoutComponent>
+            <LayoutComponent csrfToken={csrfToken} lng={lng}>
+              {children}
+            </LayoutComponent>
           </I18nContextProvider>
         </body>
       </SessionProviderWrapper>
